@@ -3,7 +3,7 @@
 PHAPP_VERSION=0.6.0-beta10
 
 set -e
-cd `dirname $0`/../tests
+cd `dirname $0`/..
 
 if ! command -v phapp > /dev/null; then
   echo Installing phapp...
@@ -14,9 +14,21 @@ else
   echo Phapp version `phapp --version` found.
 fi
 
-[ ! -d project ] || (echo "Old project is still existing, please remove tests/project." && exit 1)
+[ ! -d ../contentpool-project ] || (echo "Old project is still existing, please remove ../contentpool-project." && exit 1)
 
-phapp create --template=drunomics/drupal-project contentpool_project project --no-interaction
+phapp create --template=drunomics/drupal-project contentpool-project ../contentpool-project --no-interaction
 
+cd ../contentpool-project
 
-echo ok.
+echo "Adding distribution..."
+composer config repositories.self path ../../
+composer require drunomics/contentpool
+
+# Run webserver.
+# @todo
+
+# Install it.
+phapp setup ${PHAPP_ENV:-vagrant}
+INSTALL_PROFILE=contentpool phapp install
+
+echo Project created.
