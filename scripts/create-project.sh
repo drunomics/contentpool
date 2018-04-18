@@ -16,7 +16,7 @@ fi
 
 [ ! -d project ] || (echo "Old project is still existing, please remove tests/project." && exit 1)
 
-phapp create --template=drunomics/drupal-project project
+phapp create --template=drunomics/drupal-project contentpool_project project --no-interaction
 
 
 echo ok.
