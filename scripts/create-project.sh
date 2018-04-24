@@ -18,10 +18,11 @@ fi
 
 phapp create --template=drunomics/drupal-project contentpool-project ../contentpool-project --no-interaction
 
+INSTALL_PROFILE_DIR=`basename $PWD`
 cd ../contentpool-project
 
 echo "Adding distribution..."
-composer config repositories.self path ../../
+composer config repositories.self path ../$INSTALL_PROFILE_DIR
 composer require drunomics/contentpool
 
 echo Project created.
