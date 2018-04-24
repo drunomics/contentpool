@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PHAPP_VERSION=0.6.0-beta10
+PHAPP_VERSION=0.6.2
 
 set -e
 cd `dirname $0`/..
@@ -23,12 +23,5 @@ cd ../contentpool-project
 echo "Adding distribution..."
 composer config repositories.self path ../../
 composer require drunomics/contentpool
-
-# Run webserver.
-# @todo
-
-# Install it.
-phapp setup ${PHAPP_ENV:-vagrant}
-INSTALL_PROFILE=contentpool phapp install
 
 echo Project created.
