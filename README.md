@@ -1,5 +1,7 @@
 # Contentpool distribution
 
+[![Build Status](https://travis-ci.org/drunomics/contentpool.svg?branch=8.x-1.x)](https://travis-ci.org/drunomics/contentpool)
+
  The contentpool distribution combines the publishing features of the Thunder
  distribution with powerful content API & replication features! 
  https://www.drupal.org/project/contentpool 
