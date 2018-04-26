@@ -24,7 +24,8 @@ default:
       blackbox: ~
       api_driver: 'drupal'
       drupal:
-        drupal_root: %paths.base%/../../web
+        # Note: This requires tests to be run from the vcs directory.
+        drupal_root: web
       drush:
         alias: 'self'
       selectors:
