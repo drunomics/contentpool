@@ -27,7 +27,7 @@ composer require drunomics/contentpool
 
 echo Project created.
 
-Echo "Adding custom environment variables..."
+echo "Adding custom environment variables..."
 
 cat - > .defaults.env <<END
   INSTALL_PROFILE=contentpool
