@@ -5,7 +5,7 @@ cd `dirname $0`/..
 
 # Run a web service via docker composer
 
-[ ! -f ../contentpool-project/devsetup-docker ] || \
+[ -d ../contentpool-project/devsetup-docker ] || \
   git clone git@github.com:drunomics/devsetup-docker.git --branch=1.x ../contentpool-project/devsetup-docker
 
 cd ../contentpool-project/
