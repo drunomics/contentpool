@@ -26,3 +26,12 @@ composer config repositories.self path ../$INSTALL_PROFILE_DIR
 composer require drunomics/contentpool
 
 echo Project created.
+
+Echo "Adding custom environment variables..."
+
+cat - > .defaults.env <<END
+  INSTALL_PROFILE=contentpool
+END
+
+echo "Setting up project..."
+phapp setup travis

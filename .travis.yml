@@ -1,0 +1,65 @@
+language: php
+sudo: required
+
+php:
+  - 7.1
+
+git:
+  depth: 5
+
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=1.19.0
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+# travis will test and deploy only the branches and tags as show below
+# right now travis does not make a difference between branches and tags
+# tags starting with hotfix and tags in the form of "v1.0.0" will be tested
+branches:
+  only:
+    - master
+    - develop
+    - testing
+    - 8.x-1.x
+    - 8.x-2.x
+    - /^hotfix/
+    - /^v[0-9]+\.[0-9]+\.[0-9]+/
+    - /^release/
+    - /^version/
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+# Cache Composer, NPM & Drush directories.
+cache:
+  directories:
+    - $HOME/.cache/composer
+    - $HOME/.npm
+    - $HOME/.drush/cache
+
+# Setup the environment.
+before_install:
+  # Be sure no mails are going out by disabling sendmail.
+  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Upgrade docker compose.
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+install:
+  - ./scripts/create-project.sh
+  - ./scripts/run-server.sh
+  - ./scripts/init-project.sh
+
+script:
+  - curl -N http://localhost:80 | grep  "Drupal 8" -q
+
+after_success:
+  - echo "SUCCESS!"

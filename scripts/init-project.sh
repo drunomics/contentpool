@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
+cd `dirname $0`/../
+set -e
 
-# Run webserver.
-# @todo
+cd ../contentpool-project
+source dotenv/loader.sh
+set -x
 
-# Install it.
-phapp setup ${PHAPP_ENV:-vagrant}
-INSTALL_PROFILE=contentpool phapp install
+# Run build on the host so we can leverage build caches.
+phapp build
+# Then install in the container.
+docker-compose exec web phapp install --no-build
