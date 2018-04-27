@@ -11,6 +11,10 @@
 This repository is the Drupal install profile for the distribution. You'll
 need a drupal project for installing it. Refer to "Installation" for details.
 
+## Status
+
+The distribution is in early development stages and not fully working yet. Stayed tuned!
+
 ## Installation
 
 ### Quick instructions
