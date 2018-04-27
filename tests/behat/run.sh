@@ -10,7 +10,7 @@ if [[ $PHAPP_ENV = vagrant ]]; then
 fi
 
 cd `dirname $0`/../..
-CONFIG_FILE=$(realpath tests/behat/behat.yml)
+CONFIG_FILE=$(pwd)/tests/behat/behat.yml
 VCS_DIR=../../../..
 cd $VCS_DIR
 

@@ -13,7 +13,7 @@ cd ../contentpool-project/
 echo "Adding compose environment variables..."
 
 cat - > .docker.defaults.env <<END
-  COMPOSE_PROJECT_NAME=contentpool
+  COMPOSE_PROJECT_NAME=contentpool-project
   COMPOSE_FILE=devsetup-docker/docker-compose.yml:devsetup-docker/service-chrome.yml
 
   # Be sure to sure the directory including the vcs checkout is shared as
