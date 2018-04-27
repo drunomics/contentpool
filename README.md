@@ -70,13 +70,24 @@ The following steps can be followed to setup a new site from scratch:
 
 ## Running tests
 
- Based upon the detailled installation instructions you can launch tests as
- follows:
+### Locally
+
+Based upon the detailled installation instructions you can launch tests as
+follows:
 
     source dotenv/loader.sh
     # Launch tests inside a docker container, so name resolution works thanks to
     # docker host aliases and the PHP environment is controlled by the container.
     docker-compose exec web ./web/profiles/contrib/contentpool/tests/behat/run.sh
+
+### Locally, via travis scripts
+    
+ You can just launch the provided scripts in the same order as travis:
+ 
+     ./scripts/create-project.sh
+     ./scripts/run-server.sh
+     ./scripts/init-project.sh
+     ./scripts/run-tests.sh
 
 ## Credits
 
