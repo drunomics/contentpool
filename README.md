@@ -35,7 +35,8 @@ The following steps can be followed to setup a new site from scratch:
  - Install docker-compose or replace it with your preferred environment below.
  - Follow the following steps:
 
-       phapp create --template=drunomics/drupal-project
+       phapp create --template=drunomics/drupal-project PROJECT-NAME
+       cd PROJECT-NAME
        composer require drunomics/contentpool
        echo "INSTALL_PROFILE=contentpool" >> .defaults.env 
        phapp setup travis
