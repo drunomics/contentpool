@@ -4,9 +4,9 @@ Feature: Drupal basically works.
   Make sure Drupal generates the front page, error pages as well as logging in
   and out.
 
-  Scenario: Drupal generates a page
+  Scenario: Thunder is installed and generates a page
     Given I am on "/"
-    Then the response should contain "Drupal 8 (https://www.drupal.org)"
+    Then the response should contain "Drupal 8 (Thunder | http://www.thunder.org)"
 
   Scenario: Drupal generates a 404 response
     Given I am an anonymous user
