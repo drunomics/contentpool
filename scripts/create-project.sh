@@ -3,6 +3,7 @@
 PHAPP_VERSION=0.6.2
 
 set -e
+set -x
 cd `dirname $0`/..
 
 if ! command -v phapp > /dev/null; then
