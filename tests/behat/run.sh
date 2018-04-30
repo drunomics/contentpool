@@ -37,8 +37,12 @@ echo "Running behat tests with chrome URL $CHROME_URL and base URL $BASE_URL..."
 
 # Finally, run...
 vendor/bin/behat -c $CONFIG_FILE --colors $@
+EXIT_CODE=$?
 
 if [[ $PHAPP_ENV = vagrant ]]; then
   # End with stopping all sub-process; i.e. chrome.
   [[ -z "$(jobs -p)" ]] || kill $(jobs -p)
 fi
+
+[[ $EXIT_CODE -eq 0 ]] && echo BEHAT PASSED. || echo BEHAT FAILED.
+exit $EXIT_CODE
