@@ -1,0 +1,5 @@
+redirect.list:
+  title: 'Remote registrations'
+  parent: system.admin_config_content:
+  description: 'Lists remote registrations.'
+  route_name: entity.remote_registration.collection
