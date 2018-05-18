@@ -21,7 +21,6 @@ class RemoteRegistrationSettingsForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    return parent::buildForm($form, $form_state);
   }
 
   /**

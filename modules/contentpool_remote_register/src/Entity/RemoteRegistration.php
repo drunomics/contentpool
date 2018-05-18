@@ -17,7 +17,10 @@ use Drupal\Core\Entity\ContentEntityBase;
  *   label = @Translation("Remote registration"),
  *   handlers = {
  *     "list_builder" = "Drupal\contentpool_remote_register\RemoteRegistrationListBuilder",
- *     "views_data" = "Drupal\contentpool_remote_register\Entity\RemoteRegistrationViewsData"
+ *     "views_data" = "Drupal\contentpool_remote_register\Entity\RemoteRegistrationViewsData",
+ *     "route_provider" = {
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
+ *     },
  *   },
  *   base_table = "remote_registration",
  *   admin_permission = "administer remote registrations",
@@ -31,7 +34,7 @@ use Drupal\Core\Entity\ContentEntityBase;
  *     "canonical" = "/admin/config/remote-registrations/{remote_registration}",
  *     "collection" = "/admin/config/remote-registrations",
  *   },
- *   field_ui_base_route = "remote_registration.settings"
+ *   field_ui_base_route = "entity.remote_registration.collection"
  * )
  */
 class RemoteRegistration extends ContentEntityBase implements RemoteRegistrationInterface {
