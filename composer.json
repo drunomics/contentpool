@@ -33,6 +33,9 @@
       "drupal/core": {
         "#1356276-417: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/drupal-n1356276-417-d8.5.%2A.patch",
         "#2893029: StringTranslationTrait consumers cannot be reliably serialized without DependencySerializationTrait": "https://www.drupal.org/files/issues/2893029-full-fix-test-from-3.patch"
+      },
+      "drupal/workspace": {
+        "Removes workspace forms from toolbar to avoid disappearing.": "./patches/fix-toolbar-hack.patch"
       }
     }
   },
