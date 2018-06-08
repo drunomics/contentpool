@@ -1,0 +1,9 @@
+remote_registration.settings:
+  path: '/admin/config/remote-registrations/settings'
+  defaults:
+    _form: '\Drupal\contentpool_remote_register\Form\RemoteRegistrationSettingsForm'
+    _title: 'Remote registration settings'
+  requirements:
+    _permission: 'administer remote registrations'
+  options:
+    _admin_route: TRUE
