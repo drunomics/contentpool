@@ -35,7 +35,7 @@
         "#2893029: StringTranslationTrait consumers cannot be reliably serialized without DependencySerializationTrait": "https://www.drupal.org/files/issues/2893029-full-fix-test-from-3.patch"
       },
       "drupal/workspace": {
-        "Removes workspace forms from toolbar to avoid disappearing.": "./patches/fix-toolbar-hack.patch"
+        "Removes workspace forms from toolbar to avoid disappearing.": "./patches/fix-toolbar-hack.patch.txt"
       }
     }
   },
