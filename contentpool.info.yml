@@ -11,3 +11,7 @@ themes:
 'base profile':
   name: thunder
   excluded_dependencies: []
+
+dependencies:
+  - relaxed
+  - workspace

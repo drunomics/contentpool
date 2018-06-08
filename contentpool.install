@@ -1,0 +1,16 @@
+<?php
+
+use Drupal\user\Entity\User;
+
+/**
+ * Install the contentpool installation profile.
+ */
+function contentpool_install() {
+  // Create a default replicator user.
+  $user = User::create([
+    'name' => 'replicator',
+    'status' => 1,
+  ]);
+  $user->roles[] = 'replicator';
+  $user->save();
+}
