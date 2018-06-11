@@ -1,0 +1,5 @@
+services:
+  contentpool_normalization.replication_event_subscriber:
+    class: Drupal\contentpool_normalization\EventSubscriber\ContentpoolNormalizationEventSubscriber
+    tags:
+      - { name: event_subscriber }

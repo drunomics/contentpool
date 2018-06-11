@@ -1,0 +1,5 @@
+type: module
+name: Contentpool Normalization
+description: 'Normaliziation for content pool entities.'
+package: Contentpool
+core: '8.x'
