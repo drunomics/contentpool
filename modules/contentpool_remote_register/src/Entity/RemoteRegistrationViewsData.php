@@ -5,7 +5,7 @@ namespace Drupal\contentpool_remote_register\Entity;
 use Drupal\views\EntityViewsData;
 
 /**
- * Provides Views data for Time record entities.
+ * Provides Views data for remote registration entities.
  */
 class RemoteRegistrationViewsData extends EntityViewsData {
 

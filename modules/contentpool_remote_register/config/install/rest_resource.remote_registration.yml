@@ -1,0 +1,14 @@
+langcode: en
+status: true
+id: remote_registration
+plugin_id: 'contentpool:remote_registration'
+granularity: method
+configuration:
+  POST:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
+dependencies:
+  module:
+    - basic_auth
