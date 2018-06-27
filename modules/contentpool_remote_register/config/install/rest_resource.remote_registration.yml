@@ -1,6 +1,11 @@
 langcode: en
 status: true
-id: remote_registration
+dependencies:
+  module:
+    - basic_auth
+    - contentpool_remote_register
+    - serialization
+id: contentpool.remote_registration
 plugin_id: 'contentpool:remote_registration'
 granularity: method
 configuration:
@@ -9,6 +14,3 @@ configuration:
       - json
     supported_auth:
       - basic_auth
-dependencies:
-  module:
-    - basic_auth
