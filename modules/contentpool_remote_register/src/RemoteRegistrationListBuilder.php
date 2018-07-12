@@ -2,6 +2,7 @@
 
 namespace Drupal\contentpool_remote_register;
 
+use Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Link;
@@ -20,6 +21,7 @@ class RemoteRegistrationListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['id'] = $this->t('ID');
     $header['name'] = $this->t('Name');
+    $header['site_uuid'] = $this->t('Site UUID');
     $header['url'] = $this->t('Url');
     $header['remote'] = $this->t('Remote');
     $header['operations'] = $this->t('Operations');
@@ -37,9 +39,12 @@ class RemoteRegistrationListBuilder extends EntityListBuilder {
       ['remote_registration' => $entity->id()]
     );
 
+    $row['site_uuid'] = $entity->getSiteUUID();
+
     $url = Url::fromUri($entity->getUrl());
     $row['url'] = Link::fromTextAndUrl($entity->getUrl(), $url);
-    $row['remote'] = $entity->remote_id->entity->label();
+
+    $row['remote'] = $entity->remote_id->isEmpty() || !$entity->remote_id->entity ? t('Missing remote') : $entity->remote_id->entity->label();
 
     $list_builder = \Drupal::service('entity_type.manager')->getListBuilder('remote_registration');
     $operations = $list_builder->getOperations($entity);

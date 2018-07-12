@@ -72,6 +72,9 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
     return $this->get('url')->value;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getSiteUUID() {
     return $this->get('site_uuid')->value;
   }
@@ -171,6 +174,7 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
     parent::preSave($storage);
 
     // Create remote entites for this registration entity.
+    /** @var \Drupal\relaxed\Entity\Remote $remote */
     $remote = $this->getRemote();
 
     if (!$remote) {

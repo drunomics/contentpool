@@ -42,4 +42,11 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
    */
   public function setUrl($url);
 
+  /**
+   * Gets the uuid of the remote site.
+   *
+   * @return string
+   */
+  public function getSiteUUID();
+
 }
