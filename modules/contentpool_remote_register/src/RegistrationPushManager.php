@@ -4,8 +4,9 @@ namespace Drupal\contentpool_remote_register;
 
 use Drupal\contentpool_remote_register\Entity\RemoteRegistration;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\State\StateInterface;
+use Drupal\multiversion\Entity\WorkspaceInterface;
 use Drupal\multiversion\Workspace\ConflictTrackerInterface;
+use Drupal\workspace\Entity\WorkspacePointer;
 use Drupal\workspace\ReplicatorInterface;
 
 /**
@@ -19,13 +20,6 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
    * @var \Drupal\Core\Entity\EntityTypeManager
    */
   protected $entityTypeManager;
-
-  /**
-   * The state service.
-   *
-   * @var \Drupal\Core\State\StateInterface
-   */
-  protected $state;
 
   /**
    * The replicator manager.
@@ -46,9 +40,8 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, StateInterface $state, ReplicatorInterface $replicator_manager, ConflictTrackerInterface $conflict_tracker) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ReplicatorInterface $replicator_manager, ConflictTrackerInterface $conflict_tracker) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->state = $state;
     $this->replicatorManager = $replicator_manager;
     $this->conflictTracker = $conflict_tracker;
   }
@@ -57,7 +50,7 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
    * @inheritdoc
    */
   public function pushToRemoteRegistrations() {
-    $remote_registrations = $this->entityTypeManager->getStorage('remote_registrations')->loadMultiple();
+    $remote_registrations = $this->entityTypeManager->getStorage('remote_registration')->loadMultiple();
 
     $counter = 0;
     foreach ($remote_registrations as $remote_registration) {
@@ -74,10 +67,12 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
    */
   public function doPush(RemoteRegistration $remote_registration) {
     /* @var \Drupal\workspace\WorkspacePointerInterface $parent_workspace */
-    $remote_pointer = WorkspacePointer::create([
-      'remote_pointer' => $remote_registration->getSiteUUID(),
-      'remote_database' => $remote_registration->getDatabase()
+    $remote_pointer = GhostWorkspacePointer::create([
+      'remote_database' => $remote_registration->getDatabaseId(),
     ]);
+
+    $remote_pointer->setUri($remote_registration->getEndpointUri());
+    $remote_pointer->setDatabaseId($remote_registration->getDatabaseId());
 
     // We use the live workspace or the first workspace defined.
     $workspaces = $this->entityTypeManager->getStorage('workspace')->loadMultiple();
@@ -92,6 +87,27 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
     // Derive a replication task from the Workspace we are acting on.
     $task = $this->replicatorManager->getTask($workspace, 'push_replication_settings');
     return $this->replicatorManager->replicate($source_pointer, $remote_pointer, $task);
+  }
+
+  /**
+   * Returns a pointer to the specified workspace.
+   *
+   * In most cases this pointer will be unique, but that is not guaranteed
+   * by the schema. If there are multiple pointers, which one is returned is
+   * undefined.
+   *
+   * @param \Drupal\multiversion\Entity\WorkspaceInterface $workspace
+   *   The workspace for which we want a pointer.
+   *
+   * @return \Drupal\workspace\WorkspacePointerInterface
+   *   The pointer to the provided workspace.
+   */
+  protected function getPointerToWorkspace(WorkspaceInterface $workspace) {
+    $pointers = $this->entityTypeManager
+      ->getStorage('workspace_pointer')
+      ->loadByProperties(['workspace_pointer' => $workspace->id()]);
+    $pointer = reset($pointers);
+    return $pointer;
   }
 
 }

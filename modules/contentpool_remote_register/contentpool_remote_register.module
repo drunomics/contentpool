@@ -1,2 +1,25 @@
 <?php
 
+use Drupal\Core\Entity\EntityInterface;
+
+const CONTENTPOOL_CONTENT_ENTITIES = ['node', 'media', 'file', 'paragraph', 'taxonomy_term'];
+
+/**
+ * Implements hook_entity_insert().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function contentpool_remote_register_entity_insert(EntityInterface $entity) {
+  if (in_array($entity->getEntityTypeId(), CONTENTPOOL_CONTENT_ENTITIES)) {
+    \Drupal::service('contentpool_remote_register.registration_push_manager')->pushToRemoteRegistrations();
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ */
+function contentpool_remote_register_entity_update(EntityInterface $entity) {
+  contentpool_remote_register_entity_insert($entity);
+}

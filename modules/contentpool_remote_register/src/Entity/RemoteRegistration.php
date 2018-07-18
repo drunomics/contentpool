@@ -183,17 +183,4 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
     return $fields;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getRemote() {
-    $remote = Remote::create([
-      'id' => str_replace('-', '_', $this->getSiteUUID()),
-      'label' => $this->getName(),
-      'uri' => $this->getEndpointUri()
-    ]);
-
-    return $remote;
-  }
-
 }

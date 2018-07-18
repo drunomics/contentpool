@@ -1,0 +1,28 @@
+{
+  "name": "drunomics/contentpool-remote-register",
+  "description": "Remote registration functionality for contentpool.",
+  "type": "drupal-module",
+  "authors": [
+    {
+      "name": "drunomics GmbH",
+      "email": "hello@drunomics.com"
+    }
+  ],
+  "license": "GPL-2.0-or-later",
+  "extra": {
+    "branch-alias": {
+      "dev-8.x-1.x": "1.0.x-dev"
+    }
+  },
+  "require": {
+  },
+  "require-dev": {
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": "^9"
+      }
+    }
+  }
+}
