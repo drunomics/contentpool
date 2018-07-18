@@ -87,8 +87,26 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
     return $this;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getEndpointUri() {
     return $this->get('endpoint_uri')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setDatabaseId($database_id) {
+    $this->set('database_id', $database_id);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDatabaseId() {
+    return $this->get('database_id')->value;
   }
 
   /**
@@ -104,10 +122,6 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
   public function setCreatedTime($timestamp) {
     $this->set('created', $timestamp);
     return $this;
-  }
-
-  public function getRemote() {
-    return $this->remote_id->entity;
   }
 
   /**
@@ -150,6 +164,14 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
       ])
       ->setRequired(TRUE);
 
+    $fields['database_id'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Database ID'))
+      ->setDescription(t('The id of the remote database.'))
+      ->setSettings([
+        'max_length' => 255
+      ])
+      ->setRequired(TRUE);
+
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
@@ -158,68 +180,20 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
 
-    $fields['remote_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Remote'))
-      ->setDescription(t('The remote.'))
-      ->setSetting('target_type', 'remote')
-      ->setReadOnly(TRUE);
-
     return $fields;
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
-  public function preSave(EntityStorageInterface $storage) {
-    parent::preSave($storage);
+  public function getRemote() {
+    $remote = Remote::create([
+      'id' => str_replace('-', '_', $this->getSiteUUID()),
+      'label' => $this->getName(),
+      'uri' => $this->getEndpointUri()
+    ]);
 
-    // Create remote entites for this registration entity.
-    /** @var \Drupal\relaxed\Entity\Remote $remote */
-    $remote = $this->getRemote();
-
-    if (!$remote) {
-      $remote = Remote::create([
-        'id' => $this->getSiteUUID(),
-        'label' => $this->getName(),
-        'uri' => $this->getEndpointUri()
-      ]);
-    }
-    else {
-      $remote->set('name', $this->getName());
-      $remote->set('uri', $this->getEndpointUri());
-    }
-
-    $remote_status = $remote->save();
-
-    switch ($remote_status) {
-      case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Remote.', [
-          '%label' => $remote->label(),
-        ]));
-        break;
-
-      default:
-        drupal_set_message($this->t('Saved the %label Remote.', [
-          '%label' => $remote->label(),
-        ]));
-    }
-
-    // Update reference to the remote entity.
-    $this->remote_id->target_id = $remote->id();
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public static function postDelete(EntityStorageInterface $storage, array $entities) {
-    // Delete all remotes referenced by the remote registrations.
-    foreach($entities as $remote_registration) {
-      if (!$remote_registration->remote_id->isEmpty()) {
-        $remote_registration->remote_id->entity->delete();
-      }
-    }
-
-    parent::postDelete($storage, $entities);
+    return $remote;
   }
 
 }

@@ -49,4 +49,32 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
    */
   public function getSiteUUID();
 
+  /**
+   * Create a remote entity for this registration entity.
+   *
+   * @return \Drupal\relaxed\Entity\Remote
+   */
+  public function getRemote();
+
+  /**
+   * Returns the full Uri for requests to remote.
+   *
+   * @return string
+   */
+  public function getEndpointUri();
+
+  /**
+   * Returns the remote database id.
+   *
+   * @return string
+   */
+  public function getDatabaseId();
+
+  /**
+   * Sets the database id.
+   *
+   * @return \Drupal\relaxed\Entity\Remote
+   */
+  public function setDatabaseId($database_id);
+
 }

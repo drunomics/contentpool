@@ -85,6 +85,7 @@ class RemoteRegistrationResource extends ResourceBase {
         'name' => $data['site_name'],
         'url' => $data['site_domain'],
         'endpoint_uri' => $encoded_uri,
+        'database_id' => $data['database_id'],
       ]);
 
       $remote_registration->save();
