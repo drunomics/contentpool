@@ -1,4 +1,4 @@
 services:
-  contentpool_remote_register.remote_pull_manager:
-    class: Drupal\contentpool_remote_register\RemotePullManager
-    arguments: ['@entity_type.manager', '@relaxed.sensitive_data.transformer', '@messenger']
+  contentpool_remote_register.registration_pull_manager:
+    class: Drupal\contentpool_remote_register\RegistrationPullManager
+    arguments: ['@entity_type.manager', '@serializer', '@http_client', '@relaxed.sensitive_data.transformer', '@messenger']

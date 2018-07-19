@@ -2,9 +2,7 @@
 
 namespace Drupal\contentpool_remote_register\Plugin\rest\resource;
 
-use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\relaxed\SensitiveDataTransformer;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;

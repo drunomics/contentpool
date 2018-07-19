@@ -27,9 +27,9 @@ class ContentpoolRemoteRegistrationCommands extends DrushCommands {
    * @aliases cpc
    */
   public function pushContent() {
-    /** @var \Drupal\contentpool_remote_register\RemotePullManagerInterface $registration_push_manager */
-    $remote_pull_manager = \Drupal::service('contentpool_client.remote_pull_manager');
-    $push_count = $remote_pull_manager->pullFromRemoteRegistrations();
+    /** @var \Drupal\contentpool_remote_register\RegistrationPullManagerInterface $registration_pull_manager */
+    $registration_pull_manager = \Drupal::service('contentpool_client.registration_pull_manager');
+    $push_count = $registration_pull_manager->pullFromRemoteRegistrations();
 
     drush_print("Tried to init pull from {$push_count} remote registrations");
   }

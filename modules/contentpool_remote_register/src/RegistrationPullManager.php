@@ -5,6 +5,7 @@ namespace Drupal\contentpool_remote_register;
 use Drupal\contentpool_remote_register\Entity\RemoteRegistration;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\multiversion\Entity\WorkspaceInterface;
 use Drupal\multiversion\Workspace\ConflictTrackerInterface;
 use Drupal\relaxed\SensitiveDataTransformer;
@@ -17,7 +18,9 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * Helper class to get training references and backreferences.
  */
-class RemotePullManager implements RemotePullManagerInterface {
+class RegistrationPullManager implements RegistrationPullManagerInterface {
+
+  use StringTranslationTrait;
 
   /**
    * The entity type manager.
@@ -64,6 +67,7 @@ class RemotePullManager implements RemotePullManagerInterface {
     $this->httpClient = $http_client;
     $this->sensitiveDataTransformer = $sensitive_data_transformer;
     $this->messenger = $messenger;
+    $this->serializer = $serializer;
   }
 
   /**
@@ -90,12 +94,19 @@ class RemotePullManager implements RemotePullManagerInterface {
     $url = $this->sensitiveDataTransformer->get($encoded_uri);
     $url_parts = parse_url($url);
 
+    $credentials = '';
+    if (isset($url_parts['user']) && isset($url_parts['pass'])) {
+      $credentials = $url_parts['user'] . ':' . $url_parts['pass'] . '@';
+    }
+
+    $base_url = $url_parts['scheme'] . '://' . $credentials . $url_parts['host'];
+
     if ($url_parts['scheme'] != 'https') {
       $this->messenger->addWarning($this->t('Warning: Insecure connection used for remote.'));
     }
 
     try {
-      $response = $this->httpClient->get($url . '/_init-pull?_format=json', $this->generatePullPayload());
+      $response = $this->httpClient->get($base_url . '/_init-pull?_format=json', $this->generatePullPayload());
 
       if ($response->getStatusCode() === 200) {
         $this->result = TRUE;
