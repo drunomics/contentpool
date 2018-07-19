@@ -24,7 +24,7 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
   /**
    * The replicator manager.
    *
-   * @var \Drupal\workspace\ReplicatorInterface
+   * @var \Replica
    */
   protected $replicatorManager;
 
@@ -67,9 +67,7 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
    */
   public function doPush(RemoteRegistration $remote_registration) {
     /* @var \Drupal\workspace\WorkspacePointerInterface $parent_workspace */
-    $remote_pointer = GhostWorkspacePointer::create([
-      'remote_database' => $remote_registration->getDatabaseId(),
-    ]);
+    $remote_pointer = new GhostWorkspacePointer();
 
     $remote_pointer->setUri($remote_registration->getEndpointUri());
     $remote_pointer->setDatabaseId($remote_registration->getDatabaseId());
@@ -86,7 +84,7 @@ class RegistrationPushManager implements RegistrationPushManagerInterface {
 
     // Derive a replication task from the Workspace we are acting on.
     $task = $this->replicatorManager->getTask($workspace, 'push_replication_settings');
-    return $this->replicatorManager->replicate($source_pointer, $remote_pointer, $task);
+    return $this->replicatorManager->doReplication($source_pointer, $remote_pointer, $task);
   }
 
   /**

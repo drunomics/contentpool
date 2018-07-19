@@ -3,9 +3,6 @@
 namespace Drupal\contentpool_remote_register;
 
 use Doctrine\CouchDB\CouchDBClient;
-use Drupal\Core\Url;
-use Drupal\multiversion\Entity\WorkspaceInterface;
-use Drupal\relaxed\Entity\RemoteInterface;
 use Drupal\replication\ReplicationTask\ReplicationTaskInterface;
 use Drupal\workspace\WorkspacePointerInterface;
 use GuzzleHttp\Psr7\Uri;
@@ -29,8 +26,8 @@ class CouchdbReplicator extends OriginalCouchdbReplicator {
       throw new UnexpectedTypeException($task, 'Drupal\replication\ReplicationTask\ReplicationTaskInterface or Relaxed\Replicator\ReplicationTask');
     }
 
-    $source_db = $this->setupEndpoint($source);
-    $target_db = $this->setupEndpoint($target);
+    $source_db = $source instanceof GhostWorkspacePointer ? $this->setupGhostEndpoint($source) : $this->setupEndpoint($source);
+    $target_db = $target instanceof GhostWorkspacePointer ? $this->setupGhostEndpoint($target) : $this->setupEndpoint($target);
 
     try {
       if ($task === NULL || $task instanceof ReplicationTaskInterface) {
@@ -86,56 +83,24 @@ class CouchdbReplicator extends OriginalCouchdbReplicator {
         $log = $this->errorReplicationLog($source, $target, $task);
       }
 
-      $this->dispatchReplicationFinishedEvent($source, $target, $log);
+//      $this->dispatchReplicationFinishedEvent($source, $target, $log);
       return $log;
     }
     catch (\Exception $e) {
       watchdog_exception('Relaxed', $e);
-      $log = $this->errorReplicationLog($source, $target, $task);
-      $this->dispatchReplicationFinishedEvent($source, $target, $log);
-      return $log;
+//      $log = $this->errorReplicationLog($source, $target, $task);
+//      $this->dispatchReplicationFinishedEvent($source, $target, $log);
+//      return $log;
     }
   }
 
   /**
    * {@inheritDoc}
    */
-  public function setupEndpoint(WorkspacePointerInterface $pointer) {
-    if (!empty($pointer->getWorkspaceId())) {
-      /** @var string $api_root */
-      $api_root = trim($this->relaxedSettings->get('api_root'), '/');
-      /** @var WorkspaceInterface $workspace */
-      $workspace = $pointer->getWorkspace();
-      $url = Url::fromUri('base:/' . $api_root . '/' . $workspace->getMachineName(), []);
-      // This is a workaround for the case when the site/server is not configured
-      // correctly and 'base:/' returns the URL with 'http' instead of 'https';
-      if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
-        || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) {
-        $url->setOption('https', TRUE);
-      }
-      $url = $url->setAbsolute()->toString();
-      $uri = new Uri($url);
-      $uri = $uri->withUserInfo(
-        $this->relaxedSettings->get('username'),
-        $this->transformer->get($this->relaxedSettings->get('password'))
-      );
-    }
-
-    return;
-
+  public function setupGhostEndpoint(GhostWorkspacePointer $pointer) {
     // Construct uri from information.
-    if ($pointer instanceof GhostWorkspacePointerInterface) {
-      $uri_string = $pointer->getUri() . '/' . $pointer->getDatabaseId();
-      $uri = new Uri($uri_string);
-    }
-    // Construct uri from remote pointer info.
-    elseif (!empty($pointer->get('remote_pointer')->target_id) && !empty($pointer->get('remote_database')->value)) {
-      /** @var RemoteInterface $remote */
-      $remote = $pointer->get('remote_pointer')->entity;
-      /** @var Uri $uri */
-      $uri = $remote->uri();
-      $uri = $uri->withPath($uri->getPath() . '/' . $pointer->get('remote_database')->value);
-    }
+    $uri_string = $pointer->getUri() . '/' . $pointer->getDatabaseId();
+    $uri = new Uri($uri_string);
 
     if ($uri instanceof Uri) {
       $port = $uri->getPort();
