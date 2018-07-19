@@ -56,18 +56,4 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
    */
   public function getEndpointUri();
 
-  /**
-   * Returns the remote database id.
-   *
-   * @return string
-   */
-  public function getDatabaseId();
-
-  /**
-   * Sets the database id.
-   *
-   * @return \Drupal\relaxed\Entity\Remote
-   */
-  public function setDatabaseId($database_id);
-
 }

@@ -97,21 +97,6 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
   /**
    * {@inheritdoc}
    */
-  public function setDatabaseId($database_id) {
-    $this->set('database_id', $database_id);
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getDatabaseId() {
-    return $this->get('database_id')->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function getCreatedTime() {
     return $this->get('created')->value;
   }
@@ -149,7 +134,7 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
 
     $fields['endpoint_uri'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Relaxed Endpoint URI'))
-      ->setDescription(t('The endpoint of the relaxed module api.'))
+      ->setDescription(t('The encoded endpoint of the relaxed module api.'))
       ->setSettings([
         'max_length' => 255,
         'text_processing' => 0,
@@ -159,14 +144,6 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
     $fields['site_uuid'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Site UUID'))
       ->setDescription(t('The uuid of the remote site.'))
-      ->setSettings([
-        'max_length' => 255
-      ])
-      ->setRequired(TRUE);
-
-    $fields['database_id'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Database ID'))
-      ->setDescription(t('The id of the remote database.'))
       ->setSettings([
         'max_length' => 255
       ])

@@ -23,7 +23,6 @@ class RemoteRegistrationListBuilder extends EntityListBuilder {
     $header['name'] = $this->t('Name');
     $header['site_uuid'] = $this->t('Site UUID');
     $header['url'] = $this->t('Url');
-    $header['database_id'] = $this->t('Remote database');
     $header['operations'] = $this->t('Operations');
     return $header + parent::buildHeader();
   }
@@ -43,8 +42,6 @@ class RemoteRegistrationListBuilder extends EntityListBuilder {
 
     $url = Url::fromUri($entity->getUrl());
     $row['url'] = Link::fromTextAndUrl($entity->getUrl(), $url);
-
-    $row['database_id'] = $entity->getDatabaseId();
 
     $list_builder = \Drupal::service('entity_type.manager')->getListBuilder('remote_registration');
     $operations = $list_builder->getOperations($entity);

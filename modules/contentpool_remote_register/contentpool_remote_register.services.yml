@@ -1,9 +1,4 @@
 services:
-  contentpool_remote_register.registration_push_manager:
-    class: Drupal\contentpool_remote_register\RegistrationPushManager
-    arguments: ['@entity_type.manager', '@workspace.replicator_manager', '@workspace.conflict_tracker', '@contentpool_remote_register.couchdb_replicator']
-  contentpool_remote_register.couchdb_replicator:
-    class: Drupal\contentpool_remote_register\CouchdbReplicator
-    arguments: ['@config.factory', '@relaxed.sensitive_data.transformer']
-    tags:
-      - { name: workspace_replicator, priority: 30 }
+  contentpool_remote_register.remote_pull_manager:
+    class: Drupal\contentpool_remote_register\RemotePullManager
+    arguments: ['@entity_type.manager', '@relaxed.sensitive_data.transformer', '@messenger']

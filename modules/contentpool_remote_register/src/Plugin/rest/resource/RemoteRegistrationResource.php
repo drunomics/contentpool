@@ -85,7 +85,6 @@ class RemoteRegistrationResource extends ResourceBase {
         'name' => $data['site_name'],
         'url' => $data['site_domain'],
         'endpoint_uri' => $encoded_uri,
-        'database_id' => $data['database_id'],
       ]);
 
       $remote_registration->save();
@@ -98,8 +97,7 @@ class RemoteRegistrationResource extends ResourceBase {
 
     return new ResourceResponse(
       [
-        'uuid' => \Drupal::config('system.site')->get('uuid'),
-        'registration_uuid' => $remote_registration->uuid(),
+        'site_uuid' => \Drupal::config('system.site')->get('uuid')
       ],
       $status_code
     );
