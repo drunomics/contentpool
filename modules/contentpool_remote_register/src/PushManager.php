@@ -132,7 +132,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
     }
 
     try {
-      $response = $this->httpClient->get($base_url . '/_init-pull?_format=json', $this->generatePullPayload());
+      $response = $this->httpClient->get($base_url . '/_trigger-pull?_format=json', $this->generatePullPayload());
 
       if ($response->getStatusCode() === 200) {
         $this->result = TRUE;
