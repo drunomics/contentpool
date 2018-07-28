@@ -11,7 +11,7 @@ const CONTENTPOOL_CONTENT_ENTITIES = ['node', 'media', 'file', 'paragraph', 'tax
  */
 function contentpool_remote_register_entity_insert(EntityInterface $entity) {
   if (in_array($entity->getEntityTypeId(), CONTENTPOOL_CONTENT_ENTITIES)) {
-    \Drupal::service('contentpool_remote_register.registration_pull_manager')->pullFromRemoteRegistrations();
+    \Drupal::service('contentpool_remote_register.push_manager')->pushToRegisteredRemotes();
   }
 }
 

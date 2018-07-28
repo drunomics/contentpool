@@ -14,11 +14,13 @@ use Drupal\workspace\ReplicatorInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\Serializer\Serializer;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\DestructableInterface;
 
 /**
  * Helper class to get training references and backreferences.
  */
-class RegistrationPullManager implements RegistrationPullManagerInterface {
+class PushManager implements PushManagerInterface, DestructableInterface {
 
   use StringTranslationTrait;
 
@@ -58,28 +60,43 @@ class RegistrationPullManager implements RegistrationPullManagerInterface {
   protected $messenger;
 
   /**
-   * Constructs a RemoteAutopullManager object.
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * Array of remote registrations to pull.
+   *
+   * @var array
+   */
+  protected $pullRegistrations = [];
+
+  /**
+   * Constructs a PushManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, MessengerInterface $messenger) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, MessengerInterface $messenger, ConfigFactoryInterface $config_factory) {
     $this->entityTypeManager = $entity_type_manager;
     $this->httpClient = $http_client;
     $this->sensitiveDataTransformer = $sensitive_data_transformer;
     $this->messenger = $messenger;
     $this->serializer = $serializer;
+    $this->configFactory = $config_factory;
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
-  public function pullFromRemoteRegistrations() {
+  public function pushToRegisteredRemotes() {
     $remote_registrations = $this->entityTypeManager->getStorage('remote_registration')->loadMultiple();
 
     $counter = 0;
     foreach ($remote_registrations as $remote_registration) {
-      // We try to do a pull from the remote.
-      $this->initRemotePull($remote_registration);
+      // We try to initialize a pull from the remote.
+      $this->triggerPullAtRemote($remote_registration);
       $counter++;
     }
 
@@ -89,7 +106,16 @@ class RegistrationPullManager implements RegistrationPullManagerInterface {
   /**
    * {@inheritdoc}
    */
-  public function initRemotePull(RemoteRegistration $remote_registration) {
+  public function triggerPullAtRemote(RemoteRegistration $remote_registration) {
+    $this->pullRegistrations[] = $remote_registration;
+  }
+
+  /**
+   * We process the pull initialization at the remote.
+   *
+   * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_registration
+   */
+  protected function processPullAtRemote(RemoteRegistration $remote_registration) {
     $encoded_uri = $remote_registration->getEndpointUri();
     $url = $this->sensitiveDataTransformer->get($encoded_uri);
     $url_parts = parse_url($url);
@@ -122,9 +148,14 @@ class RegistrationPullManager implements RegistrationPullManagerInterface {
     }
   }
 
-  public function generatePullPayload() {
+  /**
+   * Helper function that builds the data for the request.
+   *
+   * @return array
+   */
+  protected function generatePullPayload() {
     $body = [
-      'site_uuid' => \Drupal::config('system.site')->get('uuid'),
+      'site_uuid' => $this->configFactory->get('system.site')->get('uuid'),
     ];
 
     $serialized_body = $this->serializer->serialize($body, 'json');
@@ -135,6 +166,18 @@ class RegistrationPullManager implements RegistrationPullManagerInterface {
       ],
       RequestOptions::BODY => $serialized_body,
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function destruct() {
+    foreach ($this->pullRegistrations as $index => $remote_registration) {
+      $this->processPullAtRemote($remote_registration);
+
+      // Ensure processing only happens once.
+      unset($this->pullRegistrations[$index]);
+    }
   }
 
 }

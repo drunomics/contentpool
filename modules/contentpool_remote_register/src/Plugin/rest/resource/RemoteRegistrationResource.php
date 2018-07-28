@@ -8,6 +8,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
  * @RestResource(
@@ -35,6 +36,13 @@ class RemoteRegistrationResource extends ResourceBase {
   protected $entityTypeManager;
 
   /**
+   * The config factory service.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
    * RemoteRegistrationResource constructor.
    *
    * @param array $configuration
@@ -44,10 +52,11 @@ class RemoteRegistrationResource extends ResourceBase {
    * @param \Psr\Log\LoggerInterface $logger
    * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, SensitiveDataTransformer $sensitive_data_transformer, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, SensitiveDataTransformer $sensitive_data_transformer, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->sensitiveDataTransformer = $sensitive_data_transformer;
     $this->entityTypeManager = $entity_type_manager;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -61,10 +70,18 @@ class RemoteRegistrationResource extends ResourceBase {
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('rest'),
       $container->get('relaxed.sensitive_data.transformer'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('config.factory')
     );
   }
 
+  /**
+   * Provides a response to post for the endpoint.
+   *
+   * @param $data
+   *
+   * @return \Drupal\rest\ResourceResponse
+   */
   public function post($data) {
     // Create new remote registration.
     $entity_storage = $this->entityTypeManager->getStorage('remote_registration');
@@ -95,7 +112,7 @@ class RemoteRegistrationResource extends ResourceBase {
 
     return new ResourceResponse(
       [
-        'site_uuid' => \Drupal::config('system.site')->get('uuid')
+        'site_uuid' => $this->configFactory->get('system.site')->get('uuid')
       ],
       $status_code
     );
