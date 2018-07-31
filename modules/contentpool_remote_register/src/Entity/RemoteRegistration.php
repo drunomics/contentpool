@@ -2,10 +2,14 @@
 
 namespace Drupal\contentpool_remote_register\Entity;
 
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\relaxed\Entity\Remote;
+use GuzzleHttp\Psr7\Uri;
 
 /**
  * Defines the Remote registration entity.
@@ -21,6 +25,9 @@ use Drupal\Core\Entity\ContentEntityBase;
  *     "route_provider" = {
  *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
  *     },
+ *    "form" = {
+ *       "delete" = "Drupal\contentpool_remote_register\Form\RemoteRegistrationDeleteForm",
+ *     },
  *   },
  *   base_table = "remote_registration",
  *   admin_permission = "administer remote registrations",
@@ -33,6 +40,7 @@ use Drupal\Core\Entity\ContentEntityBase;
  *   links = {
  *     "canonical" = "/admin/config/remote-registrations/{remote_registration}",
  *     "collection" = "/admin/config/remote-registrations",
+ *     "delete-form" = "/admin/config/remote-registrations/{remote_registration}/delete",
  *   },
  *   field_ui_base_route = "entity.remote_registration.collection"
  * )
@@ -40,6 +48,7 @@ use Drupal\Core\Entity\ContentEntityBase;
 class RemoteRegistration extends ContentEntityBase implements RemoteRegistrationInterface {
 
   use EntityChangedTrait;
+  use StringTranslationTrait;
 
   /**
    * {@inheritdoc}
@@ -54,6 +63,35 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
   public function setName($name) {
     $this->set('name', $name);
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getUrl() {
+    return $this->get('url')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSiteUUID() {
+    return $this->get('site_uuid')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUrl($url) {
+    $this->set('url', $url);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEndpointUri() {
+    return $this->get('endpoint_uri')->value;
   }
 
   /**
@@ -94,9 +132,18 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
       ])
       ->setRequired(TRUE);
 
-    $fields['ip'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('IP address'))
-      ->setDescription(t('The ip address of the remote site.'))
+    $fields['endpoint_uri'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Relaxed Endpoint URI'))
+      ->setDescription(t('The encoded endpoint of the relaxed module api.'))
+      ->setSettings([
+        'max_length' => 255,
+        'text_processing' => 0,
+      ])
+      ->setRequired(TRUE);
+
+    $fields['site_uuid'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Site UUID'))
+      ->setDescription(t('The uuid of the remote site.'))
       ->setSettings([
         'max_length' => 255
       ])

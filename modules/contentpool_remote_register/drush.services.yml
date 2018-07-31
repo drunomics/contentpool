@@ -1,0 +1,5 @@
+services:
+  contentpool_remote_register.commands:
+    class: \Drupal\contentpool_remote_register\Commands\ContentpoolRemoteRegistrationCommands
+    tags:
+      - { name: drush.command }
