@@ -30,7 +30,7 @@ class ContentpoolRemoteRegistrationCommands extends DrushCommands {
     $push_manager = \Drupal::service('contentpool_client.push_manager');
     $push_count = $push_manager->pushToRegisteredRemotes();
 
-    drush_print("Initialized pull from {$push_count} remote registrations");
+    drush_print("Initialized push from {$push_count} remote registrations");
   }
 
 }
