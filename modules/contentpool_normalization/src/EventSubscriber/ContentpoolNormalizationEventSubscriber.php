@@ -29,19 +29,24 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
     // Add some data under a '_test' key.
     $normalized = $event->getData();
 
+    $language_keys = array_filter(array_keys($normalized), function($value) {
+      return !in_array($value{0}, ['_', '@']);
+    });
+
     $entity = $event->getEntity();
     if ($entity->getEntityTypeId() == 'taxonomy_term') {
-      foreach ($normalized as $key => $translation) {
-        // Skip any keys that start with '_' or '@'.
-        if (in_array($key{0}, ['_', '@'])) {
-          continue;
-        }
-
+      foreach ($language_keys as $key) {
         // Remove status for taxonomy terms provided
         unset($normalized[$key]['status']);
         unset($normalized[$key]['field_paragraphs']);
       }
     }
+
+    // Remove path alias information from all entities
+    foreach ($language_keys as $key) {
+      unset($normalized[$key]['path']);
+    }
+
     $event->setData($normalized);
   }
 

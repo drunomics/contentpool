@@ -3,7 +3,3 @@ services:
     class: Drupal\contentpool_normalization\EventSubscriber\ContentpoolNormalizationEventSubscriber
     tags:
       - { name: event_subscriber }
-  contentpool_replication.normalizer.path_field_item_list:
-    class: Drupal\contentpool_normalization\Normalizer\PathFieldItemListNormalizer
-    tags:
-      - { name: normalizer, priority: 50 }
