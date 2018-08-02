@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - contentpool_remote_info
+    - serialization
+id: contentpool.contentpool_channels
+plugin_id: 'contentpool:contentpool_channels'
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
