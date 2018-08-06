@@ -60,15 +60,21 @@ class ContentpoolChannelsResource extends ResourceBase {
    *
    * @param $data
    *
-   * @return \Drupal\rest\ResourceResponse
+   * @return \Drupal\rest\ModifiedResourceResponse
    */
   public function get($data) {
     // Load all taxonomy terms from channel vocabulary.
-    $channels = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree('channel');
+    $channels = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree('channel', 0, NULL, TRUE);
+
+    $channel_options = [];
+    /** @var \Drupal\Core\Entity\ContentEntityInterface $channel */
+    foreach ($channels as $channel) {
+      $channel_options[$channel->uuid()] = $channel->label();
+    }
 
     return new ModifiedResourceResponse(
       [
-        'contentpool_channels' => $channels
+        'contentpool_channels' => $channel_options,
       ],
       200
     );
