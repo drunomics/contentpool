@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="rules">
+  <description>Default PHP CodeSniffer configuration for Rules.</description>
+  <file>.</file>
+  
+  <exclude-pattern>./vendor/</exclude-pattern>
+  <exclude-pattern>./config/</exclude-pattern>
+
+  <arg name="extensions" value="inc,install,module,php,profile,test,theme,yml"/>
+  <arg value="s"/>
+  
+  <rule ref="Drupal.NamingConventions.ValidVariableName.LowerCamelName">
+    <!-- Annotations must use the same property names as in the configuration. -->
+    <exclude-pattern>src/Annotation</exclude-pattern>
+  </rule>
+
+  <rule ref="DrupalPractice">
+    <!-- Allow empty lines after comments, we don't care. -->
+    <exclude name="DrupalPractice.Commenting.CommentEmptyLine"/>
+  </rule>
+
+  <!-- We always want short array syntax only. -->
+  <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+
+  <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
+    <exclude-pattern>README.md</exclude-pattern>
+  </rule>
+
+  <rule ref="Drupal.Commenting.DocComment.MissingShort">
+    <!-- Behat step definitions have different comments. -->
+    <exclude-pattern>./tests/behat/behat-features</exclude-pattern>
+  </rule>
+  <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
+    <!-- Behat has fixed class names. -->
+    <exclude-pattern>./tests/behat/behat-features</exclude-pattern>
+  </rule>
+
+</ruleset>
