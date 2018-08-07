@@ -2,6 +2,7 @@
 
 namespace Drupal\contentpool_remote_register\Commands;
 
+use Drupal\contentpool_remote_register\PushManagerTrait;
 use Drush\Commands\DrushCommands;
 
 /**
@@ -17,6 +18,8 @@ use Drush\Commands\DrushCommands;
  */
 class ContentpoolRemoteRegistrationCommands extends DrushCommands {
 
+  use PushManagerTrait;
+
   /**
    * Initializes pull from all remote registrations.
    *
@@ -26,11 +29,9 @@ class ContentpoolRemoteRegistrationCommands extends DrushCommands {
    * @aliases cpc
    */
   public function pushContent() {
-    /** @var \Drupal\contentpool_remote_register\PushManagerInterface $push_manager */
-    $push_manager = \Drupal::service('contentpool_client.push_manager');
-    $push_count = $push_manager->pushToRegisteredRemotes();
+    $push_count = $this->getPushManager()->pushToRegisteredRemotes();
 
-    drush_print("Initialized pull from {$push_count} remote registrations");
+    drush_print("Initialized push from {$push_count} remote registrations");
   }
 
 }

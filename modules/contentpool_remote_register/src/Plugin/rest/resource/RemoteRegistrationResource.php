@@ -11,6 +11,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 
 /**
+ * The remote registration resource plugin.
+ *
  * @RestResource(
  *   id = "contentpool:remote_registration",
  *   label = "Remote registrations",
