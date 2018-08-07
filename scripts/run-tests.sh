@@ -8,6 +8,9 @@ source dotenv/loader.sh
 # in dev dependencies.
 composer install
 
+# Verify coding style.
+../../../../vendor/bin/phpcs --colors --report-width=130
+
 set -x
 # Launch tests inside a docker container, so name resolution works thanks to
 # docker host aliases and the PHP environment is controlled by the container.
