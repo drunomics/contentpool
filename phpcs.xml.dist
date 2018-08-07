@@ -25,4 +25,14 @@
   <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
     <exclude-pattern>README.md</exclude-pattern>
   </rule>
+
+  <rule ref="Drupal.Commenting.DocComment.MissingShort">
+    <!-- Behat step definitions have different comments. -->
+    <exclude-pattern>./tests/behat/behat-features</exclude-pattern>
+  </rule>
+  <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
+    <!-- Behat has fixed class names. -->
+    <exclude-pattern>./tests/behat/behat-features</exclude-pattern>
+  </rule>
+
 </ruleset>
