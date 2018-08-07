@@ -11,7 +11,9 @@ composer install
 set -x
 
 # Verify coding style.
-../../../../vendor/bin/phpcs --colors --report-width=130
+PHPCS=$(readlink -f vendor/bin/phpcs)
+( cd ./web/profiles/contrib/contentpool && $PHPCS --colors --report-width=130 )
+
 
 # Launch tests inside a docker container, so name resolution works thanks to
 # docker host aliases and the PHP environment is controlled by the container.
