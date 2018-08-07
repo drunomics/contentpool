@@ -10,6 +10,6 @@ use Drupal\DrupalExtension\Context\DrupalContext;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends DrupalContext {
+class ContentpoolFeatureContext extends DrupalContext {
 
 }

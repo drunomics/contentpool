@@ -23,26 +23,27 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
   /**
    * Alter content normalization data.
    *
-   * @param ReplicationContentDataAlterEvent $event
+   * @param \Drupal\replication\Event\ReplicationContentDataAlterEvent $event
+   *   The replication event.
    */
   public function onAlterContentData(ReplicationContentDataAlterEvent $event) {
     // Add some data under a '_test' key.
     $normalized = $event->getData();
 
-    $language_keys = array_filter(array_keys($normalized), function($value) {
+    $language_keys = array_filter(array_keys($normalized), function ($value) {
       return !in_array($value{0}, ['_', '@']);
     });
 
     $entity = $event->getEntity();
     if ($entity->getEntityTypeId() == 'taxonomy_term') {
       foreach ($language_keys as $key) {
-        // Remove status for taxonomy terms provided
+        // Remove status for taxonomy terms provided.
         unset($normalized[$key]['status']);
         unset($normalized[$key]['field_paragraphs']);
       }
     }
 
-    // Remove path alias information from all entities
+    // Remove path alias information from all entities.
     foreach ($language_keys as $key) {
       unset($normalized[$key]['path']);
     }

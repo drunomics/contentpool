@@ -2,7 +2,6 @@
 
 namespace Drupal\contentpool_remote_register;
 
-use Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Link;
@@ -38,7 +37,7 @@ class RemoteRegistrationListBuilder extends EntityListBuilder {
       ['remote_registration' => $entity->id()]
     );
 
-    $row['site_uuid'] = $entity->getSiteUUID();
+    $row['site_uuid'] = $entity->getSiteUuid();
 
     $url = Url::fromUri($entity->getUrl());
     $row['url'] = Link::fromTextAndUrl($entity->getUrl(), $url);
@@ -48,8 +47,8 @@ class RemoteRegistrationListBuilder extends EntityListBuilder {
     $row['operations'] = [
       'data' => [
         '#type' => 'operations',
-        '#links' => $operations
-      ]
+        '#links' => $operations,
+      ],
     ];
 
     return $row + parent::buildRow($entity);

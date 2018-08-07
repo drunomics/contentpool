@@ -6,11 +6,7 @@ use Drupal\contentpool_remote_register\Entity\RemoteRegistration;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\multiversion\Entity\WorkspaceInterface;
-use Drupal\multiversion\Workspace\ConflictTrackerInterface;
 use Drupal\relaxed\SensitiveDataTransformer;
-use Drupal\workspace\Entity\WorkspacePointer;
-use Drupal\workspace\ReplicatorInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\Serializer\Serializer;
@@ -77,6 +73,17 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * Constructs a PushManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   * @param \Symfony\Component\Serializer\Serializer $serializer
+   *   The serializer service.
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The guzzle http client.
+   * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
+   *   The sensitive data transformer service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, MessengerInterface $messenger, ConfigFactoryInterface $config_factory) {
     $this->entityTypeManager = $entity_type_manager;
@@ -114,6 +121,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * We process the pull initialization at the remote.
    *
    * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_registration
+   *   The remote registration.
    */
   protected function processPullAtRemote(RemoteRegistration $remote_registration) {
     $encoded_uri = $remote_registration->getEndpointUri();

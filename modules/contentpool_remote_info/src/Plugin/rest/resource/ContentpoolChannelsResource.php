@@ -9,6 +9,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * A rest resource that provides channels and topics for satellites.
+ *
  * @RestResource(
  *   id = "contentpool:contentpool_channels",
  *   label = "Contentpool channels",
@@ -30,11 +32,17 @@ class ContentpoolChannelsResource extends ResourceBase {
    * RemoteRegistrationResource constructor.
    *
    * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
+   *   The configuration array.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
    * @param array $serializer_formats
+   *   The array of serializer formats.
    * @param \Psr\Log\LoggerInterface $logger
-   * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
+   *   The logger service.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -58,11 +66,12 @@ class ContentpoolChannelsResource extends ResourceBase {
   /**
    * Provides a response to post for the endpoint.
    *
-   * @param $data
+   * @param array $data
+   *   The request data.
    *
    * @return \Drupal\rest\ModifiedResourceResponse
    */
-  public function get($data) {
+  public function get(array $data) {
     // Load all taxonomy terms from channel vocabulary.
     $channels = $this->entityTypeManager->getStorage('taxonomy_term')->loadTree('channel', 0, NULL, TRUE);
     $channel_options = [];

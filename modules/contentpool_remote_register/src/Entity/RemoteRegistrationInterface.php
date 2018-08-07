@@ -3,9 +3,7 @@
 namespace Drupal\contentpool_remote_register\Entity;
 
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\RevisionLogInterface;
 use Drupal\Core\Entity\EntityChangedInterface;
-use Drupal\user\EntityOwnerInterface;
 
 /**
  * Provides an interface for defining remote registration entities.
@@ -24,7 +22,8 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
   /**
    * Sets the name of the remote registration.
    *
-   * @param $name
+   * @param string $name
+   *   The name of the remote registration.
    */
   public function setName($name);
 
@@ -32,13 +31,15 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
    * Gets the url of the remote registration.
    *
    * @return string
+   *   The url of the remote.
    */
   public function getUrl();
 
   /**
    * Sets the url of the remote registration.
    *
-   * @param $name
+   * @param string $url
+   *   The url of the remote.
    */
   public function setUrl($url);
 
@@ -47,7 +48,7 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
    *
    * @return string
    */
-  public function getSiteUUID();
+  public function getSiteUuid();
 
   /**
    * Returns the full Uri for requests to remote.
