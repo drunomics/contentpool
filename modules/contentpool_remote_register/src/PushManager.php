@@ -18,7 +18,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DestructableInterface;
 
 /**
- * Helper class to get training references and backreferences.
+ * Class to trigger requests to remote registrations.
  */
 class PushManager implements PushManagerInterface, DestructableInterface {
 
