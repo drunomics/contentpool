@@ -31,7 +31,7 @@ class ContentpoolRemoteRegistrationCommands extends DrushCommands {
   public function pushContent() {
     $push_count = $this->getPushManager()->pushToRegisteredRemotes();
 
-    drush_print("Initialized pull from {$push_count} remote registrations");
+    drush_print("Initialized push from {$push_count} remote registrations");
   }
 
 }
