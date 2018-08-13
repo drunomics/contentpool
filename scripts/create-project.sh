@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PHAPP_VERSION=0.6.2
+PHAPP_VERSION=0.6.7
 
 set -e
 set -x
@@ -35,4 +35,4 @@ cat - >> .defaults.env <<END
 END
 
 echo "Setting up project..."
-phapp setup travis
+phapp setup localdev

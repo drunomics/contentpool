@@ -3,11 +3,6 @@ set -e
 cd `dirname $0`/../../contentpool-project/
 source dotenv/loader.sh
 
-# Ensure dev dependencies are there.
-# @todo: This should not be necessary. Remove once phapp build correctly adds
-# in dev dependencies.
-composer install
-
 set -x
 
 # Verify coding style.
