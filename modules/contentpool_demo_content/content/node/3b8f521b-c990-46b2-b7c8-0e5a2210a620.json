@@ -1,0 +1,291 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/contentpool-project.localdev.space\/cuba-travel-ban?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/node\/article"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/revision_uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_channel": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/satellite2\/travel?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_paragraphs": [
+            {
+                "href": ""
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_tags": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/cuba?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_teaser_media": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/media\/1?_format=hal_json"
+            }
+        ]
+    },
+    "nid": [
+        {
+            "value": 1
+        }
+    ],
+    "uuid": [
+        {
+            "value": "3b8f521b-c990-46b2-b7c8-0e5a2210a620"
+        }
+    ],
+    "vid": [
+        {
+            "value": 1
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "article"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2018-08-13T13:24:31+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_channel": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/satellite2\/travel?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/channel"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "3fff36bd-847f-473c-893d-c2e9a967a431"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_paragraphs": [
+            {
+                "_links": {
+                    "self": {
+                        "href": ""
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "d17308ca-138c-45c9-a82d-a6e4ffc1f62d"
+                    }
+                ],
+                "target_revision_id": "1"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_tags": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/cuba?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/tags"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "02c8cbd9-15b7-4231-b9ef-46c1ef37b233"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_teaser_media": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/media\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/media\/image"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "36d8a56a-f9fd-4584-9e44-5e9a0d46dea9"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "title": [
+        {
+            "value": "U.S. Congress considers lifting Cuba travel ban",
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-08-13T13:19:58+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-08-13T13:24:31+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "promote": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "sticky": [
+        {
+            "value": false,
+            "lang": "en"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "revision_default": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "metatag": [
+        {
+            "value": {
+                "title": "cuba-travel-ban",
+                "content_language": "en",
+                "twitter_cards_type": "summary_large_image",
+                "robots": "index, follow",
+                "og_site_name": "Drush Site-Install",
+                "og_type": "article",
+                "twitter_cards_description": "In the United States Senate on Tuesday, Senators Byron Dorgan, a Democrat from North Dakota, and Mike Enzi, a Republican from Wyoming, introduced the \"Freedom to Travel to Cuba Act\" (S.428), a bill that would lift the travel restrictions that have prevented U.S. citizens from visiting Cuba since the early 1960s.",
+                "description": "In the United States Senate on Tuesday, Senators Byron Dorgan, a Democrat from North Dakota, and Mike Enzi, a Republican from Wyoming, introduced the \"Freedom to Travel to Cuba Act\" (S.428), a bill that would lift the travel restrictions that have prevented U.S. citizens from visiting Cuba since the early 1960s.",
+                "og_title": "cuba-travel-ban",
+                "image_src": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/2018-08\/cuba._santa_maria_del_mar_-_panoramio_21.jpg",
+                "referrer": "no-referrer",
+                "og_description": "In the United States Senate on Tuesday, Senators Byron Dorgan, a Democrat from North Dakota, and Mike Enzi, a Republican from Wyoming, introduced the \"Freedom to Travel to Cuba Act\" (S.428), a bill that would lift the travel restrictions that have prevented U.S. citizens from visiting Cuba since the early 1960s.",
+                "twitter_cards_image_width": "1024",
+                "twitter_cards_image_height": "512",
+                "twitter_cards_image": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/styles\/twitter\/public\/2018-08\/cuba._santa_maria_del_mar_-_panoramio_21.jpg?h=29234840&amp;itok=t5YBYORZ",
+                "og_image": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/styles\/facebook\/public\/2018-08\/cuba._santa_maria_del_mar_-_panoramio_21.jpg?h=29234840&amp;itok=52WYm0wv",
+                "og_image_type": "image\/jpeg",
+                "og_image_width": "1200",
+                "og_image_height": "630",
+                "og_updated_time": "2018-08-13T15:24:31+0200"
+            }
+        }
+    ],
+    "_deleted": [
+        {
+            "value": false
+        }
+    ],
+    "_rev": [
+        {
+            "value": "1-2c7fa678794010dc6872a871e0cc3506"
+        }
+    ],
+    "path": [
+        {
+            "alias": "\/cuba-travel-ban",
+            "pid": 14,
+            "langcode": "en",
+            "lang": "en"
+        }
+    ],
+    "value": "a:0:{}",
+    "field_seo_title": [
+        {
+            "value": "cuba-travel-ban"
+        }
+    ],
+    "field_teaser_text": [
+        {
+            "value": "In the United States Senate on Tuesday, Senators Byron Dorgan, a Democrat from North Dakota, and Mike Enzi, a Republican from Wyoming, introduced the \"Freedom to Travel to Cuba Act\" (S.428), a bill that would lift the travel restrictions that have prevented U.S. citizens from visiting Cuba since the early 1960s."
+        }
+    ]
+}

@@ -1,0 +1,151 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/revision_uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 3
+        }
+    ],
+    "uuid": [
+        {
+            "value": "7537806b-7158-420a-bd6d-1eeb94de18a8"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 3
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-08-13T13:31:12+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "3"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_paragraphs"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "revision_default": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "_deleted": [
+        {
+            "value": false
+        }
+    ],
+    "_rev": [
+        {
+            "value": "1-aaacb84e6b502220a2ac71364886abc7"
+        }
+    ],
+    "field_text": [
+        {
+            "value": "<p><strong>Cultured meat<\/strong>, also called <strong>clean meat<\/strong>, <strong>synthetic meat<\/strong> or <strong><em>in vitro<\/em> meat<\/strong>, is meat grown from in vitro animals cell culture instead of from slaughtered animals.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-1\">[1]<\/a> It is a form of <a href=\"https:\/\/en.wikipedia.org\/wiki\/Cellular_agriculture\" title=\"\">cellular agriculture<\/a>.<\/p>\r\n\r\n<p>Cultured meat is produced using many of the same <a href=\"https:\/\/en.wikipedia.org\/wiki\/Tissue_engineering\" title=\"Tissue engineering\">tissue engineering<\/a> techniques traditionally used in <a href=\"https:\/\/en.wikipedia.org\/wiki\/Regenerative_medicine\" title=\"Regenerative medicine\">regenerative medicine<\/a>.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-2\">[2]<\/a> The concept of cultured meat was popularized by <a href=\"https:\/\/en.wikipedia.org\/wiki\/Jason_Matheny\" title=\"Jason Matheny\">Jason Matheny<\/a> in the early 2000s after co-authoring a seminal paper<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-3\">[3]<\/a> on cultured meat production and creating <a href=\"https:\/\/en.wikipedia.org\/wiki\/New_Harvest\" title=\"New Harvest\">New Harvest<\/a>, the world\u2019s first non-profit organization dedicated to supporting in vitro meat research.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-4\">[4]<\/a><\/p>\r\n\r\n<p>In 2013, <a href=\"https:\/\/en.wikipedia.org\/wiki\/Mark_Post\" title=\"Mark Post\">Mark Post<\/a>, professor at <a href=\"https:\/\/en.wikipedia.org\/wiki\/Maastricht_University\" title=\"Maastricht University\">Maastricht University<\/a> was the first to showcase a proof-of-concept for in-vitro lab grown meat by creating the first lab-grown burger patty. Since then several cultured meat prototypes have gained media attention, however, because of limited dedicated research activities, cultured meat has not yet been commercialized.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-5\">[5]<\/a> In addition, it has yet to be seen whether consumers will accept cultured meat as meat.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-6\">[6]<\/a><\/p>\r\n\r\n<p>SOURCE: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat\">https:\/\/en.wikipedia.org\/wiki\/Cultured_meat<\/a><\/p>\r\n",
+            "format": "basic_html",
+            "processed": "<p><strong>Cultured meat<\/strong>, also called <strong>clean meat<\/strong>, <strong>synthetic meat<\/strong> or <strong><em>in vitro<\/em> meat<\/strong>, is meat grown from in vitro animals cell culture instead of from slaughtered animals.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-1\">[1]<\/a> It is a form of <a href=\"https:\/\/en.wikipedia.org\/wiki\/Cellular_agriculture\" title=\"\">cellular agriculture<\/a>.<\/p>\n\n<p>Cultured meat is produced using many of the same <a href=\"https:\/\/en.wikipedia.org\/wiki\/Tissue_engineering\" title=\"Tissue engineering\">tissue engineering<\/a> techniques traditionally used in <a href=\"https:\/\/en.wikipedia.org\/wiki\/Regenerative_medicine\" title=\"Regenerative medicine\">regenerative medicine<\/a>.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-2\">[2]<\/a> The concept of cultured meat was popularized by <a href=\"https:\/\/en.wikipedia.org\/wiki\/Jason_Matheny\" title=\"Jason Matheny\">Jason Matheny<\/a> in the early 2000s after co-authoring a seminal paper<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-3\">[3]<\/a> on cultured meat production and creating <a href=\"https:\/\/en.wikipedia.org\/wiki\/New_Harvest\" title=\"New Harvest\">New Harvest<\/a>, the world\u2019s first non-profit organization dedicated to supporting in vitro meat research.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-4\">[4]<\/a><\/p>\n\n<p>In 2013, <a href=\"https:\/\/en.wikipedia.org\/wiki\/Mark_Post\" title=\"Mark Post\">Mark Post<\/a>, professor at <a href=\"https:\/\/en.wikipedia.org\/wiki\/Maastricht_University\" title=\"Maastricht University\">Maastricht University<\/a> was the first to showcase a proof-of-concept for in-vitro lab grown meat by creating the first lab-grown burger patty. Since then several cultured meat prototypes have gained media attention, however, because of limited dedicated research activities, cultured meat has not yet been commercialized.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-5\">[5]<\/a> In addition, it has yet to be seen whether consumers will accept cultured meat as meat.<a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat#cite_note-6\">[6]<\/a><\/p>\n\n<p>SOURCE: <a href=\"https:\/\/en.wikipedia.org\/wiki\/Cultured_meat\">https:\/\/en.wikipedia.org\/wiki\/Cultured_meat<\/a><\/p>"
+        }
+    ]
+}
