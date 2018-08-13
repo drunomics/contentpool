@@ -68,7 +68,7 @@
                         "href": "http:\/\/contentpool-project.localdev.space\/file\/2?_format=hal_json"
                     },
                     "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/file\/undefined"
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
                     }
                 },
                 "uuid": [
@@ -124,7 +124,7 @@
                         "href": "http:\/\/contentpool-project.localdev.space\/file\/2?_format=hal_json"
                     },
                     "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/file\/undefined"
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
                     }
                 },
                 "uuid": [
@@ -210,8 +210,7 @@
     "field_description": [
         {
             "value": "<p>Anton Zeilinger<\/p>\r\n",
-            "format": "basic_html",
-            "processed": "<p>Anton Zeilinger<\/p>"
+            "format": "basic_html"
         }
     ],
     "field_source": [

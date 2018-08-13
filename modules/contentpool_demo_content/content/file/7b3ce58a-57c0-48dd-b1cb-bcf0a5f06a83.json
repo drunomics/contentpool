@@ -4,9 +4,9 @@
             "href": "http:\/\/contentpool-project.localdev.space\/file\/2?_format=hal_json"
         },
         "type": {
-            "href": "http:\/\/drupal.org\/rest\/type\/file\/undefined"
+            "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
         },
-        "http:\/\/drupal.org\/rest\/relation\/file\/undefined\/uid": [
+        "http:\/\/drupal.org\/rest\/relation\/file\/image\/uid": [
             {
                 "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
             }
@@ -34,11 +34,11 @@
     ],
     "type": [
         {
-            "target_id": "undefined"
+            "target_id": "image"
         }
     ],
     "_embedded": {
-        "http:\/\/drupal.org\/rest\/relation\/file\/undefined\/uid": [
+        "http:\/\/drupal.org\/rest\/relation\/file\/image\/uid": [
             {
                 "_links": {
                     "self": {
