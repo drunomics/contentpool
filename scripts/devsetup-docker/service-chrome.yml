@@ -1,0 +1,12 @@
+version: "3.5"
+services:
+  chrome:
+    image: justinribeiro/chrome-headless@sha256:03bc0add3c0ac2bb21e917c7d13279123250a038e70a16f7cc9501845e159bf4
+    command: "--no-sandbox --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --disable-gpu --headless"
+    networks:
+      external_default:
+
+networks:
+  external_default:
+    external: true
+    name: ${COMPOSE_PROJECT_NAME}_default

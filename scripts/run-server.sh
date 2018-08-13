@@ -4,12 +4,10 @@ set -e
 set -x
 cd `dirname $0`/..
 
-# Run a web service via docker compose.
-
-[ -d ../contentpool-project/devsetup-docker ] || \
-  git clone https://github.com/drunomics/devsetup-docker.git --branch=1.x ../contentpool-project/devsetup-docker
+# Run a web server via docker compose.
 
 cd ../contentpool-project/
+ln -sf ../contentpool/scripts/devsetup-docker devsetup-docker
 
 echo "Adding compose environment variables..."
 
