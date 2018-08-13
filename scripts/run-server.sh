@@ -7,7 +7,7 @@ cd `dirname $0`/..
 # Run a web server via docker compose.
 
 cd ../contentpool-project/
-ln -sf ../contentpool/scripts/devsetup-docker devsetup-docker
+ln -sf ../contentpool/scripts/devsetup-docker .
 
 echo "Adding compose environment variables..."
 
