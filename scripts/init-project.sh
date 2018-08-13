@@ -16,3 +16,6 @@ docker-compose exec web phapp install --no-build
 
 # Add demo content.
 docker-compose exec web drush en contentpool_demo_content -y
+
+# Add replicator password for testing purposes.
+docker-compose exec web drush upwd replicator changeme
