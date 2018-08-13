@@ -9,6 +9,12 @@ Feature: Drupal basically works.
     Given I am on "/"
     Then the response should contain "Drupal 8 (Thunder | http://www.thunder.org)"
 
+  Scenario: Demo content has been installed
+    Given I am on "/"
+    Then I should see the text "Cultured meat"
+    And I should see the text "First quantum byte created"
+    And I should see the text "U.S. Congress considers lifting Cuba travel ban"
+
   Scenario: Drupal generates a 404 response
     Given I am an anonymous user
     And I am on "some-not-existing-page"

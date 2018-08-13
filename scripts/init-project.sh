@@ -10,3 +10,9 @@ source dotenv/loader.sh
 phapp build
 # Then install in the container.
 docker-compose exec web phapp install --no-build
+
+# Then install in the container.
+docker-compose exec web phapp install --no-build
+
+# Add demo content.
+docker-compose exec web drush en contentpool_demo_content -y
