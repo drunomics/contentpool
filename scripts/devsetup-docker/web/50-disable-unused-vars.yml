@@ -1,0 +1,4 @@
+# Disable unused stuff.
+---
+apache_maildev_enable_site: false
+apache_adminer_enable_site: false

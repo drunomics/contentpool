@@ -59,7 +59,7 @@ install:
   - ./scripts/init-project.sh
 
 script:
-  - curl -N http://localhost:80 | grep  "Drupal 8" -q
+  - curl -N http://contentpool-project.localdev.space | grep  "Drupal 8" -q
   - ./scripts/run-tests.sh
 
 after_success:
