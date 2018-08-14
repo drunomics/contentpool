@@ -36,8 +36,15 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
     $entity = $event->getEntity();
     if ($entity->getEntityTypeId() == 'taxonomy_term') {
       foreach ($language_keys as $key) {
-        // Remove status for taxonomy terms provided
+        // Remove status for taxonomy terms provided.
         unset($normalized[$key]['status']);
+        unset($normalized[$key]['field_paragraphs']);
+      }
+    }
+
+    if ($entity->getEntityTypeId() == 'node' && $entity->bundle() == 'article') {
+      foreach ($language_keys as $key) {
+        // @todo: Handle paragraph via custom elements.
         unset($normalized[$key]['field_paragraphs']);
       }
     }
