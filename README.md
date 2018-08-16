@@ -82,8 +82,16 @@ follows:
     docker-compose exec web ./web/profiles/contrib/contentpool/tests/behat/run.sh
 
 ### Locally, via travis scripts
-    
- You can just launch the provided scripts in the same order as travis:
+
+ First, ensure do you do not use docker-composer version 1.21, as it contains
+ this regression: https://github.com/docker/compose/issues/5874
+
+      docker-compose --version
+
+ If so, update to version 1.22 which is known to work. See
+ https://github.com/docker/compose/releases/tag/1.22.0
+
+ Then you can just launch the provided scripts in the same order as travis:
  
      ./scripts/create-project.sh
      ./scripts/run-server.sh
