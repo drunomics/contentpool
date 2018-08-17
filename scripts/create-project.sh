@@ -19,12 +19,14 @@ fi
 
 phapp create --template=drunomics/drupal-project contentpool-project ../contentpool-project --no-interaction
 
+GIT_COMMIT_HASH=$(git rev-parse HEAD)
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 INSTALL_PROFILE_DIR=`basename $PWD`
 cd ../contentpool-project
 
 echo "Adding distribution..."
 composer config repositories.self path ../$INSTALL_PROFILE_DIR
-composer require drunomics/contentpool
+composer require drunomics/contentpool:"dev-$GIT_BRANCH#$GIT_COMMIT"
 
 echo Project created.
 
