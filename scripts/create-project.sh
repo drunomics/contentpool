@@ -36,3 +36,6 @@ END
 
 echo "Setting up project..."
 phapp setup localdev
+
+echo "Installed project with the following vendors:"
+composer show
