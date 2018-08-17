@@ -19,13 +19,22 @@ fi
 
 phapp create --template=drunomics/drupal-project contentpool-project ../contentpool-project --no-interaction
 
-GIT_COMMIT=$(git rev-parse HEAD)
 INSTALL_PROFILE_DIR=`basename $PWD`
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Support detached HEADs.
+# If a detached HEAD is found, we must give it a branch name. This is necessary
+# as composer does not update metadata when dependencies are added in via Git
+# commits, thus we need a branch.
+if [[ $GIT_BRANCH = "HEAD" ]]; then
+  GIT_BRANCH=tmp/$(date +%s)
+  git checkout -b $GIT_BRANCH
+fi
 cd ../contentpool-project
 
 echo "Adding distribution..."
-composer config repositories.self path ../$INSTALL_PROFILE_DIR
-composer require drunomics/contentpool:"dev-8.x-1.x#$GIT_COMMIT"
+composer config repositories.self vcs ../$INSTALL_PROFILE_DIR
+composer require drunomics/contentpool:"dev-$GIT_BRANCH"
 
 echo Project created.
 

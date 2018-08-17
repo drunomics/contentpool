@@ -5,7 +5,8 @@ php:
   - 7.1
 
 git:
-  depth: 5
+  # Parsing composer metadata does not work with shallow clones.
+  depth: false
 
 env:
   global:
@@ -61,6 +62,9 @@ install:
 script:
   - curl -N http://contentpool-project.localdev.space | grep  "Drupal 8" -q
   - ./scripts/run-tests.sh
+  # Ensure replication is still working with the current pool instance.
+  - ./scripts/launch-satellite.sh
+  - ../contentpool-client/scripts/run-tests.sh
 
 after_success:
   - echo "SUCCESS!"
