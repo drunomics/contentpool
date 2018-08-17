@@ -29,6 +29,25 @@ The distribution is in early development stages and not fully working yet. Staye
   
 ### Detailled instructions
 
+#### Via provided scripts
+
+ The easiest way to get it up and running is to use the provided scripts.
+ They require docker-compose to be installed.
+
+ First, ensure do you do not use docker-composer version 1.21, as it contains
+ this regression: https://github.com/docker/compose/issues/5874
+
+      docker-compose --version
+
+ If so, update to version 1.22 which is known to work. See
+ https://github.com/docker/compose/releases/tag/1.22.0
+
+       ./scripts/create-project.sh
+       ./scripts/run-server.sh
+       ./scripts/init-project.sh
+
+#### Manual setup
+
 The following steps can be followed to setup a new site from scratch:
 
  - Install [drunomics/phapp-cli](https://github.com/drunomics/phapp-cli).
@@ -39,10 +58,8 @@ The following steps can be followed to setup a new site from scratch:
        cd PROJECT-NAME
        composer require drunomics/contentpool
        echo "INSTALL_PROFILE=contentpool" >> .defaults.env 
-       phapp setup travis
+       phapp setup localdev
       
-   @todo: Rename the environment "travis" to something more fitting.
-  
  - Add and install docker-compose setup
  
        git clone https://github.com/drunomics/devsetup-docker.git --branch=1.x devsetup-docker    
@@ -58,6 +75,13 @@ The following steps can be followed to setup a new site from scratch:
        phapp build
        source dotenv/loader.sh
        docker-compose exec web phapp install --no-build
+       
+       # Optionally enable demo content.
+       docker-compose exec web drush en contentpool_demo_content -y
+
+       # Set some password for the replicator user. This will have to be entered
+       # on the client side:
+       docker-compose exec web drush upwd replicator changeme
  
 
 ## Development
@@ -71,9 +95,19 @@ The following steps can be followed to setup a new site from scratch:
 
 ## Running tests
 
-### Locally
+### Locally, via provided scripts
+  
+ After installation with the provided scripts (see above) you can just launch
+ the tests as the following:
+ 
+     ./scripts/create-project.sh
+     ./scripts/run-server.sh
+     ./scripts/init-project.sh
+     ./scripts/run-tests.sh
 
-Based upon the detailled installation instructions you can launch tests as
+### Manually
+
+Based upon the manual installation instructions you can launch tests as
 follows:
 
     source dotenv/loader.sh
@@ -81,22 +115,6 @@ follows:
     # docker host aliases and the PHP environment is controlled by the container.
     docker-compose exec web ./web/profiles/contrib/contentpool/tests/behat/run.sh
 
-### Locally, via travis scripts
-
- First, ensure do you do not use docker-composer version 1.21, as it contains
- this regression: https://github.com/docker/compose/issues/5874
-
-      docker-compose --version
-
- If so, update to version 1.22 which is known to work. See
- https://github.com/docker/compose/releases/tag/1.22.0
-
- Then you can just launch the provided scripts in the same order as travis:
- 
-     ./scripts/create-project.sh
-     ./scripts/run-server.sh
-     ./scripts/init-project.sh
-     ./scripts/run-tests.sh
 
 ## Credits
 
