@@ -49,7 +49,5 @@
     "drupal/relaxed": "^1.0@beta",
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta"
-  },
-  "require-dev": {
   }
 }
