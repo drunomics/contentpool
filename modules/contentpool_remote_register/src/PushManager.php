@@ -14,7 +14,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DestructableInterface;
 
 /**
- * Class to trigger requests to remote registrations.
+ * Pushes content to remotes by triggering pulls.
  */
 class PushManager implements PushManagerInterface, DestructableInterface {
 
@@ -104,6 +104,19 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    */
   public function triggerPullAtRemote(RemoteRegistration $remote_registration) {
     $this->pullRegistrations[] = $remote_registration;
+    // @see ::destruct().
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function destruct() {
+    foreach ($this->pullRegistrations as $index => $remote_registration) {
+      $this->doTriggerPullAtRemote($remote_registration);
+
+      // Ensure processing only happens once.
+      unset($this->pullRegistrations[$index]);
+    }
   }
 
   /**
@@ -111,7 +124,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    *
    * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_registration
    */
-  protected function processPullAtRemote(RemoteRegistration $remote_registration) {
+  protected function doTriggerPullAtRemote(RemoteRegistration $remote_registration) {
     $encoded_uri = $remote_registration->getEndpointUri();
     $url = $this->sensitiveDataTransformer->get($encoded_uri);
     $url_parts = parse_url($url);
@@ -124,7 +137,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
     $base_url = $url_parts['scheme'] . '://' . $credentials . $url_parts['host'];
 
     if ($url_parts['scheme'] != 'https') {
-      $this->messenger->addWarning($this->t('Warning: Insecure connection used for remote.'));
+      $this->messenger->addWarning($this->t('Warning: Insecure connection used for remote @name.', ['@name' => $remote_registration->getName()]));
     }
 
     try {
@@ -132,15 +145,18 @@ class PushManager implements PushManagerInterface, DestructableInterface {
 
       if ($response->getStatusCode() === 200) {
         $this->result = TRUE;
-        $this->message = $this->t('Successfully initiated pull.');
+        $this->message = $this->t('Successfully triggered pull at remote @name.', ['@name' => $remote_registration->getName()]);
       }
       else {
-        $this->message = $this->t('Remote returns status code @status.', ['@status' => $response->getStatusCode()]);
+        $this->message = $this->t('Remote @name returns status code @status when triggering pull.', [
+          '@status' => $response->getStatusCode(),
+          '@name' => $remote_registration->getName(),
+        ]);
       }
     }
     catch (\Exception $e) {
       $this->message = $e->getMessage();
-      watchdog_exception('relaxed', $e);
+      watchdog_exception('contentpool', $e);
     }
   }
 
@@ -154,26 +170,12 @@ class PushManager implements PushManagerInterface, DestructableInterface {
       'site_uuid' => $this->configFactory->get('system.site')->get('uuid'),
     ];
 
-    $serialized_body = $this->serializer->serialize($body, 'json');
-
     return [
       RequestOptions::HEADERS => [
         'Content-Type' => 'application/json',
       ],
-      RequestOptions::BODY => $serialized_body,
+      RequestOptions::BODY => $this->serializer->serialize($body, 'json'),
     ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function destruct() {
-    foreach ($this->pullRegistrations as $index => $remote_registration) {
-      $this->processPullAtRemote($remote_registration);
-
-      // Ensure processing only happens once.
-      unset($this->pullRegistrations[$index]);
-    }
   }
 
 }

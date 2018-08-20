@@ -2,5 +2,5 @@ name: 'Contentpool Remote Register'
 description: 'Enables sites to register themselves with this site as a replication remote.'
 core: 8.x
 dependencies:
-  - rest
+  - drupal:rest
 type: module
