@@ -115,16 +115,27 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    */
   public function triggerPullAtRemote(RemoteRegistration $remote_registration) {
     $this->pullRegistrations[] = $remote_registration;
+
+    // For CLI invokations run the trigger now. Others run on destruction.
     // @see ::destruct().
+    if (php_sapi_name() == 'cli') {
+      $this->doTrigger();
+    }
   }
 
   /**
    * {@inheritdoc}
    */
   public function destruct() {
+    $this->doTrigger();
+  }
+
+  /**
+   * Actually runs all queued triggers.
+   */
+  protected function doTrigger() {
     foreach ($this->pullRegistrations as $index => $remote_registration) {
       $this->doTriggerPullAtRemote($remote_registration);
-
       // Ensure processing only happens once.
       unset($this->pullRegistrations[$index]);
     }
@@ -153,7 +164,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
     }
 
     try {
-      $response = $this->httpClient->get($base_url . '/_trigger-pull?_format=json', $this->generatePullPayload());
+      $response = $this->httpClient->post($base_url . '/api/trigger-pull?_format=json', $this->generatePullPayload());
 
       if ($response->getStatusCode() === 200) {
         $this->result = TRUE;

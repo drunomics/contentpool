@@ -101,29 +101,33 @@ class RemoteRegistrationResource extends ResourceBase {
     $entity_storage = $this->entityTypeManager->getStorage('remote_registration');
     $remote_registrations = $entity_storage->loadByProperties([
       'site_uuid' => $data['site_uuid'],
+      'url' => $data['site_domain'],
     ]);
+    // We create an encoded uri for this site.
+    $encoded_uri = $this->sensitiveDataTransformer->set($data['endpoint_uri']);
 
     // Create new remote registration if none exists.
     if (empty($remote_registrations)) {
-      // We create an encoded uri for this site.
-      $encoded_uri = $this->sensitiveDataTransformer->set($data['endpoint_uri']);
-
       /** @var \Drupal\Core\Entity\Entity $remote_registration */
-      $remote_registration = $entity_storage->create([
-        'site_uuid' => $data['site_uuid'],
-        'name' => $data['site_name'],
-        'url' => $data['site_domain'],
-        'endpoint_uri' => $encoded_uri,
-      ]);
-
-      $remote_registration->save();
+      $remote_registration = $entity_storage->create();
+      $remote_registration->set('name', $data['site_name']);
+      $remote_registration->set('site_uuid', $data['site_uuid']);
+      $remote_registration->set('url', $data['site_domain']);
+      $remote_registration->set('endpoint_uri', $encoded_uri);
       $status_code = 201;
+      $remote_registration->save();
     }
     else {
+      /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration*/
       $remote_registration = reset($remote_registrations);
       $status_code = 200;
+      // Update data if something changed.
+      if ($remote_registration->getEndpointUri() != $encoded_uri) {
+        $remote_registration->set('name', $data['site_name']);
+        $remote_registration->set('endpoint_uri', $encoded_uri);
+        $remote_registration->save();
+      }
     }
-
     return new ResourceResponse(
       [
         'site_uuid' => $this->configFactory->get('system.site')->get('uuid'),

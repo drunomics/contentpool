@@ -8,7 +8,7 @@ namespace Drupal\contentpool_remote_register;
 interface PushManagerInterface {
 
   /**
-   * Pulls from all registered remotes.
+   * Pushes to all registered remotes.
    */
   public function pushToRegisteredRemotes();
 
