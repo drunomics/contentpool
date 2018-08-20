@@ -1,9 +1,0 @@
-entity.remote_registration.collection:
-  title: 'List'
-  route_name: entity.remote_registration.collection
-  base_route: entity.remote_registration.collection
-
-remote_registration.settings_tab:
-  route_name: remote_registration.settings
-  title: 'Settings'
-  base_route: entity.remote_registration.collection

@@ -73,6 +73,17 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * Constructs a PushManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Symfony\Component\Serializer\Serializer $serializer
+   *   The serializer.
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The http client.
+   * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
+   *   The data transformer.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, MessengerInterface $messenger, ConfigFactoryInterface $config_factory) {
     $this->entityTypeManager = $entity_type_manager;
@@ -123,6 +134,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * We process the pull initialization at the remote.
    *
    * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_registration
+   *   The remote registration entity.
    */
   protected function doTriggerPullAtRemote(RemoteRegistration $remote_registration) {
     $encoded_uri = $remote_registration->getEndpointUri();
@@ -164,6 +176,7 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * Helper function that builds the data for the request.
    *
    * @return array
+   *   The payload.
    */
   protected function generatePullPayload() {
     $body = [

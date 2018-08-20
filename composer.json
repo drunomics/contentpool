@@ -47,6 +47,7 @@
     "drunomics/contentpool_replication": "^1.0.2",
     "drupal/replication": "^1.0@beta",
     "drupal/relaxed": "^1.0@beta",
+    "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta"
   },
   "require-dev": {

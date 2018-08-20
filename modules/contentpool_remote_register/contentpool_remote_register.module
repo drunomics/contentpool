@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Module file.
+ */
+
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -14,8 +19,6 @@ function contentpool_remote_register_replicated_types() {
 
 /**
  * Implements hook_entity_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function contentpool_remote_register_entity_insert(EntityInterface $entity) {
   if (in_array($entity->getEntityTypeId(), contentpool_remote_register_replicated_types())) {
@@ -25,8 +28,6 @@ function contentpool_remote_register_entity_insert(EntityInterface $entity) {
 
 /**
  * Implements hook_entity_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
  */
 function contentpool_remote_register_entity_update(EntityInterface $entity) {
   contentpool_remote_register_entity_insert($entity);

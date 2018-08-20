@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Install file.
+ */
+
 use Drupal\user\Entity\User;
 
 /**

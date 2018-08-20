@@ -48,11 +48,21 @@ class RemoteRegistrationResource extends ResourceBase {
    * RemoteRegistrationResource constructor.
    *
    * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
+   *   The plugin config.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
    * @param array $serializer_formats
+   *   The serializer formats.
    * @param \Psr\Log\LoggerInterface $logger
+   *   The logger.
    * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
+   *   The data transformer.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, SensitiveDataTransformer $sensitive_data_transformer, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -80,15 +90,17 @@ class RemoteRegistrationResource extends ResourceBase {
   /**
    * Provides a response to post for the endpoint.
    *
-   * @param $data
+   * @param mixed $data
+   *   The posted data.
    *
    * @return \Drupal\rest\ResourceResponse
+   *   The response.
    */
   public function post($data) {
     // Create new remote registration.
     $entity_storage = $this->entityTypeManager->getStorage('remote_registration');
     $remote_registrations = $entity_storage->loadByProperties([
-      'site_uuid' => $data['site_uuid']
+      'site_uuid' => $data['site_uuid'],
     ]);
 
     // Create new remote registration if none exists.
@@ -114,7 +126,7 @@ class RemoteRegistrationResource extends ResourceBase {
 
     return new ResourceResponse(
       [
-        'site_uuid' => $this->configFactory->get('system.site')->get('uuid')
+        'site_uuid' => $this->configFactory->get('system.site')->get('uuid'),
       ],
       $status_code
     );
