@@ -17,7 +17,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
  *   id = "contentpool:remote_registration",
  *   label = "Remote registrations",
  *   uri_paths = {
- *     "create" = "/_remote-registration",
+ *     "create" = "/api/remote-registration",
  *   }
  * )
  */
