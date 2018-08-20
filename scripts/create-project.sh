@@ -13,6 +13,7 @@ INSTALL_PROFILE_DIR=`basename $PWD`
 source scripts/util/get-branch.sh
 
 echo "Adding distribution..."
+cd ../contentpool-project
 composer config repositories.self vcs ../$INSTALL_PROFILE_DIR
 composer require drunomics/contentpool:"dev-$GIT_CURRENT_BRANCH"
 
@@ -31,9 +32,6 @@ if [[ ! -z "$PRE_BUILD_COMMANDS" ]]; then
   echo "Executing pre-build commands for branch $GIT_BRANCH"
   eval "$PRE_BUILD_COMMANDS"
 fi
-
-# Run build on the host so we can leverage build caches.
-phapp build
 
 echo "Installed project with the following vendors:"
 composer show
