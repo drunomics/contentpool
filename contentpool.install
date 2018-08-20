@@ -5,6 +5,7 @@
  * Install file.
  */
 
+use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
 
 /**
@@ -18,4 +19,9 @@ function contentpool_install() {
   ]);
   $user->roles[] = 'replicator';
   $user->save();
+
+  // Extend the replicator role permissions as needed.
+  $replicator = Role::load('replicator');
+  $replicator->grantPermission('restful post contentpool:remote_registration');
+  $replicator->save();
 }
