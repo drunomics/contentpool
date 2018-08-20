@@ -17,7 +17,7 @@ fi
 
 [ ! -d ../contentpool-client ] || (echo "Old contentpool-client is still existing, please remove ../contentpool-client." && exit 1)
 
-git clone https://github.com/drunomics/contentpool-client.git contentpool-client
+git clone https://github.com/drunomics/contentpool-client.git --branch=${LAUNCH_SATELLITE_GIT_BRANCH:-8.x-1.x} contentpool-client
 
 ./contentpool-client/scripts/create-project.sh
 ./contentpool-client/scripts/run-server.sh
