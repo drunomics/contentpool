@@ -17,7 +17,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
  *   id = "contentpool:remote_registration",
  *   label = "Remote registrations",
  *   uri_paths = {
- *     "create" = "/_remote-registration",
+ *     "create" = "/api/remote-registration",
  *   }
  * )
  */
@@ -48,11 +48,21 @@ class RemoteRegistrationResource extends ResourceBase {
    * RemoteRegistrationResource constructor.
    *
    * @param array $configuration
-   * @param $plugin_id
-   * @param $plugin_definition
+   *   The plugin config.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
    * @param array $serializer_formats
+   *   The serializer formats.
    * @param \Psr\Log\LoggerInterface $logger
+   *   The logger.
    * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
+   *   The data transformer.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, SensitiveDataTransformer $sensitive_data_transformer, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -80,41 +90,47 @@ class RemoteRegistrationResource extends ResourceBase {
   /**
    * Provides a response to post for the endpoint.
    *
-   * @param $data
+   * @param mixed $data
+   *   The posted data.
    *
    * @return \Drupal\rest\ResourceResponse
+   *   The response.
    */
   public function post($data) {
     // Create new remote registration.
     $entity_storage = $this->entityTypeManager->getStorage('remote_registration');
     $remote_registrations = $entity_storage->loadByProperties([
-      'site_uuid' => $data['site_uuid']
+      'site_uuid' => $data['site_uuid'],
+      'url' => $data['site_domain'],
     ]);
+    // We create an encoded uri for this site.
+    $encoded_uri = $this->sensitiveDataTransformer->set($data['endpoint_uri']);
 
     // Create new remote registration if none exists.
     if (empty($remote_registrations)) {
-      // We create an encoded uri for this site.
-      $encoded_uri = $this->sensitiveDataTransformer->set($data['endpoint_uri']);
-
       /** @var \Drupal\Core\Entity\Entity $remote_registration */
-      $remote_registration = $entity_storage->create([
-        'site_uuid' => $data['site_uuid'],
-        'name' => $data['site_name'],
-        'url' => $data['site_domain'],
-        'endpoint_uri' => $encoded_uri,
-      ]);
-
-      $remote_registration->save();
+      $remote_registration = $entity_storage->create();
+      $remote_registration->set('name', $data['site_name']);
+      $remote_registration->set('site_uuid', $data['site_uuid']);
+      $remote_registration->set('url', $data['site_domain']);
+      $remote_registration->set('endpoint_uri', $encoded_uri);
       $status_code = 201;
+      $remote_registration->save();
     }
     else {
+      /* @var \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration */
       $remote_registration = reset($remote_registrations);
       $status_code = 200;
+      // Update data if something changed.
+      if ($remote_registration->getEndpointUri() != $encoded_uri) {
+        $remote_registration->set('name', $data['site_name']);
+        $remote_registration->set('endpoint_uri', $encoded_uri);
+        $remote_registration->save();
+      }
     }
-
     return new ResourceResponse(
       [
-        'site_uuid' => $this->configFactory->get('system.site')->get('uuid')
+        'site_uuid' => $this->configFactory->get('system.site')->get('uuid'),
       ],
       $status_code
     );

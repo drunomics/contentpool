@@ -1,7 +1,6 @@
 name: 'Contentpool'
 type: profile
 description: 'Drupal contentpool based upon Thunder.'
-version: '1.x-dev'
 core: 8.x
 distribution:
   name: 'Contentpool'
@@ -15,5 +14,6 @@ themes:
 dependencies:
   - relaxed:relaxed
   - workspace:workspace
+  - contentpool:contentpool_remote_register
   - contentpool:contentpool_normalization
   - contentpool_replication:contentpool_replication

@@ -6,11 +6,7 @@ use Drupal\contentpool_remote_register\Entity\RemoteRegistration;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\multiversion\Entity\WorkspaceInterface;
-use Drupal\multiversion\Workspace\ConflictTrackerInterface;
 use Drupal\relaxed\SensitiveDataTransformer;
-use Drupal\workspace\Entity\WorkspacePointer;
-use Drupal\workspace\ReplicatorInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\Serializer\Serializer;
@@ -18,7 +14,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DestructableInterface;
 
 /**
- * Class to trigger requests to remote registrations.
+ * Pushes content to remotes by triggering pulls.
  */
 class PushManager implements PushManagerInterface, DestructableInterface {
 
@@ -77,6 +73,17 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * Constructs a PushManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Symfony\Component\Serializer\Serializer $serializer
+   *   The serializer.
+   * @param \GuzzleHttp\ClientInterface $http_client
+   *   The http client.
+   * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
+   *   The data transformer.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, MessengerInterface $messenger, ConfigFactoryInterface $config_factory) {
     $this->entityTypeManager = $entity_type_manager;
@@ -108,14 +115,39 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    */
   public function triggerPullAtRemote(RemoteRegistration $remote_registration) {
     $this->pullRegistrations[] = $remote_registration;
+
+    // For CLI invokations run the trigger now. Others run on destruction.
+    // @see ::destruct().
+    if (php_sapi_name() == 'cli') {
+      $this->doTrigger();
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function destruct() {
+    $this->doTrigger();
+  }
+
+  /**
+   * Actually runs all queued triggers.
+   */
+  protected function doTrigger() {
+    foreach ($this->pullRegistrations as $index => $remote_registration) {
+      $this->doTriggerPullAtRemote($remote_registration);
+      // Ensure processing only happens once.
+      unset($this->pullRegistrations[$index]);
+    }
   }
 
   /**
    * We process the pull initialization at the remote.
    *
    * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_registration
+   *   The remote registration entity.
    */
-  protected function processPullAtRemote(RemoteRegistration $remote_registration) {
+  protected function doTriggerPullAtRemote(RemoteRegistration $remote_registration) {
     $encoded_uri = $remote_registration->getEndpointUri();
     $url = $this->sensitiveDataTransformer->get($encoded_uri);
     $url_parts = parse_url($url);
@@ -128,23 +160,26 @@ class PushManager implements PushManagerInterface, DestructableInterface {
     $base_url = $url_parts['scheme'] . '://' . $credentials . $url_parts['host'];
 
     if ($url_parts['scheme'] != 'https') {
-      $this->messenger->addWarning($this->t('Warning: Insecure connection used for remote.'));
+      $this->messenger->addWarning($this->t('Warning: Insecure connection used for remote @name.', ['@name' => $remote_registration->getName()]));
     }
 
     try {
-      $response = $this->httpClient->get($base_url . '/_trigger-pull?_format=json', $this->generatePullPayload());
+      $response = $this->httpClient->post($base_url . '/api/trigger-pull?_format=json', $this->generatePullPayload());
 
       if ($response->getStatusCode() === 200) {
         $this->result = TRUE;
-        $this->message = $this->t('Successfully initiated pull.');
+        $this->message = $this->t('Successfully triggered pull at remote @name.', ['@name' => $remote_registration->getName()]);
       }
       else {
-        $this->message = $this->t('Remote returns status code @status.', ['@status' => $response->getStatusCode()]);
+        $this->message = $this->t('Remote @name returns status code @status when triggering pull.', [
+          '@status' => $response->getStatusCode(),
+          '@name' => $remote_registration->getName(),
+        ]);
       }
     }
     catch (\Exception $e) {
       $this->message = $e->getMessage();
-      watchdog_exception('relaxed', $e);
+      watchdog_exception('contentpool', $e);
     }
   }
 
@@ -152,32 +187,19 @@ class PushManager implements PushManagerInterface, DestructableInterface {
    * Helper function that builds the data for the request.
    *
    * @return array
+   *   The payload.
    */
   protected function generatePullPayload() {
     $body = [
       'site_uuid' => $this->configFactory->get('system.site')->get('uuid'),
     ];
 
-    $serialized_body = $this->serializer->serialize($body, 'json');
-
     return [
       RequestOptions::HEADERS => [
         'Content-Type' => 'application/json',
       ],
-      RequestOptions::BODY => $serialized_body,
+      RequestOptions::BODY => $this->serializer->serialize($body, 'json'),
     ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function destruct() {
-    foreach ($this->pullRegistrations as $index => $remote_registration) {
-      $this->processPullAtRemote($remote_registration);
-
-      // Ensure processing only happens once.
-      unset($this->pullRegistrations[$index]);
-    }
   }
 
 }

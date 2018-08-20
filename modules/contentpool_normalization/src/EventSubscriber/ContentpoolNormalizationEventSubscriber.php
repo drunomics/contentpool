@@ -23,13 +23,14 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
   /**
    * Alter content normalization data.
    *
-   * @param ReplicationContentDataAlterEvent $event
+   * @param \Drupal\replication\Event\ReplicationContentDataAlterEvent $event
+   *   The event.
    */
   public function onAlterContentData(ReplicationContentDataAlterEvent $event) {
     // Add some data under a '_test' key.
     $normalized = $event->getData();
 
-    $language_keys = array_filter(array_keys($normalized), function($value) {
+    $language_keys = array_filter(array_keys($normalized), function ($value) {
       return !in_array($value{0}, ['_', '@']);
     });
 
@@ -49,7 +50,7 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
       }
     }
 
-    // Remove path alias information from all entities
+    // Remove path alias information from all entities.
     foreach ($language_keys as $key) {
       unset($normalized[$key]['path']);
     }

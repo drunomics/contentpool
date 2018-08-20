@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="rules">
-  <description>Default PHP CodeSniffer configuration for Rules.</description>
+  <description>Default PHP CodeSniffer configuration.</description>
   <file>.</file>
-  
+
   <exclude-pattern>./vendor/</exclude-pattern>
   <exclude-pattern>./config/</exclude-pattern>
 
   <arg name="extensions" value="inc,install,module,php,profile,test,theme,yml"/>
   <arg value="s"/>
   
-  <rule ref="Drupal.NamingConventions.ValidVariableName.LowerCamelName">
-    <!-- Annotations must use the same property names as in the configuration. -->
-    <exclude-pattern>src/Annotation</exclude-pattern>
+  <rule ref="Drupal">
   </rule>
 
   <rule ref="DrupalPractice">
     <!-- Allow empty lines after comments, we don't care. -->
     <exclude name="DrupalPractice.Commenting.CommentEmptyLine"/>
+    <!-- Disable rule that reports many false positives. -->
+    <exclude name="DrupalPractice.CodeAnalysis.VariableAnalysis.VariableRedeclaration"/>
+  </rule>
+
+  <rule ref="Drupal.NamingConventions.ValidVariableName.LowerCamelName">
+    <!-- Annotations must use the same property names as in the configuration. -->
+    <exclude-pattern>src/Annotation</exclude-pattern>
   </rule>
 
   <!-- We always want short array syntax only. -->

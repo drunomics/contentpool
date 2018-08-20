@@ -2,14 +2,11 @@
 
 namespace Drupal\contentpool_remote_register\Entity;
 
-use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\ContentEntityBase;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\relaxed\Entity\Remote;
-use GuzzleHttp\Psr7\Uri;
 
 /**
  * Defines the Remote registration entity.
@@ -42,7 +39,7 @@ use GuzzleHttp\Psr7\Uri;
  *     "collection" = "/admin/config/remote-registrations",
  *     "delete-form" = "/admin/config/remote-registrations/{remote_registration}/delete",
  *   },
- *   field_ui_base_route = "entity.remote_registration.collection"
+ *   field_ui_base_route = false
  * )
  */
 class RemoteRegistration extends ContentEntityBase implements RemoteRegistrationInterface {
@@ -75,7 +72,7 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
   /**
    * {@inheritdoc}
    */
-  public function getSiteUUID() {
+  public function getSiteUuid() {
     return $this->get('site_uuid')->value;
   }
 
@@ -119,7 +116,7 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
       ->setLabel(t('Name'))
       ->setDescription(t('The name of the remote site.'))
       ->setSettings([
-        'max_length' => 255
+        'max_length' => 255,
       ])
       ->setRequired(TRUE);
 
@@ -145,7 +142,7 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
       ->setLabel(t('Site UUID'))
       ->setDescription(t('The uuid of the remote site.'))
       ->setSettings([
-        'max_length' => 255
+        'max_length' => 255,
       ])
       ->setRequired(TRUE);
 
