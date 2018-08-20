@@ -21,17 +21,17 @@ class ContentpoolRemoteRegistrationCommands extends DrushCommands {
   use PushManagerTrait;
 
   /**
-   * Initializes pull from all remote registrations.
+   * Initializes pushing to all remote registrations.
    *
-   * @usage contentpool-client:pull-content
+   * @usage contentpool:push-content
    *
-   * @command contentpool-client:pull-content
-   * @aliases cpc
+   * @command contentpool:push-content
+   * @aliases cppush
    */
   public function pushContent() {
     $push_count = $this->getPushManager()->pushToRegisteredRemotes();
 
-    drush_print("Initialized push from {$push_count} remote registrations");
+    drush_print("Initialized push to {$push_count} remote registrations");
   }
 
 }

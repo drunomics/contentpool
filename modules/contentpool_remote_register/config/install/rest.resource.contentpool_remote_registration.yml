@@ -4,8 +4,8 @@ dependencies:
   module:
     - basic_auth
     - contentpool_remote_register
-    - serialization
-id: contentpool.remote_registration
+    - rest
+id: contentpool_remote_registration
 plugin_id: 'contentpool:remote_registration'
 granularity: method
 configuration:
