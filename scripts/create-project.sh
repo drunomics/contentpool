@@ -13,6 +13,7 @@ INSTALL_PROFILE_DIR=`basename $PWD`
 source scripts/util/get-branch.sh
 
 echo "Adding distribution..."
+cd ../contentpool-project
 composer config repositories.self vcs ../$INSTALL_PROFILE_DIR
 composer require drunomics/contentpool:"dev-$GIT_CURRENT_BRANCH"
 
