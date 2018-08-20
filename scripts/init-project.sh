@@ -5,6 +5,9 @@ set -ex
 cd ../contentpool-project
 source dotenv/loader.sh
 
+# Run build on the host so we can leverage build caches.
+phapp build
+
 # Then install in the container.
 docker-compose exec web phapp install --no-build
 

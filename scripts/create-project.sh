@@ -32,8 +32,5 @@ if [[ ! -z "$PRE_BUILD_COMMANDS" ]]; then
   eval "$PRE_BUILD_COMMANDS"
 fi
 
-# Run build on the host so we can leverage build caches.
-phapp build
-
 echo "Installed project with the following vendors:"
 composer show
