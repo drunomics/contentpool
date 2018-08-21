@@ -24,4 +24,11 @@ function contentpool_install() {
   $replicator = Role::load('replicator');
   $replicator->grantPermission('restful post contentpool:remote_registration');
   $replicator->save();
+
+  // Adjust redirect module to disable route normalizing.
+  // See https://github.com/relaxedws/couchdb-replicator/issues/10.
+  \Drupal::configFactory()
+    ->getEditable('redirect.settings')
+    ->set('route_normalizer_enabled', FALSE)
+    ->save();
 }
