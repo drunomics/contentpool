@@ -22,7 +22,8 @@ function contentpool_remote_register_replicated_types() {
  */
 function contentpool_remote_register_entity_insert(EntityInterface $entity) {
   if (in_array($entity->getEntityTypeId(), contentpool_remote_register_replicated_types())) {
-    \Drupal::service('contentpool_remote_register.push_manager')->pushToRegisteredRemotes();
+    // For now deactivate auto-push until it is fully working.
+    // \Drupal::service('contentpool_remote_register.push_manager')->pushToRegisteredRemotes();
   }
 }
 
