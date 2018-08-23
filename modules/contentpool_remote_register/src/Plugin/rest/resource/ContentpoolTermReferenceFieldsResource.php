@@ -84,6 +84,7 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
    *   The request object.
    *
    * @return \Drupal\rest\ModifiedResourceResponse
+   *   Response.
    */
   public function get(Request $request) {
     $entity_type = $request->query->get('entity_type');
@@ -93,7 +94,7 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
 
     $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type, $bundle);
     /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $term_reference_fields */
-    $term_reference_fields = array_filter($field_definitions, function(FieldDefinitionInterface $field_definition) {
+    $term_reference_fields = array_filter($field_definitions, function (FieldDefinitionInterface $field_definition) {
       /** @var \Drupal\field\FieldStorageConfigInterface $storage_config */
       $storage_config = $field_definition->getFieldStorageDefinition();
       return $storage_config->getType() == 'entity_reference' && $storage_config->getSetting('target_type') == 'taxonomy_term';
@@ -133,7 +134,7 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
           'label' => $term->label(),
         ];
         // Term is not used anymore, so reduce iterations in the recursive call.
-        unset ($terms[$key]);
+        unset($terms[$key]);
       }
     }
 
