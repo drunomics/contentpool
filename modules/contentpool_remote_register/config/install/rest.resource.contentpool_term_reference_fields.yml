@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - contentpool_remote_register
+    - serialization
+id: contentpool.contentpool_term_reference_fields
+plugin_id: 'contentpool:contentpool_term_reference_fields'
+granularity: method
+configuration:
+  GET:
+    supported_formats:
+      - json
+    supported_auth:
+      - basic_auth
