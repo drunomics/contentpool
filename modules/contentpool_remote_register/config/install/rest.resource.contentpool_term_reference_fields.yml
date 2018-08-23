@@ -5,7 +5,7 @@ dependencies:
     - basic_auth
     - contentpool_remote_register
     - serialization
-id: contentpool.contentpool_term_reference_fields
+id: contentpool_term_reference_fields
 plugin_id: 'contentpool:contentpool_term_reference_fields'
 granularity: method
 configuration:
