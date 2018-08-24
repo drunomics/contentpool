@@ -106,7 +106,12 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
     foreach ($term_reference_fields as $field_definition) {
       $taxonomy_id = reset($field_definition->getSetting('handler_settings')['target_bundles']);
       $term_tree = $term_storage->loadTree($taxonomy_id, 0, NULL, TRUE);
-      $response_data[$taxonomy_id] = static::buildResponseTree($term_tree);
+      $response_data[$field_definition->getName()] = [
+        'id' => $taxonomy_id,
+        'field' => $field_definition->getName(),
+        'label' => $field_definition->getLabel(),
+        'terms' => static::buildResponseTree($term_tree),
+      ];
     }
 
     return new ModifiedResourceResponse($response_data, 200);
@@ -131,6 +136,7 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
       $parent_id = reset($term->parents);
       if ($parent_id == $parent) {
         $tree[$term->uuid()] = [
+          'id' => $term->uuid(),
           'label' => $term->label(),
         ];
         // Term is not used anymore, so reduce iterations in the recursive call.
