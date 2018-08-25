@@ -1,0 +1,150 @@
+{
+    "_links": {
+        "self": {
+            "href": ""
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/paragraph\/text"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/revision_uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+            }
+        ]
+    },
+    "id": [
+        {
+            "value": 4
+        }
+    ],
+    "uuid": [
+        {
+            "value": "bc276219-47ef-478c-a338-60458707c084"
+        }
+    ],
+    "revision_id": [
+        {
+            "value": 5
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "type": [
+        {
+            "target_id": "text"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/paragraph\/text\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
+                    }
+                ]
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-08-25T12:32:05+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "parent_id": [
+        {
+            "value": "4"
+        }
+    ],
+    "parent_type": [
+        {
+            "value": "node"
+        }
+    ],
+    "parent_field_name": [
+        {
+            "value": "field_paragraphs"
+        }
+    ],
+    "behavior_settings": [
+        {
+            "value": "a:0:{}"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "revision_default": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "_deleted": [
+        {
+            "value": false
+        }
+    ],
+    "_rev": [
+        {
+            "value": "2-bdd7e63ad5572d6946463ae1dcb05127"
+        }
+    ],
+    "field_text": [
+        {
+            "value": "<p>On Friday\u2013Saturday \u2014depending on observer's timezone\u2014 a total lunar eclipse occurred as <a href=\"https:\/\/en.wikinews.org\/wiki\/The_Moon\" title=\"The Moon\">the Moon<\/a> was in the shadow of the Earth. As normal during such an eclipse, the Moon became faint and turned completely red as bluer light was <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/Rayleigh_scattering\" title=\"w:Rayleigh scattering\">scattered<\/a><\/span> by the Earth's atmosphere. Totality of 1 hour and 43 minutes was the longest in the 21st century.<\/p>\r\n\r\n<p>People were able to observe the eclipse from <a href=\"https:\/\/en.wikinews.org\/wiki\/Australia\" title=\"Australia\">Australia<\/a>, <a href=\"https:\/\/en.wikinews.org\/wiki\/Africa\" title=\"Africa\">Africa<\/a>, <a href=\"https:\/\/en.wikinews.org\/wiki\/Asia\" title=\"Asia\">Asia<\/a>, <a href=\"https:\/\/en.wikinews.org\/wiki\/Europe\" title=\"Europe\">Europe<\/a>, and <a href=\"https:\/\/en.wikinews.org\/wiki\/South_America\" title=\"South America\">South America<\/a>. A volunteer named Jos\u00e9 Jim\u00e9nez uploaded a photo of the incident today from <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/Alt_Empord%C3%A0\" title=\"w:Alt Empord\u00e0\">Alt Empord\u00e0<\/a><\/span> in <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/Girona\" title=\"w:Girona\">Girona<\/a><\/span>, <span><a href=\"https:\/\/en.wikinews.org\/wiki\/Catalonia\" title=\"Catalonia\">Catalonia<\/a><\/span>, <a href=\"https:\/\/en.wikinews.org\/wiki\/Spain\" title=\"Spain\">Spain<\/a>, featuring the Moon, <span><a href=\"https:\/\/en.wikinews.org\/wiki\/Mars\" title=\"Mars\">Mars<\/a><\/span>, and the <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/milky_way\" title=\"w:milky way\">milky way<\/a><\/span> on the same photo.<\/p>\r\n\r\n<p><span><a href=\"https:\/\/en.wikinews.org\/wiki\/Germany\" title=\"Germany\">German<\/a><\/span> astronaut <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/Alexander_Gerst\" title=\"w:Alexander Gerst\">Alexander Gerst<\/a><\/span> took photos of the Moon from the <span><a href=\"https:\/\/en.wikinews.org\/wiki\/International_Space_Station\" title=\"International Space Station\">International Space Station<\/a><\/span> and uploaded them to <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/Flickr\" title=\"w:Flickr\">Flickr<\/a><\/span> on the same day.<\/p>\r\n\r\n<p>According to timeanddate.com, the timeline of the eclipse was as follows.<\/p>\r\n\r\n<p>Start penumbral eclipse17:14:47<br \/>\r\nStart partial eclipse18:24:27<br \/>\r\nStart full eclipse19:30:15<br \/>\r\nMaximum eclipse20:21:44<br \/>\r\nEnd full eclipse21:13:11<br \/>\r\nEnd partial eclipse22:19:00<br \/>\r\nEnd penumbral eclipse23:28:38<\/p>\r\n\r\n<p>Mars was also visible near the Moon; coming this week, reported <span><a href=\"https:\/\/en.wikipedia.org\/wiki\/9News\" title=\"w:9News\">9News<\/a><\/span>, closer to Earth than at any time since 2003.<\/p>\r\n\r\n<p>Source: https:\/\/en.wikinews.org\/wiki\/Total_lunar_eclipse_occurs_in_July_2018<\/p>\r\n",
+            "format": "basic_html"
+        }
+    ]
+}
