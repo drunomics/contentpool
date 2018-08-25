@@ -11,17 +11,6 @@
                 "href": "http:\/\/contentpool-project.localdev.space\/file\/3?_format=hal_json"
             }
         ],
-        "http:\/\/drupal.org\/rest\/relation\/media\/image\/uid": [
-            {
-                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json",
-                "lang": "en"
-            }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_uid": [
-            {
-                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
-            }
-        ],
         "http:\/\/drupal.org\/rest\/relation\/media\/image\/field_image": [
             {
                 "href": "http:\/\/contentpool-project.localdev.space\/file\/3?_format=hal_json"
@@ -80,41 +69,6 @@
                 "title": "Cultured meat",
                 "width": null,
                 "height": null
-            }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/media\/image\/uid": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
-                    }
-                ],
-                "lang": "en"
-            }
-        ],
-        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_uid": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
-                    }
-                ]
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/media\/image\/field_image": [
@@ -199,7 +153,7 @@
     ],
     "_rev": [
         {
-            "value": "2-0b9ce664ef25dba5f034d8604ac80f11"
+            "value": "3-4d524ff17f3d74c8ecdfa44f9c3ca44d"
         }
     ],
     "field_copyright": [

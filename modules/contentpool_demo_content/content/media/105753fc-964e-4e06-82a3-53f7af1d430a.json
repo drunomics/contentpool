@@ -1,0 +1,215 @@
+{
+    "_links": {
+        "self": {
+            "href": "http:\/\/contentpool-project.localdev.space\/media\/4?_format=hal_json"
+        },
+        "type": {
+            "href": "http:\/\/drupal.org\/rest\/type\/media\/image"
+        },
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/thumbnail": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/file\/4?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json",
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_uid": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/field_image": [
+            {
+                "href": "http:\/\/contentpool-project.localdev.space\/file\/4?_format=hal_json"
+            }
+        ]
+    },
+    "mid": [
+        {
+            "value": 4
+        }
+    ],
+    "uuid": [
+        {
+            "value": "105753fc-964e-4e06-82a3-53f7af1d430a"
+        }
+    ],
+    "vid": [
+        {
+            "value": 9
+        }
+    ],
+    "bundle": [
+        {
+            "target_id": "image"
+        }
+    ],
+    "langcode": [
+        {
+            "value": "en",
+            "lang": "en"
+        }
+    ],
+    "name": [
+        {
+            "value": "1280px-20180728_06-07_chelsea_total_lunar_eclipse_10.jpg",
+            "lang": "en"
+        }
+    ],
+    "_embedded": {
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/thumbnail": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/file\/4?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "c28679b4-cc17-4eee-9dd3-97ba4616c71d"
+                    }
+                ],
+                "alt": "Thumbnail",
+                "title": null,
+                "width": null,
+                "height": null
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
+                    }
+                ],
+                "lang": "en"
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_uid": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/user\/user"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
+                    }
+                ]
+            }
+        ],
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/field_image": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http:\/\/contentpool-project.localdev.space\/file\/4?_format=hal_json"
+                    },
+                    "type": {
+                        "href": "http:\/\/drupal.org\/rest\/type\/file\/image"
+                    }
+                },
+                "uuid": [
+                    {
+                        "value": "c28679b4-cc17-4eee-9dd3-97ba4616c71d"
+                    }
+                ],
+                "alt": "Lunar eclipse",
+                "title": "Lunar eclipse",
+                "width": "1280",
+                "height": "960",
+                "_loaded": true,
+                "_accessCacheability": {}
+            }
+        ]
+    },
+    "status": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "created": [
+        {
+            "value": "2018-08-25T12:35:27+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "changed": [
+        {
+            "value": "2018-08-25T12:36:16+00:00",
+            "lang": "en",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "revision_timestamp": [
+        {
+            "value": "2018-08-25T12:35:27+00:00",
+            "format": "Y-m-d\\TH:i:sP"
+        }
+    ],
+    "default_langcode": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "revision_default": [
+        {
+            "value": true
+        }
+    ],
+    "revision_translation_affected": [
+        {
+            "value": true,
+            "lang": "en"
+        }
+    ],
+    "metatag": [
+        {
+            "value": {
+                "title": "| Drush Site-Install",
+                "canonical_url": "http:\/\/contentpool-project.localdev.space\/node"
+            }
+        }
+    ],
+    "_deleted": [
+        {
+            "value": false
+        }
+    ],
+    "_rev": [
+        {
+            "value": "2-c4c32c985e320b80dd699d87d7cdd934"
+        }
+    ],
+    "field_copyright": [
+        {
+            "value": "By Ian Fieggen [CC BY-SA 4.0  (https:\/\/creativecommons.org\/licenses\/by-sa\/4.0)], from Wikimedia Commons, https:\/\/commons.wikimedia.org\/wiki\/File:20180728_06-07_Chelsea,_total_lunar_eclipse_10.jpg"
+        }
+    ],
+    "field_source": [
+        {
+            "value": "https:\/\/commons.wikimedia.org\/wiki\/File:20180728_06-07_Chelsea,_total_lunar_eclipse_10.jpg"
+        }
+    ]
+}

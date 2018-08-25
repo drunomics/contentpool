@@ -30,7 +30,7 @@
     ],
     "revision_id": [
         {
-            "value": 3
+            "value": 6
         }
     ],
     "langcode": [
@@ -57,7 +57,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
                     }
                 ],
                 "lang": "en"
@@ -75,7 +75,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
                     }
                 ]
             }
@@ -122,7 +122,7 @@
     ],
     "revision_default": [
         {
-            "value": true
+            "value": false
         }
     ],
     "revision_translation_affected": [
@@ -138,7 +138,7 @@
     ],
     "_rev": [
         {
-            "value": "1-aaacb84e6b502220a2ac71364886abc7"
+            "value": "3-aa8e31198bd4fb084d4eb48c998bad38"
         }
     ],
     "field_text": [

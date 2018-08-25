@@ -50,7 +50,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "6af8ae79-cf32-4278-a382-84ab2ddd2652"
+                        "value": "eabd0bd8-029b-4e59-82bd-f261875502de"
                     }
                 ]
             }
@@ -63,8 +63,8 @@
     ],
     "uri": [
         {
-            "value": "public:\/\/2018-08\/first_cultured_hamburger_baked.png",
-            "url": "\/sites\/default\/files\/2018-08\/first_cultured_hamburger_baked.png"
+            "value": "public:\/\/2018-08\/first_cultured_hamburger_baked_2.png",
+            "url": "\/sites\/default\/files\/2018-08\/first_cultured_hamburger_baked_2.png"
         }
     ],
     "filemime": [
@@ -114,7 +114,7 @@
     ],
     "_rev": [
         {
-            "value": "2-d38c5861aa1bc15ea2f811ea41de642a"
+            "value": "3-4474c3e6cd2341a5c53fe7e75f335f57"
         }
     ],
     "data": [
