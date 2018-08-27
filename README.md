@@ -25,9 +25,10 @@ for the contentpool and one project for a satellite site that connects to the co
 
 #### 0. Prerequisites
 
- Make sure [docker-compose](https://docs.docker.com/compose/) is installed and working.
- Ensure you do *not* use docker-composer version 1.21, as it contains this [regression](https://github.com/docker/compose/issues/5874). Check your version via `docker-compose --version`.
- If so, update to version 1.22 which is known to work. See https://github.com/docker/compose/releases/tag/1.22.0
+ * Install [phapp-cli](https://github.com/drunomics/phapp-cli) in version 0.6.7 or higher. If installed, run `phapp self:update` to ensure you have the latest version.
+ * Make sure [docker-compose](https://docs.docker.com/compose/) is installed and working.
+   Ensure you do *not* use docker-composer version 1.21, as it contains this [regression](https://github.com/docker/compose/issues/5874). Check your version via `docker-compose --version`.
+   If so, update to version 1.22 which is known to work. See https://github.com/docker/compose/releases/tag/1.22.0
 
 #### 1. Setup contentpool 
 
