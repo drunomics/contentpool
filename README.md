@@ -23,13 +23,13 @@ The distribution can be best tested by using the provided scripts to setup a new
 Furthermore it comes with a ready-to-go docker-compose setup, so you can try the distribution. You'll need once project
 for the contentpool and one project for a satellite site that connects to the contentpool.
 
-0. Prerequisites
+#### 0. Prerequisites
 
  Make sure [docker-compose](https://docs.docker.com/compose/) is installed and working.
  Ensure you do *not* use docker-composer version 1.21, as it contains this [regression](https://github.com/docker/compose/issues/5874). Check your version via `docker-compose --version`.
  If so, update to version 1.22 which is known to work. See https://github.com/docker/compose/releases/tag/1.22.0
 
-1. Setup contentpool 
+#### 1. Setup contentpool 
 
 Run the following commands:
 
@@ -51,7 +51,7 @@ If you want to run drush commands, do so from inside the docker container:
     source dotenv/loader.sh && docker-compose exec web /bin/bash
     drush uli
 
-2. Setup satellite site:
+#### 2. Setup satellite site:
 
 Run the following commands:
 
