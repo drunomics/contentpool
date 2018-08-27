@@ -45,7 +45,7 @@
     "drupal/default_content": "^1.0@alpha",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
-    "drunomics/contentpool_replication": "^1.0.1",
+    "drunomics/contentpool_replication": "^1.0.3",
     "drupal/relaxed": "^1.0@beta",
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta"
