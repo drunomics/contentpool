@@ -13,7 +13,7 @@ need a drupal project for installing it. Refer to "Installation" for details.
 
 ## Status
 
-The distribution is in early development stages and not fully working yet. Stayed tuned!
+The distribution is in early development stages, but basically working already. Stayed tuned!
 
 ## Installation
 
