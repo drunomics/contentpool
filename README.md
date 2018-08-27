@@ -17,7 +17,63 @@ The distribution is in early development stages, but basically working already. 
 
 ## Installation
 
-### Quick instructions
+### Quick installation
+
+The distribution can be best tested by using the provided scripts to setup a new Drupal project using the distribution.
+Furthermore it comes with a ready-to-go docker-compose setup, so you can try the distribution. You'll need once project
+for the contentpool and one project for a satellite site that connects to the contentpool.
+
+0. Prerequisites
+
+ Make sure [docker-compose](https://docs.docker.com/compose/) is installed and working.
+ Ensure you do *not* use docker-composer version 1.21, as it contains this [regression](https://github.com/docker/compose/issues/5874). Check your version via `docker-compose --version`.
+ If so, update to version 1.22 which is known to work. See https://github.com/docker/compose/releases/tag/1.22.0
+
+1. Setup contentpool 
+
+Run the following commands:
+
+    # cd to ~/projects or similar.
+    git clone git@github.com:drunomics/contentpool.git && cd contentpool
+    # Check out tag of latest release or stay with the development version.
+    ./scripts/create-project.sh
+    ./scripts/run-server.sh
+    ./scripts/init-project.sh
+    
+If all worked, you can access your site at http://contentpool-project.localdev.space
+The distribution comes with some basic demo content, which is already added in by
+the init-project script. The demo content is provided by the optional module
+`contentpool_demo_content`.
+
+If you want to run drush commands, do so from inside the docker container:
+
+    cd ../contentpool-project
+    source dotenv/loader.sh && docker-compose exec web /bin/bash
+    drush uli
+
+2. Setup satellite site:
+
+Run the following commands:
+
+    # cd to ~/projects or similar.
+    git clone git@github.com:drunomics/contentpool-client.git && cd contentpool-client
+    # Check out tag of latest release or stay with the development version.
+    ./scripts/create-project.sh
+    ./scripts/run-server.sh
+    ./scripts/init-project.sh
+    
+If all worked, you can access your site at http://satellite-project.localdev.space
+
+If you want to run drush commands, do so from inside the docker container:
+
+    cd ../satellite-project
+    source dotenv/loader.sh && docker-compose exec web /bin/bash
+    drush uli
+    
+Refer to the [usage documentation](https://github.com/drunomics/contentpool-client#usage) to trigger a first
+replication!
+
+### Regular installation
 
  The install profile can be added to a Drupal 8 site via composer:
 
@@ -26,67 +82,10 @@ The distribution is in early development stages, but basically working already. 
   Then install Drupal with while selecting the "Contentpool" distribution.
   Note that only a composer based installation is supported. Start off with
   a composer-based Drupal project like [drunomics/drupal-project](https://github.com/drunomics/drupal-project).
-  
-### Detailled instructions
-
-#### Via provided scripts
-
- The easiest way to get it up and running is to use the provided scripts.
- They require docker-compose to be installed.
-
- First, ensure do you do not use docker-composer version 1.21, as it contains
- this regression: https://github.com/docker/compose/issues/5874
-
-      docker-compose --version
-
- If so, update to version 1.22 which is known to work. See
- https://github.com/docker/compose/releases/tag/1.22.0
-
-       ./scripts/create-project.sh
-       ./scripts/run-server.sh
-       ./scripts/init-project.sh
-
-#### Manual setup
-
-The following steps can be followed to setup a new site from scratch:
-
- - Install [drunomics/phapp-cli](https://github.com/drunomics/phapp-cli).
- - Install docker-compose or replace it with your preferred environment below.
- - Follow the following steps:
-
-       phapp create --template=drunomics/drupal-project PROJECT-NAME
-       cd PROJECT-NAME
-       composer require drunomics/contentpool
-       echo "INSTALL_PROFILE=contentpool" >> .defaults.env 
-       phapp setup localdev
-      
- - Add and install docker-compose setup
- 
-       git clone https://github.com/drunomics/devsetup-docker.git --branch=1.x devsetup-docker    
-       cat - > .docker.defaults.env <<END
-         COMPOSE_PROJECT_NAME=contentpool-project
-         COMPOSE_FILE=devsetup-docker/docker-compose.yml:devsetup-docker/service-chrome.yml
-       END
-       source dotenv/loader.sh
-       docker-compose up -d
-     
- - Install it
-
-       phapp build
-       source dotenv/loader.sh
-       docker-compose exec web phapp install --no-build
-       
-       # Optionally enable demo content.
-       docker-compose exec web drush en contentpool_demo_content -y
-
-       # Set some password for the replicator user. This will have to be entered
-       # on the client side:
-       docker-compose exec web drush upwd replicator changeme
- 
 
 ## Development
 
-  Just follow the above setup instructions and edit the install profile
+  Just follow the above "Quick installation" instructions and edit the install profile
   content at web/profiles/contrib/contentpool. You can make sure it's a Git
   checkout by doing:
       
