@@ -34,6 +34,9 @@
         "#1356276-417: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/drupal-n1356276-417-d8.5.%2A.patch",
         "#2893029: StringTranslationTrait consumers cannot be reliably serialized without DependencySerializationTrait": "https://www.drupal.org/files/issues/2893029-full-fix-test-from-3.patch"
       },
+      "drupal/custom_elements": {
+        "#2994894 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-08-24/custom_elements.patch"
+      },
       "drupal/workspace": {
         "Removes workspace forms from toolbar to avoid disappearing.": "https://gist.githubusercontent.com/archnode/113e781c3673cacc76e2b8ea9fa47eea/raw/221b9b67f8f7d510883dede8943cb18a12c87b96/gistfile1.txt"
       }
