@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Custom elements hooks.
+ */
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function contentpool_custom_elements_library_info_alter(&$libraries, $extension) {
+  if ($extension == 'custom_elements') {
+    $libraries['main']['dependencies'][] = 'contentpool_custom_elements/main';
+  }
+}

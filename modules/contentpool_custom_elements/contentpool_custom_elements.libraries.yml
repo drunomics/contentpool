@@ -1,0 +1,31 @@
+main:
+  version: 1.0.0
+  css: {}
+  js:
+    'js/load-vue-components.js': {}
+  dependencies:
+    - contentpool_custom_elements/vue
+
+vue:
+  version: 2.5.16
+  js:
+    'https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js':
+       type: external
+    'https://drunomics.github.io/vue-lupus-paragraph-text/dist/main.js':
+      type: external
+    'https://drunomics.github.io/vue-lupus-paragraph-image/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-instagram/master/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-gallery/master/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-pinterest/master/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-quote/master/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-twitter/master/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-link/master/dist/main.js':
+      type: external
+    'http://rawgit.com/drunomics/vue-lupus-paragraph-video/master/dist/main.js':
+      type: external
