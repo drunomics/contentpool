@@ -45,7 +45,8 @@ The distribution comes with some basic demo content, which is already added in b
 the init-project script. The demo content is provided by the optional module
 `contentpool_demo_content`.
 
-If you want to run drush commands, do so from inside the docker container:
+If you want to run drush commands, do so from inside the docker container.
+Run the following commands from *a newly opened terminal*:
 
     cd ../contentpool-project
     source dotenv/loader.sh && docker-compose exec web /bin/bash
@@ -64,7 +65,8 @@ Run the following commands:
     
 If all worked, you can access your site at http://satellite-project.localdev.space
 
-If you want to run drush commands, do so from inside the docker container:
+If you want to run drush commands, do so from inside the docker container.
+Run the following commands from *a newly opened terminal*:
 
     cd ../satellite-project
     source dotenv/loader.sh && docker-compose exec web /bin/bash
