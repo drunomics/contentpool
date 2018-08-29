@@ -1,0 +1,11 @@
+contentpool_remote_register.remote_registration.push_notifications:
+  path: '/admin/config/remote-registrations/{remote_registration}/push_notifications'
+  defaults:
+    _form: '\Drupal\contentpool_remote_register\Form\RemoteRegistrationPushNotificationsForm'
+    _title: 'Push notifications'
+  requirements:
+    _permission: 'administer remote registrations'
+  options:
+    parameters:
+      remote_registration:
+        type: entity:remote_registration
