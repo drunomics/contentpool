@@ -27,6 +27,7 @@ interface PushManagerInterface {
    *   execute other code and put the Promise::wait() at the end.
    *
    * @return \GuzzleHttp\Promise\PromiseInterface
+   *   The promise.
    */
   public function triggerPullAtRemote(RemoteRegistrationInterface $remote_registration, $asynchronous = FALSE);
 
