@@ -8,11 +8,13 @@ use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\relaxed\SensitiveDataTransformer;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\RequestOptions;
 use Symfony\Component\Serializer\Serializer;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use function GuzzleHttp\Promise\settle;
 
 /**
  * Pushes content to remotes by triggering pulls.
@@ -106,18 +108,17 @@ class PushManager implements PushManagerInterface {
     $remote_registrations = $this->entityTypeManager->getStorage('remote_registration')->loadByProperties(['push_notifications' => TRUE]);
 
     $counter = 0;
+    /** @var \GuzzleHttp\Promise\PromiseInterface[] $promises */
     $promises = [];
 
-    // Initialize pull from the remotes.
+    // Initialize concurrent requests to pull at the remotes.
     foreach ($remote_registrations as $remote_registration) {
-      $promises[$remote_registration->uuid()] = $this->triggerPullAtRemote($remote_registration, TRUE);
+      $promises[] = $this->triggerPullAtRemote($remote_registration, TRUE);
       $counter++;
     }
 
-    // Wait for asynchronous processes to finish.
-    foreach ($promises as $promise) {
-      $promise->wait();
-    }
+    // To wait for the requests to complete, even if some of them fail.
+    settle($promises)->wait();
 
     return $counter;
   }
@@ -175,7 +176,13 @@ class PushManager implements PushManagerInterface {
             $this->logger->error($message);
           }
         }, function (\Exception $e) {
+          if ($e instanceof ConnectException) {
+            // This is expected, since we set the timeout very low.
+            // @see generatePullPayload()
+          }
+          else {
             watchdog_exception('contentpool', $e);
+          }
         }
       );
 
@@ -198,6 +205,9 @@ class PushManager implements PushManagerInterface {
         'Content-Type' => 'application/json',
       ],
       RequestOptions::BODY => $this->serializer->serialize($body, 'json'),
+      // Set & forget timeout, we don't wait for the response here as multiple
+      // requests to satellites could take very long to update.
+      RequestOptions::TIMEOUT => 0.01,
     ];
   }
 
