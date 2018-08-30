@@ -4,13 +4,11 @@ main:
   js:
     'js/load-vue-components.js': {}
   dependencies:
+    - vuejs/vue
     - contentpool_custom_elements/vue
 
 vue:
-  version: 2.5.16
   js:
-    'https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js':
-       type: external
     'https://drunomics.github.io/vue-lupus-paragraph-text/dist/main.js':
       type: external
     'https://drunomics.github.io/vue-lupus-paragraph-image/dist/main.js':

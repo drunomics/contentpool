@@ -1,5 +1,15 @@
 type: module
-name: Contentpool Custom elements
-description: 'Implements custom elements for Contentpool'
+name: Contentpool custom elements
+description: 'Adds default-styling for the custom-elements of thunder-paragraphs.'
 package: Contentpool
 core: '8.x'
+
+libraries:
+  vue:
+    installation: cdnjs
+    version: 2.5.17
+    minified: true
+
+dependencies:
+  - drupal/vuejs
+  - drupal/custom_elements

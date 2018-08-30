@@ -35,7 +35,7 @@
         "#2893029: StringTranslationTrait consumers cannot be reliably serialized without DependencySerializationTrait": "https://www.drupal.org/files/issues/2893029-full-fix-test-from-3.patch"
       },
       "drupal/custom_elements": {
-        "#2994894-3 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-08-27/2994894-3.patch"
+        "#2994894-5 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-08-29/2994894-5.patch"
       },
       "drupal/workspace": {
         "Removes workspace forms from toolbar to avoid disappearing.": "https://gist.githubusercontent.com/archnode/113e781c3673cacc76e2b8ea9fa47eea/raw/221b9b67f8f7d510883dede8943cb18a12c87b96/gistfile1.txt"
@@ -51,6 +51,8 @@
     "drupal/replication": "^1.0@beta",
     "drupal/relaxed": "^1.0@beta",
     "drunomics/service-utils": "*",
-    "drupal/workspace": "^1.0@beta"
+    "drupal/workspace": "^1.0@beta",
+    "drupal/custom_elements": "^1.0@beta",
+    "drupal/vuejs": "^1.0@beta"
   }
 }
