@@ -2,6 +2,7 @@
 
 namespace Drupal\contentpool_remote_register\Plugin\rest\resource;
 
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
@@ -87,12 +88,19 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
    *   Response.
    */
   public function get(Request $request) {
-    $entity_type = $request->query->get('entity_type');
+    $entity_type_id = $request->query->get('entity_type_id');
     $bundle = $request->query->get('bundle');
-
     $response_data = [];
 
-    $field_definitions = $this->entityFieldManager->getFieldDefinitions($entity_type, $bundle);
+    try {
+      $field_definitions = $this->entityFieldManager
+        ->getFieldDefinitions($entity_type_id, $bundle);
+    }
+    catch (PluginNotFoundException $e) {
+      $message = t('Plugin not found for entity_type_id: @entity_type_id and bundle: @bundle', ['@entity_type_id' => $entity_type_id, '@bundle' => $bundle]);
+      return new ModifiedResourceResponse($message, 404);
+    }
+
     /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $term_reference_fields */
     $term_reference_fields = array_filter($field_definitions, function (FieldDefinitionInterface $field_definition) {
       /** @var \Drupal\field\FieldStorageConfigInterface $storage_config */

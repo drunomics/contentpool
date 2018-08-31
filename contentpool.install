@@ -23,6 +23,7 @@ function contentpool_install() {
   // Extend the replicator role permissions as needed.
   $replicator = Role::load('replicator');
   $replicator->grantPermission('restful post contentpool:remote_registration');
+  $replicator->grantPermission('restful get contentpool:contentpool_term_reference_fields');
   $replicator->save();
 
   // Adjust redirect module to disable route normalizing.
