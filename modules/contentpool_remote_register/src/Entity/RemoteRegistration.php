@@ -109,6 +109,21 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
   /**
    * {@inheritdoc}
    */
+  public function getPushNotifications() {
+    return (bool) $this->get('push_notifications')->value;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setPushNotifications($push_notifications) {
+    $this->set('push_notifications', $push_notifications);
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
@@ -137,6 +152,12 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
         'text_processing' => 0,
       ])
       ->setRequired(TRUE);
+
+    $fields['push_notifications'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Push notifications'))
+      ->setDescription(t('Immediately push the content to the remote when updated.'))
+      ->setRequired(FALSE)
+      ->setDefaultValue(FALSE);
 
     $fields['site_uuid'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Site UUID'))

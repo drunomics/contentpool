@@ -21,15 +21,26 @@ function contentpool_remote_register_replicated_types() {
  * Implements hook_entity_insert().
  */
 function contentpool_remote_register_entity_insert(EntityInterface $entity) {
-  if (in_array($entity->getEntityTypeId(), contentpool_remote_register_replicated_types())) {
-    // For now deactivate auto-push until it is fully working.
-    // \Drupal::service('contentpool_remote_register.push_manager')->pushToRegisteredRemotes();
-  }
+  contentpool_remote_register_push_to_registered_remotes($entity);
 }
 
 /**
  * Implements hook_entity_update().
  */
 function contentpool_remote_register_entity_update(EntityInterface $entity) {
-  contentpool_remote_register_entity_insert($entity);
+  contentpool_remote_register_push_to_registered_remotes($entity);
+}
+
+/**
+ * Push entity to remotes which have the option `Push notifications` enabled.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   Entity.
+ */
+function contentpool_remote_register_push_to_registered_remotes(EntityInterface $entity) {
+  if (in_array($entity->getEntityTypeId(), contentpool_remote_register_replicated_types())) {
+    /** @var \Drupal\contentpool_remote_register\PushManagerInterface $push_manager */
+    $push_manager = \Drupal::service('contentpool_remote_register.push_manager');
+    $push_manager->pushToRegisteredRemotes();
+  }
 }

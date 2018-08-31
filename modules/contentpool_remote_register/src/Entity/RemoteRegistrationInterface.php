@@ -58,4 +58,20 @@ interface RemoteRegistrationInterface extends ContentEntityInterface, EntityChan
    */
   public function getEndpointUri();
 
+  /**
+   * Gets the configuration for push notifications.
+   *
+   * @return bool
+   *   Whether push notifications are enabled (TRUE) or disabled (FALSE).
+   */
+  public function getPushNotifications();
+
+  /**
+   * Sets the configuration for push notifications.
+   *
+   * @return static
+   *   The remote registration entity.
+   */
+  public function setPushNotifications($push_notifications);
+
 }
