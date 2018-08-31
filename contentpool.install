@@ -7,6 +7,8 @@
 
 use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Config\InstallStorage;
 
 /**
  * Install the contentpool installation profile.
@@ -32,4 +34,21 @@ function contentpool_install() {
     ->getEditable('redirect.settings')
     ->set('route_normalizer_enabled', FALSE)
     ->save();
+}
+
+/**
+ * Grant replicator permission on the term reference ressource.
+ */
+function contentpool_update_8001() {
+  // Add new configuration.
+  $module_handler = \Drupal::service('module_handler');
+  $config_path = $module_handler->getModule('contentpool_remote_register')->getPath() . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY;
+  $source = new FileStorage($config_path);
+  $config_storage = \Drupal::service('config.storage');
+  $config_storage->write('rest.resource.contentpool_term_reference_fields', $source->read('rest.resource.contentpool_term_reference_fields'));
+
+  // Extend the replicator role permissions as needed.
+  $replicator = Role::load('replicator');
+  $replicator->grantPermission('restful get contentpool:contentpool_term_reference_fields');
+  $replicator->save();
 }
