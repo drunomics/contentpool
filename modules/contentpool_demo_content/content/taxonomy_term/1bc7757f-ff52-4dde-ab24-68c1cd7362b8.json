@@ -1,16 +1,11 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/contentpool-project.localdev.space\/satellite1\/science?_format=hal_json"
+            "href": "http:\/\/contentpool-project.localdev.space\/science?_format=hal_json"
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/channel"
-        },
-        "http:\/\/drupal.org\/rest\/relation\/taxonomy_term\/channel\/parent": [
-            {
-                "href": "http:\/\/contentpool-project.localdev.space\/satellite1?_format=hal_json"
-            }
-        ]
+        }
     },
     "tid": [
         {
@@ -49,25 +44,6 @@
             "value": 0
         }
     ],
-    "_embedded": {
-        "http:\/\/drupal.org\/rest\/relation\/taxonomy_term\/channel\/parent": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/satellite1?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/channel"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "75378a2e-bbbf-4647-868c-e2998c49402e"
-                    }
-                ]
-            }
-        ]
-    },
     "changed": [
         {
             "value": "2018-08-13T13:14:08+00:00",
@@ -96,7 +72,7 @@
         {
             "value": {
                 "title": "Science | Drush Site-Install",
-                "canonical_url": "http:\/\/contentpool-project.localdev.space\/satellite1\/science"
+                "canonical_url": "http:\/\/contentpool-project.localdev.space\/science"
             }
         }
     ],
@@ -107,22 +83,16 @@
     ],
     "_rev": [
         {
-            "value": "1-ab1bdb61b0b2b8f7bc9e89b4d754ae87"
+            "value": "2-7934e112d881276284021a810994d89c"
         }
     ],
-    "path": [
-        {
-            "alias": "\/satellite1\/science",
-            "pid": 6,
-            "langcode": "en",
-            "lang": "en"
-        }
-    ],
+    "path": {
+        "alias": "\/science"
+    },
     "status": [
         {
             "value": true,
             "lang": "en"
         }
     ]
-
 }
