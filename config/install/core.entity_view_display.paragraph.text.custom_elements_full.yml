@@ -1,0 +1,27 @@
+uuid: 4b271cbd-2b42-4014-a2ef-c6caf0c6fd21
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.custom_elements_full
+    - field.field.paragraph.text.field_text
+    - paragraphs.paragraphs_type.text
+  module:
+    - text
+_core:
+  default_config_hash: P92YmE4PDkMfz12Vx0zg5TZ6rSyvI8QPzTXr2wplsWE
+id: paragraph.text.custom_elements_full
+targetEntityType: paragraph
+bundle: text
+mode: custom_elements_full
+content:
+  field_text:
+    type: text_default
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  uid: true

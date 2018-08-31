@@ -1,0 +1,27 @@
+uuid: f08a5ac5-285d-4ee2-845f-a671e7649565
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.custom_elements_full
+    - field.field.paragraph.gallery.field_media
+    - paragraphs.paragraphs_type.gallery
+_core:
+  default_config_hash: P6b4ZU9jyP9aiZ7GLEo4queMGHGVBBNtT5GBMimZ3Rg
+id: paragraph.gallery.custom_elements_full
+targetEntityType: paragraph
+bundle: gallery
+mode: custom_elements_full
+content:
+  field_media:
+    type: entity_reference_entity_view
+    weight: 0
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  uid: true
