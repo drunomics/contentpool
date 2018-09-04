@@ -3,3 +3,6 @@ name: Contentpool custom elements
 description: 'Adds default-styling for the custom-elements of thunder-paragraphs.'
 package: Contentpool
 core: '8.x'
+dependencies:
+  - custom_elements:custom_elements
+  - vuejs:vuejs

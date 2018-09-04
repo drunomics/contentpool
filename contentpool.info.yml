@@ -14,6 +14,7 @@ themes:
 dependencies:
   - relaxed:relaxed
   - workspace:workspace
+  - contentpool:contentpool_custom_elements
   - contentpool:contentpool_remote_register
   - contentpool:contentpool_normalization
   - contentpool_replication:contentpool_replication

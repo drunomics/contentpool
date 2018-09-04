@@ -1,13 +1,12 @@
 main:
-  version: 1.0.0
   css: {}
   js:
     'js/load-vue-components.js': {}
   dependencies:
     - vuejs/vue
-    - contentpool_custom_elements/vue
+    - contentpool_custom_elements/vue-lupus-paragraphs
 
-vue:
+vue-lupus-paragraphs:
   js:
     'https://drunomics.github.io/vue-lupus-paragraph-text/dist/main.js':
       type: external
