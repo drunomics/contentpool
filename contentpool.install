@@ -61,3 +61,16 @@ function contentpool_update_8001() {
   $replicator->grantPermission('restful get contentpool:contentpool_term_reference_fields');
   $replicator->save();
 }
+
+/**
+ * Add in custom config.
+ */
+function contentpool_update_8002() {
+  // Add our custom install configuration.
+  // @see config/custom-install/README.txt
+  $source = new FileStorage(__DIR__ . '/config/custom-install');
+  $config_storage = \Drupal::service('config.storage');
+  foreach ($source->listAll() as $config_name) {
+    $config_storage->write($config_name, $source->read($config_name));
+  }
+}
