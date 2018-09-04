@@ -1,4 +1,3 @@
-uuid: f2441e4b-c227-465f-8845-c56fcd790acc
 langcode: en
 status: true
 dependencies:
@@ -6,8 +5,6 @@ dependencies:
     - core.entity_view_mode.paragraph.custom_elements_full
     - field.field.paragraph.twitter.field_media
     - paragraphs.paragraphs_type.twitter
-_core:
-  default_config_hash: SHmCDIxwwGfQU4taDAiqZLBKbqPDS6puhYLq2yKDHUM
 id: paragraph.twitter.custom_elements_full
 targetEntityType: paragraph
 bundle: twitter

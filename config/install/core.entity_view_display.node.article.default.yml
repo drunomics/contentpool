@@ -1,4 +1,3 @@
-uuid: 9aa0d6dc-65f6-4b9a-865f-fedc51be6980
 langcode: en
 status: true
 dependencies:
@@ -15,8 +14,6 @@ dependencies:
     - empty_fields
     - entity_reference_revisions
     - user
-_core:
-  default_config_hash: IGE_nvsia8aFDINz5w9PaBeY_iVdQE3nIHbkyYazm9Q
 id: node.article.default
 targetEntityType: node
 bundle: article

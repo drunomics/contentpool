@@ -1,4 +1,3 @@
-uuid: 0c66587c-c0fc-45ab-a2ae-a65c0aa75aae
 langcode: en
 status: true
 dependencies:
@@ -8,8 +7,6 @@ dependencies:
     - paragraphs.paragraphs_type.pinterest
   module:
     - empty_fields
-_core:
-  default_config_hash: Miy7I7JBlA1vA6bjoJ-gYkAFhLI9yOuWGC6ueaZne_k
 id: paragraph.pinterest.custom_elements_full
 targetEntityType: paragraph
 bundle: pinterest
