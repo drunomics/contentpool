@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Update functions for the contentpool_remote_register module.
+ */
+
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Add the push_notifications field.
+ */
+function contentpool_remote_register_update_8001() {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  $push_notifications = BaseFieldDefinition::create('boolean')
+    ->setLabel(new TranslatableMarkup('Push notifications'))
+    ->setDescription(new TranslatableMarkup('Immediately push the content to the remote when updated.'))
+    ->setRequired(FALSE)
+    ->setDefaultValue(FALSE);
+
+  $definition_update_manager->installFieldStorageDefinition('push_notifications', 'remote_registration', 'contentpool_remote_register', $push_notifications);
+
+  $entity_type = $definition_update_manager->getEntityType('remote_registration');
+  \Drupal::database()->update($entity_type->getBaseTable())
+    ->fields(['push_notifications' => 0])
+    ->execute();
+}

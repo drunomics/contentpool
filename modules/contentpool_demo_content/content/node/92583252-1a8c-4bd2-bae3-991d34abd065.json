@@ -1,7 +1,7 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/contentpool-project.localdev.space\/vitro-meat-0?_format=hal_json"
+            "href": "http:\/\/contentpool-project.localdev.space\/lunar-eclipse?_format=hal_json"
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/node\/article"
@@ -19,7 +19,7 @@
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_channel": [
             {
-                "href": "http:\/\/contentpool-project.localdev.space\/food?_format=hal_json"
+                "href": "http:\/\/contentpool-project.localdev.space\/science?_format=hal_json"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_paragraphs": [
@@ -29,29 +29,29 @@
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_tags": [
             {
-                "href": "http:\/\/contentpool-project.localdev.space\/vitro-meat?_format=hal_json",
+                "href": "http:\/\/contentpool-project.localdev.space\/july?_format=hal_json",
                 "lang": "en"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_teaser_media": [
             {
-                "href": "http:\/\/contentpool-project.localdev.space\/media\/3?_format=hal_json"
+                "href": "http:\/\/contentpool-project.localdev.space\/media\/4?_format=hal_json"
             }
         ]
     },
     "nid": [
         {
-            "value": 3
+            "value": 4
         }
     ],
     "uuid": [
         {
-            "value": "f26b832a-1faf-4ec4-b190-c773875d41e0"
+            "value": "92583252-1a8c-4bd2-bae3-991d34abd065"
         }
     ],
     "vid": [
         {
-            "value": 3
+            "value": 5
         }
     ],
     "langcode": [
@@ -67,7 +67,7 @@
     ],
     "revision_timestamp": [
         {
-            "value": "2018-08-13T13:34:32+00:00",
+            "value": "2018-08-25T12:36:33+00:00",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
@@ -111,7 +111,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/food?_format=hal_json"
+                        "href": "http:\/\/contentpool-project.localdev.space\/science?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/channel"
@@ -119,11 +119,11 @@
                 },
                 "uuid": [
                     {
-                        "value": "e4da9222-c270-43b7-abb9-2f83b1ad8716"
+                        "value": "1bc7757f-ff52-4dde-ab24-68c1cd7362b8"
                     }
                 ],
                 "path": {
-                    "alias": "\/food"
+                    "alias": "\/science"
                 }
             }
         ],
@@ -139,17 +139,17 @@
                 },
                 "uuid": [
                     {
-                        "value": "7537806b-7158-420a-bd6d-1eeb94de18a8"
+                        "value": "bc276219-47ef-478c-a338-60458707c084"
                     }
                 ],
-                "target_revision_id": "6"
+                "target_revision_id": "5"
             }
         ],
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/field_tags": [
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/vitro-meat?_format=hal_json"
+                        "href": "http:\/\/contentpool-project.localdev.space\/july?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/tags"
@@ -157,11 +157,11 @@
                 },
                 "uuid": [
                     {
-                        "value": "5f84eca9-b623-46a7-8579-ca5532585823"
+                        "value": "158b81c1-0956-4d95-85b3-ba1a9fdbfba9"
                     }
                 ],
                 "path": {
-                    "alias": "\/vitro-meat"
+                    "alias": "\/july"
                 },
                 "lang": "en"
             }
@@ -170,7 +170,7 @@
             {
                 "_links": {
                     "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/media\/3?_format=hal_json"
+                        "href": "http:\/\/contentpool-project.localdev.space\/media\/4?_format=hal_json"
                     },
                     "type": {
                         "href": "http:\/\/drupal.org\/rest\/type\/media\/image"
@@ -178,7 +178,7 @@
                 },
                 "uuid": [
                     {
-                        "value": "f6bef54d-83a8-4dfb-a749-aa10e642ecd0"
+                        "value": "105753fc-964e-4e06-82a3-53f7af1d430a"
                     }
                 ]
             }
@@ -192,20 +192,20 @@
     ],
     "title": [
         {
-            "value": "Cultured meat",
+            "value": "Total lunar eclipse occurs in July 2018",
             "lang": "en"
         }
     ],
     "created": [
         {
-            "value": "2018-08-13T13:31:04+00:00",
+            "value": "2018-08-25T12:31:23+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
     "changed": [
         {
-            "value": "2018-08-25T12:55:37+00:00",
+            "value": "2018-08-25T12:36:33+00:00",
             "lang": "en",
             "format": "Y-m-d\\TH:i:sP"
         }
@@ -242,26 +242,26 @@
     "metatag": [
         {
             "value": {
-                "title": "in-vitro meat",
+                "title": "lunar-eclipse",
                 "content_language": "en",
                 "twitter_cards_type": "summary_large_image",
                 "robots": "index, follow",
                 "og_site_name": "Drush Site-Install",
                 "og_type": "article",
-                "twitter_cards_description": "Besides cultured meat and in vitro meat, the terms vat-grown[7] and lab-grown meat[8] have all been used by various outlets to describe the product.",
-                "description": "Besides cultured meat and in vitro meat, the terms vat-grown[7] and lab-grown meat[8] have all been used by various outlets to describe the product.",
-                "og_title": "in-vitro meat",
-                "image_src": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/2018-08\/first_cultured_hamburger_baked_2.png",
+                "twitter_cards_description": "On Friday\u2013Saturday \u2014depending on observer's timezone\u2014 a total lunar eclipse occurred as the Moon was in the shadow of the Earth. As normal during such an eclipse, the Moon became faint and turned completely red as bluer light was scattered by the Earth's atmosphere.",
+                "description": "On Friday\u2013Saturday \u2014depending on observer's timezone\u2014 a total lunar eclipse occurred as the Moon was in the shadow of the Earth. As normal during such an eclipse, the Moon became faint and turned completely red as bluer light was scattered by the Earth's atmosphere.",
+                "og_title": "lunar-eclipse",
+                "image_src": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/2018-08\/1280px-20180728_06-07_chelsea_total_lunar_eclipse_10.jpg",
                 "referrer": "no-referrer",
-                "og_description": "Besides cultured meat and in vitro meat, the terms vat-grown[7] and lab-grown meat[8] have all been used by various outlets to describe the product.",
+                "og_description": "On Friday\u2013Saturday \u2014depending on observer's timezone\u2014 a total lunar eclipse occurred as the Moon was in the shadow of the Earth. As normal during such an eclipse, the Moon became faint and turned completely red as bluer light was scattered by the Earth's atmosphere.",
                 "twitter_cards_image_width": "1024",
                 "twitter_cards_image_height": "512",
-                "twitter_cards_image": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/styles\/twitter\/public\/2018-08\/first_cultured_hamburger_baked_2.png?itok=kysNMEDZ",
-                "og_image": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/styles\/facebook\/public\/2018-08\/first_cultured_hamburger_baked_2.png?itok=pJf1tRr8",
-                "og_image_type": "image\/png",
+                "twitter_cards_image": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/styles\/twitter\/public\/2018-08\/1280px-20180728_06-07_chelsea_total_lunar_eclipse_10.jpg?h=29234840&amp;itok=-iHbIEW1",
+                "og_image": "http:\/\/contentpool-project.localdev.space\/sites\/default\/files\/styles\/facebook\/public\/2018-08\/1280px-20180728_06-07_chelsea_total_lunar_eclipse_10.jpg?h=29234840&amp;itok=qKlgQLre",
+                "og_image_type": "image\/jpeg",
                 "og_image_width": "1200",
                 "og_image_height": "630",
-                "og_updated_time": "2018-08-25T14:55:37+0200"
+                "og_updated_time": "2018-08-25T14:36:33+0200"
             }
         }
     ],
@@ -272,20 +272,20 @@
     ],
     "_rev": [
         {
-            "value": "2-fb141087a19aa821bcc152641bb7130e"
+            "value": "2-c699111fb49efea131fed0d1903afa3e"
         }
     ],
     "path": {
-        "alias": "\/vitro-meat-0"
+        "alias": "\/lunar-eclipse"
     },
     "field_seo_title": [
         {
-            "value": "in-vitro meat"
+            "value": "lunar-eclipse"
         }
     ],
     "field_teaser_text": [
         {
-            "value": "Besides cultured meat and in vitro meat, the terms vat-grown[7] and lab-grown meat[8] have all been used by various outlets to describe the product. "
+            "value": "On Friday\u2013Saturday \u2014depending on observer's timezone\u2014 a total lunar eclipse occurred as the Moon was in the shadow of the Earth. As normal during such an eclipse, the Moon became faint and turned completely red as bluer light was scattered by the Earth's atmosphere. "
         }
     ]
 }

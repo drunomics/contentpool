@@ -1,16 +1,11 @@
 {
     "_links": {
         "self": {
-            "href": "http:\/\/contentpool-project.localdev.space\/satellite2\/food?_format=hal_json"
+            "href": "http:\/\/contentpool-project.localdev.space\/food?_format=hal_json"
         },
         "type": {
             "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/channel"
-        },
-        "http:\/\/drupal.org\/rest\/relation\/taxonomy_term\/channel\/parent": [
-            {
-                "href": "http:\/\/contentpool-project.localdev.space\/satellite2?_format=hal_json"
-            }
-        ]
+        }
     },
     "tid": [
         {
@@ -49,25 +44,6 @@
             "value": 0
         }
     ],
-    "_embedded": {
-        "http:\/\/drupal.org\/rest\/relation\/taxonomy_term\/channel\/parent": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http:\/\/contentpool-project.localdev.space\/satellite2?_format=hal_json"
-                    },
-                    "type": {
-                        "href": "http:\/\/drupal.org\/rest\/type\/taxonomy_term\/channel"
-                    }
-                },
-                "uuid": [
-                    {
-                        "value": "719eac1e-ecfa-49af-9e6f-2f6bb7458b36"
-                    }
-                ]
-            }
-        ]
-    },
     "changed": [
         {
             "value": "2018-08-13T13:14:36+00:00",
@@ -96,7 +72,7 @@
         {
             "value": {
                 "title": "Food | Drush Site-Install",
-                "canonical_url": "http:\/\/contentpool-project.localdev.space\/satellite2\/food"
+                "canonical_url": "http:\/\/contentpool-project.localdev.space\/food"
             }
         }
     ],
@@ -107,22 +83,16 @@
     ],
     "_rev": [
         {
-            "value": "1-bf8bffd455d84cb46083f3f0f4fd0639"
+            "value": "2-04c7efa5743c233091564bd80f962814"
         }
     ],
-    "path": [
-        {
-            "alias": "\/satellite2\/food",
-            "pid": 9,
-            "langcode": "en",
-            "lang": "en"
-        }
-    ],
+    "path": {
+        "alias": "\/food"
+    },
     "status": [
         {
             "value": true,
             "lang": "en"
         }
     ]
-
 }
