@@ -1,0 +1,15 @@
+libraries:
+  vue:
+    installation: cdnjs
+    version: 2.5.17
+    minified: true
+  vue_router:
+    installation: cdnjs
+    version: 2.0.0
+    minified: true
+  vue_resource:
+    installation: cdnjs
+    version: 1.0.3
+    minified: true
+_core:
+  default_config_hash: j6JACH8kBlifW1z3WTObUzJ_p__XSfOexLzOTDMGk08

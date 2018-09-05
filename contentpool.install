@@ -5,9 +5,9 @@
  * Install file.
  */
 
+use Drupal\Core\Config\FileStorage;
 use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
-use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Config\InstallStorage;
 
 /**
@@ -34,6 +34,14 @@ function contentpool_install() {
     ->getEditable('redirect.settings')
     ->set('route_normalizer_enabled', FALSE)
     ->save();
+
+  // Add our custom install configuration.
+  // @see config/custom-install/README.txt
+  $source = new FileStorage(__DIR__ . '/config/custom-install');
+  $config_storage = \Drupal::service('config.storage');
+  foreach ($source->listAll() as $config_name) {
+    $config_storage->write($config_name, $source->read($config_name));
+  }
 }
 
 /**
@@ -51,4 +59,17 @@ function contentpool_update_8001() {
   $replicator = Role::load('replicator');
   $replicator->grantPermission('restful get contentpool:contentpool_term_reference_fields');
   $replicator->save();
+}
+
+/**
+ * Add in custom config.
+ */
+function contentpool_update_8002() {
+  // Add our custom install configuration.
+  // @see config/custom-install/README.txt
+  $source = new FileStorage(__DIR__ . '/config/custom-install');
+  $config_storage = \Drupal::service('config.storage');
+  foreach ($source->listAll() as $config_name) {
+    $config_storage->write($config_name, $source->read($config_name));
+  }
 }
