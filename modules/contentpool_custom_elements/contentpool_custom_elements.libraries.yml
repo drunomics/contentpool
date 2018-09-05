@@ -8,21 +8,21 @@ main:
 
 vue-lupus-paragraphs:
   js:
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-text/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-text/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-image/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-image/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-instagram/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-instagram/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-gallery/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-gallery/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-pinterest/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-pinterest/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-quote/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-quote/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-twitter/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-twitter/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-link/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-link/0.1.0/dist/main.js':
       type: external
-    'http://rawgit.com/drunomics/vue-lupus-paragraph-video/0.1.0/dist/main.js':
+    'https://rawgit.com/drunomics/vue-lupus-paragraph-video/0.1.0/dist/main.js':
       type: external
