@@ -48,7 +48,7 @@
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
     "drupal/relaxed": "^1.0@beta",
-    "drupal/trusted_redirect": "^1.1",
+    "drupal/trusted_redirect": "^1.2",
     "drupal/workspace": "^1.0@beta"
   }
 }
