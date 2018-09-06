@@ -31,8 +31,7 @@
     },
     "patches": {
       "drupal/core": {
-        "#1356276-417: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/drupal-n1356276-417-d8.5.%2A.patch",
-        "#2893029: StringTranslationTrait consumers cannot be reliably serialized without DependencySerializationTrait": "https://www.drupal.org/files/issues/2893029-full-fix-test-from-3.patch"
+        "#1356276-473: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-07-12/1356276-473.patch"
       },
       "drupal/custom_elements": {
         "#2994894-5 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-08-29/2994894-5.patch"
