@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.custom_elements_full
+label: 'Custom elements full'
+targetEntityType: paragraph
+cache: true
