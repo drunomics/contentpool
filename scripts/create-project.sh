@@ -7,7 +7,7 @@ source ./scripts/util/per-branch-env.sh
 
 [ ! -d ../contentpool-project ] || (echo "Old project is still existing, please remove ../contentpool-project." && exit 1)
 
-phapp create --template=drunomics/drupal-project contentpool-project ../contentpool-project --no-interaction
+composer create-project drunomics/drupal-project:* --no-install --no-interaction ../contentpool-project
 
 INSTALL_PROFILE_DIR=`basename $PWD`
 source scripts/util/get-branch.sh
