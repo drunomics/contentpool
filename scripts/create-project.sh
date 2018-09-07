@@ -4,6 +4,7 @@ cd `dirname $0`/..
 
 source ./scripts/util/per-branch-env.sh
 ./scripts/util/install-phapp.sh
+export COMPOSER_MEMORY_LIMIT=-1
 
 [ ! -d ../contentpool-project ] || (echo "Old project is still existing, please remove ../contentpool-project." && exit 1)
 
