@@ -19,3 +19,4 @@ dependencies:
   - contentpool:contentpool_normalization
   - contentpool_replication:contentpool_replication
   - trusted_redirect:trusted_redirect
+  - trusted_redirect:trusted_redirect_entity_edit
