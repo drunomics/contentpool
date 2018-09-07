@@ -44,3 +44,20 @@ function contentpool_remote_register_push_to_registered_remotes(EntityInterface 
     $push_manager->pushToRegisteredRemotes();
   }
 }
+
+/**
+ * Implements hook_trusted_redirect_hosts_alter().
+ *
+ * Add automatically all remote registrations to the trusted hosts.
+ */
+function contentpool_remote_register_trusted_redirect_hosts_alter(array &$trusted_hosts) {
+  /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistration[] $remote_registrations */
+  $remote_registrations = \Drupal::entityTypeManager()->getStorage('remote_registration')->loadByProperties();
+  foreach ($remote_registrations as $remote_registration) {
+    $url = $remote_registration->getUrl();
+    $url_parts = parse_url($url);
+    if (isset($url_parts['host'])) {
+      $trusted_hosts[] = $url_parts['host'];
+    }
+  }
+}
