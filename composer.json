@@ -45,6 +45,7 @@
   "require": {
     "burdamagazinorg/thunder": "^8.2.16",
     "cweagans/composer-patches": "~1.0",
+    "drupal/core": "8.5.*",
     "drupal/default_content": "^1.0@alpha",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
