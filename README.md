@@ -15,6 +15,11 @@ need a drupal project for installing it. Refer to "Installation" for details.
 
 The distribution is in early development stages, but basically working already. Stayed tuned!
 
+## Workflow, Issues
+
+Please file issues the drupal.org issue tracker at https://www.drupal.org/project/issues/contentpool.
+For suggested code changes, please submit pull requests (PRs) to the respective github repo and link them from your drupal.org issue.
+
 ## Installation
 
 ### Quick installation
