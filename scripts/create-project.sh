@@ -9,6 +9,7 @@ export COMPOSER_MEMORY_LIMIT=-1
 [ ! -d ../contentpool-project ] || (echo "Old project is still existing, please remove ../contentpool-project." && exit 1)
 
 composer create-project drunomics/drupal-project:* --no-install --no-interaction ../contentpool-project
+composer require webflo/drupal-core-strict:8.5.* --no-update
 
 INSTALL_PROFILE_DIR=`basename $PWD`
 source scripts/util/get-branch.sh
