@@ -3,5 +3,5 @@ description: 'Enables sites to register themselves with this site as a replicati
 core: 8.x
 dependencies:
   - drupal:rest
-  - relaxedws:relaxedws
+  - relaxed:relaxed
 type: module
