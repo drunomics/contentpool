@@ -50,6 +50,7 @@
     "drupal/file_entity": "^2.0@beta",
     "drunomics/contentpool_replication": "^1.0.3",
     "drupal/relaxed": "^1.0@beta",
+    "drupal/multiversion": "dev-8.x-1.x#02d4f7b",
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta",
     "drupal/custom_elements": "^1.0@beta",

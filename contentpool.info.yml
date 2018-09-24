@@ -5,21 +5,20 @@ core: 8.x
 distribution:
   name: 'Contentpool'
 
-base profile:
-  name: thunder
-  excluded_dependencies: []
-  excluded_themes: []
+base profile: thunder
 
 dependencies:
-  - relaxed:relaxed
-  - workspace:workspace
-  - contentpool:contentpool_custom_elements
-  - contentpool:contentpool_remote_register
-  - contentpool:contentpool_normalization
-  - contentpool_replication:contentpool_replication
-  - trusted_redirect:trusted_redirect
-  - trusted_redirect:trusted_redirect_entity_edit
+  - relaxed
+  - workspace
+  - contentpool_custom_elements
+  - contentpool_remote_register
+  - contentpool_normalization
+  - contentpool_replication
+
+install:
+  - trusted_redirect
+  - trusted_redirect_entity_edit
 
 themes:
-- thunder_base
-- thunder_admin
+  - thunder_base
+  - thunder_admin
