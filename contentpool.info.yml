@@ -4,12 +4,11 @@ description: 'Drupal contentpool based upon Thunder.'
 core: 8.x
 distribution:
   name: 'Contentpool'
-themes:
-  - thunder_base
-  - thunder_admin
-'base profile':
+
+base profile:
   name: thunder
   excluded_dependencies: []
+  excluded_themes: []
 
 dependencies:
   - relaxed:relaxed
@@ -20,3 +19,7 @@ dependencies:
   - contentpool_replication:contentpool_replication
   - trusted_redirect:trusted_redirect
   - trusted_redirect:trusted_redirect_entity_edit
+
+themes:
+- thunder_base
+- thunder_admin
