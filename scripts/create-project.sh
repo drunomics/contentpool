@@ -15,7 +15,6 @@ source scripts/util/get-branch.sh
 
 echo "Adding distribution..."
 cd ../contentpool-project
-composer require webflo/drupal-core-strict:^8.5.6 --no-update
 composer config repositories.self vcs ../$INSTALL_PROFILE_DIR
 composer require drunomics/contentpool:"dev-$GIT_CURRENT_BRANCH"
 
