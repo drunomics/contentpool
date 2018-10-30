@@ -16,3 +16,9 @@ docker-compose exec web drush en contentpool_demo_content -y
 
 # Add replicator password for testing purposes.
 docker-compose exec web drush upwd replicator changeme
+
+# Make sure files private folder exists.
+mkdir -p web/sites/default/files-private
+
+# Make sure files folder have proper permissions.
+chgrp -R www-data web/sites/default/files*
