@@ -64,10 +64,19 @@ script:
   - curl -N http://contentpool-project.localdev.space | grep  "Drupal 8" -q
   # Make sure we have proper file permissions before running tests.
   - mkdir -p ../contentpool-project/web/sites/default/files-private
-  - sudo chgrp -R www-data ../contentpool-project/web/sites/default/files*
+  - sudo chgrp -R www-data ../contentpool-project/web/sites/default/files/
+  - sudo chgrp -R www-data ../contentpool-project/web/sites/default/files-private/
+  # Clear the so the resources (image styles, css, js) are rebuilt.
+  - source ../contentpool-project/dotenv/loader.sh && COMPOSE_FILE=./scripts/devsetup-docker/docker-compose.yml docker-compose exec web drush cr
+  # Run the tests.
   - ./scripts/run-tests.sh
   # Ensure replication is still working with the current pool instance.
   - ./scripts/launch-satellite.sh
+  # Make sure we have proper file permissions before running tests.
+  - mkdir -p ../satellite-project/web/sites/default/files-private
+  - sudo chgrp -R www-data ../satellite-project/web/sites/default/files/
+  - sudo chgrp -R www-data ../satellite-project/web/sites/default/files-private/
+  # Run the tests.
   - ../contentpool-client/scripts/run-tests.sh
 
 after_success:
