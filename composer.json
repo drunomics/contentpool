@@ -54,7 +54,7 @@
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta",
     "drupal/custom_elements": "^1.0@beta",
-    "drupal/trusted_redirect": "^1.0@dev",
+    "drupal/trusted_redirect": "^1.5",
     "drupal/vuejs": "^1.0@beta"
   }
 }
