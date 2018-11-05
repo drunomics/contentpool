@@ -3,6 +3,7 @@
 namespace Drupal\contentpool_remote_register\Plugin\rest\resource;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\MapFieldItemList;
 use Drupal\relaxed\SensitiveDataTransformer;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
@@ -114,6 +115,7 @@ class RemoteRegistrationResource extends ResourceBase {
       $remote_registration->set('site_uuid', $data['site_uuid']);
       $remote_registration->set('url', $data['site_domain']);
       $remote_registration->set('endpoint_uri', $encoded_uri);
+      $remote_registration->set('replication_filters', $data['replication_filters'] ?? []);
       $status_code = 201;
       $remote_registration->save();
     }
@@ -121,10 +123,22 @@ class RemoteRegistrationResource extends ResourceBase {
       /* @var \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration */
       $remote_registration = reset($remote_registrations);
       $status_code = 200;
-      // Update data if something changed.
+      $update = FALSE;
+      // Check if endpoint has changed.
       if ($remote_registration->getEndpointUri() != $encoded_uri) {
         $remote_registration->set('name', $data['site_name']);
         $remote_registration->set('endpoint_uri', $encoded_uri);
+        $update = TRUE;
+      }
+      // Check if replication filters have changed.
+      $new_replication_filters = new MapFieldItemList($remote_registration->getFieldDefinition('replication_filters'));
+      $new_replication_filters->setValue($data['replication_filters'] ?? []);
+      if (!$new_replication_filters->equals($remote_registration->get('replication_filters'))) {
+        $remote_registration->set('replication_filters', $data['replication_filters']);
+        $update = TRUE;
+      }
+      // Update if something has changed.
+      if ($update) {
         $remote_registration->save();
       }
     }
