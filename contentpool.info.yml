@@ -18,5 +18,6 @@ dependencies:
   - contentpool:contentpool_remote_register
   - contentpool:contentpool_normalization
   - contentpool_replication:contentpool_replication
+  - markup_field:markup_field
   - trusted_redirect:trusted_redirect
   - trusted_redirect:trusted_redirect_entity_edit
