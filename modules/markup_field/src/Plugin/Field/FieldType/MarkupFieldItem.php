@@ -23,7 +23,8 @@ use Drupal\field\FieldConfigInterface;
  *   id = "markup_field",
  *   label = @Translation("Markup field"),
  *   description = @Translation("Rendered output."),
- *   default_formatter = "rendered_markup"
+ *   default_formatter = "rendered_markup",
+ *   category = @Translation("Field"),
  * )
  */
 class MarkupFieldItem extends FieldItemBase {
@@ -57,6 +58,13 @@ class MarkupFieldItem extends FieldItemBase {
   protected $libraryDependencyResolver;
 
   /**
+   * The CSS asset collection renderer service.
+   *
+   * @var \Drupal\Core\Asset\AssetCollectionRendererInterface
+   */
+  protected $cssCollectionRenderer;
+
+  /**
    * The JS asset collection renderer service.
    *
    * @var \Drupal\Core\Asset\AssetCollectionRendererInterface
@@ -73,12 +81,13 @@ class MarkupFieldItem extends FieldItemBase {
   /**
    * {@inheritdoc}
    */
-  public function __construct($definition, $name, TraversableTypedDataInterface $parent, EntityFieldManagerInterface $entity_field_manager, RendererInterface $renderer, LibraryDiscoveryInterface $library_discovery, LibraryDependencyResolverInterface $library_dependency_resolver, AssetCollectionRendererInterface $js_collection_renderer, State $state) {
+  public function __construct($definition, $name, TraversableTypedDataInterface $parent, EntityFieldManagerInterface $entity_field_manager, RendererInterface $renderer, LibraryDiscoveryInterface $library_discovery, LibraryDependencyResolverInterface $library_dependency_resolver, AssetCollectionRendererInterface $css_collection_renderer, AssetCollectionRendererInterface $js_collection_renderer, State $state) {
     parent::__construct($definition, $name, $parent);
     $this->entityFieldManager = $entity_field_manager;
     $this->renderer = $renderer;
     $this->libraryDiscovery = $library_discovery;
     $this->libraryDependencyResolver = $library_dependency_resolver;
+    $this->cssCollectionRenderer = $css_collection_renderer;
     $this->jsCollectionRenderer = $js_collection_renderer;
     $this->state = $state;
   }
@@ -96,6 +105,7 @@ class MarkupFieldItem extends FieldItemBase {
       \Drupal::service('library.discovery'),
       \Drupal::service('library.dependency_resolver'),
       \Drupal::service('asset.js.collection_renderer'),
+      \Drupal::service('asset.css.collection_renderer'),
       \Drupal::service('state')
     );
   }
@@ -179,72 +189,82 @@ class MarkupFieldItem extends FieldItemBase {
   /**
    * Get assets.
    *
+   * @param array $libraries
+   *   List of libraries.
+   *
    * @return array
    *   Assets build.
    */
-  public function getAssets() {
-    $javascript = [];
-    $libraries_to_load = $this->libraryDependencyResolver
-      ->getLibrariesWithDependencies(['custom_elements/main']);
-
-    foreach ($libraries_to_load as $library) {
+  public function getAssetsFromLibraries(array $libraries) {
+    $assets = ['css' => [], 'js' => []];
+    foreach ($libraries as $library) {
       list($extension, $name) = explode('/', $library, 2);
-      $definition = $this->libraryDiscovery->getLibraryByName($extension, $name);
-      foreach ($definition['js'] as $options) {
-        $options += [
-          'type' => 'file',
-          'group' => JS_DEFAULT,
-          'weight' => 0,
-          'cache' => TRUE,
-          'preprocess' => TRUE,
-          'attributes' => [],
-          'version' => NULL,
-          'browsers' => [],
-        ];
-
-        // Make sure js files get absolute URLs by treating them as external
-        // URLs.
-        if ($options['type'] == 'file') {
-          $default_query_string = $this->state->get('system.css_js_query_string') ?: '0';
-          $query_string = $options['version'] == -1 ? $default_query_string : 'v=' . $options['version'];
-          $query_string_separator = (strpos($options['data'], '?') !== FALSE) ? '&' : '?';
-          $options['data'] = file_create_url($options['data']);
-          $options['data'] .= $query_string_separator . ($options['cache'] ? $query_string : REQUEST_TIME);
-          $options['type'] = 'external';
+      $definitions = $this->libraryDiscovery->getLibraryByName($extension, $name);
+      foreach ($definitions as $type => $definition) {
+        // Support css and js assets.
+        if ($type != 'css' && $type != 'js') {
+          continue;
         }
+        foreach ($definition as $options) {
+          $options += [
+            'type' => 'file',
+            'group' => ($type == 'js') ? JS_DEFAULT : CSS_AGGREGATE_DEFAULT,
+            'weight' => 0,
+            'cache' => TRUE,
+            'preprocess' => TRUE,
+            'attributes' => [],
+            'version' => NULL,
+            'browsers' => [],
+          ];
 
-        // Always add a tiny value to the weight, to conserve the insertion
-        // order.
-        $options['weight'] += count($definition['js']) / 1000;
+          // Make sure files get absolute URLs by treating them as external
+          // URLs.
+          if ($options['type'] == 'file') {
+            $default_query_string = $this->state->get('system.css_js_query_string') ?: '0';
+            $query_string = $options['version'] == -1 ? $default_query_string : 'v=' . $options['version'];
+            $query_string_separator = (strpos($options['data'], '?') !== FALSE) ? '&' : '?';
+            $options['data'] = file_create_url($options['data']);
+            $options['data'] .= $query_string_separator . ($options['cache'] ? $query_string : REQUEST_TIME);
+            $options['type'] = 'external';
+          }
 
-        // Local and external files must keep their name as the associative
-        // key so the same JavaScript file is not added twice.
-        $javascript[$options['data']] = $options;
+          // Always add a tiny value to the weight, to conserve the insertion
+          // order.
+          $options['weight'] += count($definition) / 1000;
+
+          // Local and external files must keep their name as the associative
+          // key so the same JavaScript file is not added twice.
+          $assets[$type][$options['data']] = $options;
+        }
       }
     }
-    return $this->jsCollectionRenderer->render($javascript);
+    $css_assets = $this->cssCollectionRenderer->render($assets['css']);
+    $js_assets = $this->jsCollectionRenderer->render($assets['js']);
+    return array_merge($css_assets, $js_assets);
   }
 
   /**
    * {@inheritdoc}
    */
   public function preSave() {
-    if (empty($this->locked)) {
-      // Prepare field build.
-      $field_build = [];
-      $entity = $this->getEntity();
-      $field = $this->getSetting('field');
-      if ($field && isset($entity->{$field}) && $entity->{$field}->getValue()) {
-        $field_build = $entity->{$field}->view('node.full');
-      }
-      $this->value = (string) $this->renderer->renderPlain($field_build);
-      // Prepare assets.
-      // Attach assets. For now just, append them.
-      // Also see \Drupal\Core\Asset\AssetResolver::getJsAssets()
-      $assets_build = ['assets' => $this->getAssets()];
-      $this->assets = (string) $this->renderer->renderPlain($assets_build);
+    // Prepare field build.
+    $field_build = [];
+    $entity = $this->getEntity();
+    $field = $this->getSetting('field');
+    if ($field && isset($entity->{$field}) && $entity->{$field}->getValue()) {
+      $field_build = $entity->{$field}->view('node.full');
+    }
+    $this->value = (string) $this->renderer->renderPlain($field_build);
+    // Prepare assets if there are any.
+    if (!empty($field_build['#attached']['library'])) {
+      $assets_build = $this->getAssetsFromLibraries($field_build['#attached']['library']);
+      $this->assets = $assets_build;
     }
     parent::preSave();
+  }
+
+  public function isEmpty() {
+    return FALSE;
   }
 
   /**
