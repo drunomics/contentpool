@@ -3,10 +3,12 @@
 namespace Drupal\contentpool_remote_register;
 
 use Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\relaxed\SensitiveDataTransformer;
+use Drupal\replication\Plugin\ReplicationFilterManagerInterface;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\RequestOptions;
@@ -52,6 +54,13 @@ class PushManager implements PushManagerInterface {
   protected $sensitiveDataTransformer;
 
   /**
+   * The replication filter manager.
+   *
+   * @var \Drupal\replication\Plugin\ReplicationFilterManagerInterface
+   */
+  protected $replicationFilterManager;
+
+  /**
    * The Messenger service.
    *
    * @var \Drupal\Core\Messenger\MessengerInterface
@@ -83,6 +92,8 @@ class PushManager implements PushManagerInterface {
    *   The http client.
    * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
    *   The data transformer.
+   * @param \Drupal\replication\Plugin\ReplicationFilterManagerInterface $filter_manager
+   *   The replication filter manager.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -90,10 +101,11 @@ class PushManager implements PushManagerInterface {
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The config factory service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, MessengerInterface $messenger, ConfigFactoryInterface $config_factory, LoggerChannelFactoryInterface $logger_factory) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, Serializer $serializer, ClientInterface $http_client, SensitiveDataTransformer $sensitive_data_transformer, ReplicationFilterManagerInterface $replication_filter_manager, MessengerInterface $messenger, ConfigFactoryInterface $config_factory, LoggerChannelFactoryInterface $logger_factory) {
     $this->entityTypeManager = $entity_type_manager;
     $this->httpClient = $http_client;
     $this->sensitiveDataTransformer = $sensitive_data_transformer;
+    $this->replicationFilterManager = $replication_filter_manager;
     $this->messenger = $messenger;
     $this->serializer = $serializer;
     $this->configFactory = $config_factory;
@@ -101,9 +113,37 @@ class PushManager implements PushManagerInterface {
   }
 
   /**
+   * Wheter remote applies for given entity.
+   *
+   * Checks respect all replication filters set by current remote to evaluate
+   * if given remote applies for replication of given entity.
+   *
+   * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration
+   *   The remote registration entity.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   *
+   * @return bool
+   *   Whether remote applies to replicate current entity.
+   */
+  protected function remoteAppliesForEntity(RemoteRegistrationInterface $remote_registration, EntityInterface $entity) {
+    $replication_filters = $remote_registration->replication_filters;
+    $replication_filter_id = $replication_filters->filter_id;
+    if (!$replication_filter_id) {
+      return FALSE;
+    }
+    $replication_parameters = $replication_filters->parameters;
+    if (!$replication_parameters) {
+      return FALSE;
+    }
+    $replication_filter = $this->replicationFilterManager->createInstance($replication_filter_id, $replication_parameters);
+    return $replication_filter->filter($entity);
+  }
+
+  /**
    * {@inheritdoc}
    */
-  public function pushToRegisteredRemotes() {
+  public function pushToRegisteredRemotes(EntityInterface $entity = NULL) {
     /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistration[] $remote_registrations */
     $remote_registrations = $this->entityTypeManager->getStorage('remote_registration')->loadByProperties(['push_notifications' => TRUE]);
 
@@ -113,6 +153,14 @@ class PushManager implements PushManagerInterface {
 
     // Initialize concurrent requests to pull at the remotes.
     foreach ($remote_registrations as $remote_registration) {
+      // If entity is given, evaluate pull only if remote applies to replicate
+      // given entity.
+      if ($entity) {
+        // If remote does not apply for entity, do not trigger pull.
+        if (!$this->remoteAppliesForEntity($remote_registration, $entity)) {
+          continue;
+        }
+      }
       $promises[] = $this->triggerPullAtRemote($remote_registration, TRUE);
       $counter++;
     }
