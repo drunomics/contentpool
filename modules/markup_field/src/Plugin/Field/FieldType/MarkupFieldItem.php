@@ -26,7 +26,7 @@ class MarkupFieldItem extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     $properties['value'] = DataDefinition::create('string')
       ->setLabel(t('Field markup'));
-    $properties['assets'] = MapDataDefinition::create()
+    $properties['assets'] = DataDefinition::create('any')
       ->setLabel(t('Assets'));
     return $properties;
   }
@@ -54,46 +54,6 @@ class MarkupFieldItem extends FieldItemBase {
         ],
       ],
     ];
-  }
-
-  /**
-   * Gets rendered markup.
-   *
-   * @return string
-   *   Rendered markup.
-   */
-  public function getMarkup() {
-    return $this->value ?? '';
-  }
-
-  /**
-   * Gets render array for attaching assets.
-   *
-   * @return array
-   *   Render array for attaching assets.
-   */
-  public function getAssets() {
-    return $this->assets ?? [];
-  }
-
-  /**
-   * Sets rendered markup.
-   *
-   * @$value string
-   *   Rendered markup.
-   */
-  public function setMarkup($markup) {
-    $this->value = $markup;
-  }
-
-  /**
-   * Sets render array for attaching assets.
-   *
-   * @return array
-   *   Render array for attaching assets.
-   */
-  public function setAssets($assets) {
-    return $this->assets = $assets;
   }
 
 }
