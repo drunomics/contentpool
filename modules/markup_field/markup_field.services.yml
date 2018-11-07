@@ -1,6 +1,0 @@
-services:
-  markup_field.normalizer.markup_field_item.hal:
-   class: Drupal\markup_field\Normalizer\MarkupFieldItemNormalizer
-   tags:
-     # Priority must be higher than serializer.normalizer.field_item.hal.
-     - { name: normalizer, priority: 100 }
