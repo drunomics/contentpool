@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Plugin for Ingredient formatter.
  *
  * @FieldFormatter(
- *   id = "rendered_markup",
+ *   id = "markup_field_rendered_markup",
  *   label = @Translation("Rendered markup"),
  *   field_types = {
  *     "markup_field"

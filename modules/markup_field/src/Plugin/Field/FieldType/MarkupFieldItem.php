@@ -23,7 +23,7 @@ use Drupal\field\FieldConfigInterface;
  *   id = "markup_field",
  *   label = @Translation("Markup field"),
  *   description = @Translation("Rendered output."),
- *   default_formatter = "rendered_markup",
+ *   default_formatter = "markup_field_rendered_markup",
  *   category = @Translation("Field"),
  * )
  */
