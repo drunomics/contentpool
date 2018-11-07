@@ -127,12 +127,14 @@ class MarkupFieldItem extends FieldItemBase {
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     return [
       'columns' => [
+        // Rendered html markup of given field.
         'value' => [
           'description' => 'Field markup.',
           'type' => 'blob',
           'size' => 'big',
           'not null' => FALSE,
         ],
+        // Assets array in the format as taken by #attached render arrays.
         'assets' => [
           'description' => 'Assets required to properly render markup.',
           'type' => 'blob',
