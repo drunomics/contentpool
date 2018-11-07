@@ -29,8 +29,8 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
     }
     /** @var \Drupal\Core\Render\Renderer $renderer */
     $renderer = \Drupal::service('renderer');
-    $value = (string) $renderer->renderPlain($field_build);
-    $entity->field_paragraphs_markup->value = $value;
+    $markup = (string) $renderer->renderPlain($field_build);
+    $entity->field_paragraphs_markup->markup = $markup;
 
     // Prepare assets array.
     $assets = [];

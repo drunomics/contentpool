@@ -5,7 +5,6 @@ namespace Drupal\markup_field\Plugin\Field\FieldType;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\TypedData\DataDefinition;
-use Drupal\Core\TypedData\MapDataDefinition;
 
 /**
  * Defines the 'markup' field type.
@@ -14,6 +13,7 @@ use Drupal\Core\TypedData\MapDataDefinition;
  *   id = "markup_field",
  *   label = @Translation("Markup field"),
  *   description = @Translation("Rendered output."),
+ *   no_ui = TRUE,
  *   default_formatter = "markup_field_rendered_markup",
  *   category = @Translation("Field"),
  * )
@@ -24,7 +24,7 @@ class MarkupFieldItem extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    $properties['value'] = DataDefinition::create('string')
+    $properties['markup'] = DataDefinition::create('string')
       ->setLabel(t('Field markup'));
     $properties['assets'] = DataDefinition::create('any')
       ->setLabel(t('Assets'));
@@ -38,18 +38,17 @@ class MarkupFieldItem extends FieldItemBase {
     return [
       'columns' => [
         // Rendered html markup.
-        'value' => [
+        'markup' => [
           'description' => 'Rendered markup.',
           'type' => 'blob',
           'size' => 'big',
-          'not null' => FALSE,
+          'default value'
         ],
         // Assets array in the format of render array for attaching assets.
         'assets' => [
           'description' => 'Assets required by rendered markup.',
           'type' => 'blob',
           'size' => 'big',
-          'not null' => FALSE,
           'serialize' => TRUE,
         ],
       ],
