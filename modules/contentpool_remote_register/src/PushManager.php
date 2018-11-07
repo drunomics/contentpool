@@ -26,6 +26,20 @@ class PushManager implements PushManagerInterface {
   use StringTranslationTrait;
 
   /**
+   * Representing an event when push is ignored to remote.
+   *
+   * @var int.
+   */
+  const PUSH_EVENT_IGNORED = 1;
+
+  /**
+   * Representing an event when push is approved to remote.
+   *
+   * @var int.
+   */
+  const PUSH_EVENT_APPROVED = 2;
+
+  /**
    * The entity type manager.
    *
    * @var \Drupal\Core\Entity\EntityTypeManager
@@ -82,6 +96,20 @@ class PushManager implements PushManagerInterface {
   protected $logger;
 
   /**
+   * Whether logging is enabled during push to remote.
+   *
+   * @var bool
+   */
+  protected $pushLogging;
+
+  /**
+   * Whether drupal messages are enabled during push to remote.
+   *
+   * @var bool
+   */
+  protected $pushMessages;
+
+  /**
    * Constructs a PushManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -110,6 +138,9 @@ class PushManager implements PushManagerInterface {
     $this->serializer = $serializer;
     $this->configFactory = $config_factory;
     $this->logger = $logger_factory->get('contentpool_remote_register');
+    $settings = $config_factory->get('contentpool_remote_register.settings');
+    $this->pushLogging = $settings->get('logging_status') ? TRUE : FALSE;
+    $this->pushMessages = $settings->get('messaging_status') ? TRUE : FALSE;
   }
 
   /**
@@ -141,6 +172,41 @@ class PushManager implements PushManagerInterface {
   }
 
   /**
+   * Log an push event.
+   *
+   * @param \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration
+   *   The remote registration entity.
+   * @param int $event_type
+   *   The event type (either approved or ignored).
+   *
+   * @throws \Exception
+   *   Unkown event type during push event.
+   */
+  protected function logPushEvent(RemoteRegistrationInterface $remote_registration, $event_type) {
+    if ($this->pushLogging || $this->pushMessages) {
+      switch ($event_type) {
+        case self::PUSH_EVENT_IGNORED:
+          $message = $this->t('Ignored push to remote @name.', ['@name' => $remote_registration->getName()]);
+          break;
+
+        case self::PUSH_EVENT_APPROVED:
+          $message = $this->t('Successfully triggered push to remote @name.', ['@name' => $remote_registration->getName()]);
+          break;
+
+        default:
+          throw new \Exception('Unknown event during push: ' . $event_type);
+          break;
+      }
+      if ($this->pushLogging) {
+        $this->logger->info($message);
+      }
+      if ($this->pushMessages) {
+        $this->messenger->addMessage($message);
+      }
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function pushToRegisteredRemotes(EntityInterface $entity = NULL) {
@@ -158,11 +224,15 @@ class PushManager implements PushManagerInterface {
       if ($entity) {
         // If remote does not apply for entity, do not trigger pull.
         if (!$this->remoteAppliesForEntity($remote_registration, $entity)) {
+          // Log an event if configured.
+          $this->logPushEvent($remote_registration, self::PUSH_EVENT_IGNORED);
           continue;
         }
       }
       $promises[] = $this->triggerPullAtRemote($remote_registration, TRUE);
       $counter++;
+      // Log an event if configured.
+      $this->logPushEvent($remote_registration, self::PUSH_EVENT_APPROVED);
     }
 
     // To wait for the requests to complete, even if some of them fail.
