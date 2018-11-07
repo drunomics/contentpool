@@ -30,6 +30,7 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
     /** @var \Drupal\Core\Render\Renderer $renderer */
     $renderer = \Drupal::service('renderer');
     $value = (string) $renderer->renderPlain($field_build);
+    $entity->field_paragraphs_markup->value = $value;
 
     // Prepare assets array.
     $assets = [];
@@ -38,5 +39,6 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
       $assets_extractor = \Drupal::service('contentpool_custom_elements.assets_extractor');
       $assets = $assets_extractor->getAssetsFromLibraries($field_build['#attached']['library']);
     }
+    $entity->field_paragraphs_markup->assets = $assets;
   }
 }
