@@ -115,11 +115,9 @@ class MarkupFieldItem extends FieldItemBase {
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
     $properties['value'] = DataDefinition::create('string')
-      ->setLabel(t('Field markup'))
-      ->setComputed(TRUE);
+      ->setLabel(t('Field markup'));
     $properties['assets'] = MapDataDefinition::create()
-      ->setLabel(t('Assets'))
-      ->setComputed(TRUE);
+      ->setLabel(t('Assets'));
     return $properties;
   }
 
