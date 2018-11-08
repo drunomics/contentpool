@@ -1,3 +1,13 @@
+contentpool_remote_register.settings:
+  path: '/admin/config/remote-registrations/settings'
+  defaults:
+    _title: 'Settings'
+    _form: '\Drupal\contentpool_remote_register\Form\RemoteRegistrationConfigForm'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
+
 contentpool_remote_register.remote_registration.push_notifications:
   path: '/admin/config/remote-registrations/{remote_registration}/push_notifications'
   defaults:
