@@ -87,6 +87,7 @@ class AssetsExtractor {
             'preprocess' => TRUE,
             'attributes' => [],
             'version' => NULL,
+            'media' => NULL,
             'browsers' => [],
           ];
 
