@@ -27,3 +27,22 @@ function contentpool_remote_register_update_8001() {
     ->fields(['push_notifications' => 0])
     ->execute();
 }
+
+/**
+ * Add 'replication_filters' field to 'remote_registration' entities.
+ */
+function contentpool_remote_register_update_8002() {
+  // Install the definition that this field had in
+  // Drupal\contentpool_remote_register\Entity\RemoteRegistration::baseFieldDefinitions()
+  // at the time that this update function was written. If/when code is
+  // deployed that changes that definition, the corresponding module must
+  // implement an update function that invokes
+  // \Drupal::entityDefinitionUpdateManager()->updateFieldStorageDefinition()
+  // with the new definition.
+  $storage_definition = BaseFieldDefinition::create('map')
+    ->setLabel(t('Replication filters'))
+    ->setDescription(t('The list of entity types and entities to be replicated.'));
+
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('replication_filters', 'remote_registration', 'remote_registration', $storage_definition);
+}

@@ -167,6 +167,10 @@ class RemoteRegistration extends ContentEntityBase implements RemoteRegistration
       ])
       ->setRequired(TRUE);
 
+    $fields['replication_filters'] = BaseFieldDefinition::create('map')
+      ->setLabel(t('Replication filters'))
+      ->setDescription(t('The list of entity types and entities to be replicated.'));
+
     $fields['created'] = BaseFieldDefinition::create('created')
       ->setLabel(t('Created'))
       ->setDescription(t('The time that the entity was created.'));
