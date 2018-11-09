@@ -3,18 +3,8 @@
 namespace Drupal\contentpool_custom_elements\Service;
 
 use Drupal\Core\Asset\AssetCollectionRendererInterface;
-use Drupal\Core\Asset\LibraryDependencyResolverInterface;
 use Drupal\Core\Asset\LibraryDiscoveryInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
-use Drupal\Core\Field\FieldItemBase;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\State\State;
-use Drupal\Core\TypedData\DataDefinition;
-use Drupal\Core\TypedData\MapDataDefinition;
-use Drupal\Core\TypedData\TraversableTypedDataInterface;
-use Drupal\field\FieldConfigInterface;
 
 /**
  * Extract css and js assets from library array.

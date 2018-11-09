@@ -18,7 +18,6 @@ function contentpool_custom_elements_library_info_alter(&$libraries, $extension)
 
 /**
  * Implements hook_ENTITY_TYPE_presave().
- *
  */
 function contentpool_custom_elements_node_presave(EntityInterface $entity) {
   if (isset($entity->field_paragraphs_markup)) {
