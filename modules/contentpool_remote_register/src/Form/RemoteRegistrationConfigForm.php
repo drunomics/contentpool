@@ -35,22 +35,22 @@ class RemoteRegistrationConfigForm extends ConfigFormBase {
     $form['logging'] = [
       '#type' => 'details',
       '#open' => TRUE,
-      '#title' => t('Logging and messaging'),
+      '#title' => $this->t('Logging and messaging'),
       'description' => [
-        '#markup' => t('Configure logging and messaging when pushing to remotes.'),
+        '#markup' => $this->t('Configure logging and messaging when pushing to remotes.'),
       ],
     ];
     $form['logging']['logging-status'] = [
       '#type' => 'checkbox',
-      '#title' => t('Logging'),
+      '#title' => $this->t('Logging'),
       '#default_value' => $config->get('logging_status'),
-      '#description' => t('Enable logging when pushing to remotes.'),
+      '#description' => $this->t('Enable logging when pushing to remotes.'),
     ];
     $form['logging']['messaging-status'] = [
       '#type' => 'checkbox',
-      '#title' => t('Messaging'),
+      '#title' => $this->t('Messaging'),
       '#default_value' => $config->get('messaging_status'),
-      '#description' => t('Enable messaging when pushing to remotes.'),
+      '#description' => $this->t('Enable messaging when pushing to remotes.'),
     ];
 
     return parent::buildForm($form, $form_state);

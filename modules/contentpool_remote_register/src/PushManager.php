@@ -120,7 +120,7 @@ class PushManager implements PushManagerInterface {
    *   The http client.
    * @param \Drupal\relaxed\SensitiveDataTransformer $sensitive_data_transformer
    *   The data transformer.
-   * @param \Drupal\replication\Plugin\ReplicationFilterManagerInterface $filter_manager
+   * @param \Drupal\replication\Plugin\ReplicationFilterManagerInterface $replication_filter_manager
    *   The replication filter manager.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
@@ -178,9 +178,6 @@ class PushManager implements PushManagerInterface {
    *   The remote registration entity.
    * @param int $event_type
    *   The event type (either approved or ignored).
-   *
-   * @throws \Exception
-   *   Unkown event type during push event.
    */
   protected function logPushEvent(RemoteRegistrationInterface $remote_registration, $event_type) {
     if ($this->pushLogging || $this->pushMessages) {
@@ -191,10 +188,6 @@ class PushManager implements PushManagerInterface {
 
         case self::PUSH_EVENT_APPROVED:
           $message = $this->t('Successfully triggered push to remote @name.', ['@name' => $remote_registration->getName()]);
-          break;
-
-        default:
-          throw new \Exception('Unknown event during push: ' . $event_type);
           break;
       }
       if ($this->pushLogging) {
