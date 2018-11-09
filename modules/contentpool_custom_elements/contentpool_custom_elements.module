@@ -5,11 +5,39 @@
  * Custom elements hooks.
  */
 
+use Drupal\Core\Entity\EntityInterface;
+
 /**
  * Implements hook_library_info_alter().
  */
 function contentpool_custom_elements_library_info_alter(&$libraries, $extension) {
   if ($extension == 'custom_elements') {
     $libraries['main']['dependencies'][] = 'contentpool_custom_elements/main';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function contentpool_custom_elements_node_presave(EntityInterface $entity) {
+  if (isset($entity->field_paragraphs_markup)) {
+    // Prepare rendered markup.
+    $field_build = [];
+    if ($entity->field_paragraphs->getValue()) {
+      $field_build = $entity->field_paragraphs->view('node.full');
+    }
+    /** @var \Drupal\Core\Render\Renderer $renderer */
+    $renderer = \Drupal::service('renderer');
+    $markup = (string) $renderer->renderPlain($field_build);
+    $entity->field_paragraphs_markup->markup = $markup;
+
+    // Prepare assets array.
+    $assets = [];
+    if (!empty($field_build['#attached']['library'])) {
+      /** @var \Drupal\contentpool_custom_elements\Service\AssetsExtractor $assets_extractor */
+      $assets_extractor = \Drupal::service('contentpool_custom_elements.assets_extractor');
+      $assets = $assets_extractor->getAssetsFromLibraries($field_build['#attached']['library']);
+    }
+    $entity->field_paragraphs_markup->assets = $assets;
   }
 }

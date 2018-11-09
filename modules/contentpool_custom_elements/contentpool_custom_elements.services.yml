@@ -1,0 +1,4 @@
+services:
+  contentpool_custom_elements.assets_extractor:
+    class: Drupal\contentpool_custom_elements\Service\AssetsExtractor
+    arguments: ['@library.discovery', '@asset.css.collection_renderer', '@asset.js.collection_renderer', '@state']
