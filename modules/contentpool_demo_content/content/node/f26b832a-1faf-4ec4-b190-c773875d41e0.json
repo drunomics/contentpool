@@ -71,6 +71,12 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "moderation_state": [
+        {
+            "value": "published",
+            "lang": "en"
+        }
+    ],
     "_embedded": {
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/revision_uid": [
             {
@@ -278,6 +284,18 @@
     "path": {
         "alias": "\/vitro-meat-0"
     },
+    "publish_state": [
+        {
+            "value": "published",
+            "lang": "en"
+        }
+    ],
+    "unpublish_state": [
+        {
+            "value": "draft",
+            "lang": "en"
+        }
+    ],
     "field_seo_title": [
         {
             "value": "in-vitro meat"
