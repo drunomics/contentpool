@@ -31,7 +31,7 @@
     },
     "patches": {
       "drupal/core": {
-        "#1356276-473: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-07-12/1356276-473.patch"
+        "#1356276-549: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-10-23/1356276-549-8.6.x.patch"
       },
       "drupal/custom_elements": {
         "#2994894-5 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-08-29/2994894-5.patch"
