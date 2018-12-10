@@ -45,6 +45,11 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
 
     if ($entity->getEntityTypeId() == 'node' && $entity->bundle() == 'article') {
       foreach ($language_keys as $key) {
+        $paragraph_data = [];
+        foreach ($entity->field_paragraphs->getValue() as $delta => $value) {
+          $paragraph_data[$delta] = $entity->field_paragraphs->get($delta)->entity->toArray();
+        }
+        $normalized[$key]['field_data'][] = $paragraph_data;
         // @todo: Handle paragraph via custom elements.
         unset($normalized[$key]['field_paragraphs']);
       }
