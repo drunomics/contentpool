@@ -45,14 +45,18 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
 
     if ($entity->getEntityTypeId() == 'node' && $entity->bundle() == 'article') {
       foreach ($language_keys as $key) {
-        // @todo: Handle paragraph via custom elements.
+        // Paragraphs are handledd via custom elements and the markup field.
         unset($normalized[$key]['field_paragraphs']);
       }
     }
 
-    // Remove path alias information from all entities.
     foreach ($language_keys as $key) {
+      // Remove path alias information from all entities.
       unset($normalized[$key]['path']);
+      // Do not replicate moderation_state - only the status flag.
+      unset($normalized[$key]['moderation_state']);
+      unset($normalized[$key]['publish_state']);
+      unset($normalized[$key]['unpublish_state']);
     }
 
     $event->setData($normalized);
