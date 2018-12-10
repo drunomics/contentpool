@@ -16,6 +16,7 @@ dependencies:
   - contentpool_replication
 
 install:
+  - markup_field
   - trusted_redirect
   - trusted_redirect_entity_edit
 
