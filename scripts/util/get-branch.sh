@@ -8,9 +8,14 @@
 #     variable points to the name of the resulting (possibly temporary) branch.
 #
 # Usage: eval scripts/util/get-branch.sh
+#
+# Optionally, set ENSURE_VALID_BRANCH to 1 if a valid branch should be ensured.
+# Important: When enabled, be sure the resulting environment variables stay
+# around during a whole run. When the script is used twice with this option
+# enabled *and* the determined variables are lost, results will be wrong!
 
 # Determine current branch.
-GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+GIT_CURRENT_BRANCH=${GIT_CURRENT_BRANCH:-$(git rev-parse --abbrev-ref HEAD)}
 # Initialize GIT_BRANCH environment variable if not set yet.
 GIT_BRANCH=${GIT_BRANCH:-$GIT_CURRENT_BRANCH}
 
@@ -18,7 +23,7 @@ GIT_BRANCH=${GIT_BRANCH:-$GIT_CURRENT_BRANCH}
 # If a detached HEAD is found, we must give it a branch name. This is necessary
 # as composer does not update metadata when dependencies are added in via Git
 # commits, thus we need a branch.
-if [[ $GIT_CURRENT_BRANCH == "HEAD" ]]; then
+if [[ ! -z "$ENSURE_VALID_BRANCH" ]] && [[ $GIT_CURRENT_BRANCH == "HEAD" ]]; then
   # On travis, fall back to the the travis branch for GIT_BRANCH.
   if [[ ! -z "$TRAVIS" ]] && [[ "$GIT_BRANCH" == "HEAD" ]]; then
     GIT_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
