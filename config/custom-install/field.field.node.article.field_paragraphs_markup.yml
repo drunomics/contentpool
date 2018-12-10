@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_paragraphs_markup
+    - node.type.article
+  module:
+    - markup_field
+id: node.article.field_paragraphs_markup
+field_name: field_paragraphs_markup
+entity_type: node
+bundle: article
+label: 'Paragraphs markup'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: {  }
+default_value_callback: ''
+settings:
+  field: field_paragraphs
+field_type: markup_field

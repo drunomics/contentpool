@@ -41,7 +41,7 @@ function contentpool_remote_register_push_to_registered_remotes(EntityInterface 
   if (in_array($entity->getEntityTypeId(), contentpool_remote_register_replicated_types())) {
     /** @var \Drupal\contentpool_remote_register\PushManagerInterface $push_manager */
     $push_manager = \Drupal::service('contentpool_remote_register.push_manager');
-    $push_manager->pushToRegisteredRemotes();
+    $push_manager->pushToRegisteredRemotes($entity);
   }
 }
 
