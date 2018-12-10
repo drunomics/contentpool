@@ -8,17 +8,17 @@ distribution:
 base profile: thunder
 
 dependencies:
-  - relaxed
-  - workspace
-  - contentpool_custom_elements
-  - contentpool_remote_register
-  - contentpool_normalization
-  - contentpool_replication
+  - relaxed:relaxed
+  - workspace:workspace
+  - contentpool:contentpool_custom_elements
+  - contentpool:contentpool_remote_register
+  - contentpool:contentpool_normalization
+  - contentpool_replication:contentpool_replication
 
 install:
-  - markup_field
-  - trusted_redirect
-  - trusted_redirect_entity_edit
+  - markup_field:markup_field
+  - trusted_redirect:trusted_redirect
+  - trusted_redirect:trusted_redirect_entity_edit
 
 themes:
   - thunder_base
