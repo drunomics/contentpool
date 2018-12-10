@@ -75,6 +75,12 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
+    "moderation_state": [
+        {
+            "value": "published",
+            "lang": "en"
+        }
+    ],
     "_embedded": {
         "http:\/\/drupal.org\/rest\/relation\/node\/article\/revision_uid": [
             {
@@ -294,6 +300,18 @@
             "alias": "\/first-quanum-byte",
             "pid": 17,
             "langcode": "en",
+            "lang": "en"
+        }
+    ],
+    "publish_state": [
+        {
+            "value": "published",
+            "lang": "en"
+        }
+    ],
+    "unpublish_state": [
+        {
+            "value": "draft",
             "lang": "en"
         }
     ],

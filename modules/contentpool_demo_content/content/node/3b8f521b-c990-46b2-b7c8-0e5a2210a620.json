@@ -233,6 +233,12 @@
             "lang": "en"
         }
     ],
+    "moderation_state": [
+        {
+            "value": "published",
+            "lang": "en"
+        }
+    ],
     "metatag": [
         {
             "value": {
@@ -274,6 +280,18 @@
             "alias": "\/cuba-travel-ban",
             "pid": 14,
             "langcode": "en",
+            "lang": "en"
+        }
+    ],
+    "publish_state": [
+        {
+            "value": "published",
+            "lang": "en"
+        }
+    ],
+    "unpublish_state": [
+        {
+            "value": "draft",
             "lang": "en"
         }
     ],
