@@ -31,13 +31,10 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
     $markup = (string) $renderer->renderPlain($field_build);
     $entity->field_paragraphs_markup->markup = $markup;
 
-    // Prepare assets array.
-    $assets = [];
-    if (!empty($field_build['#attached']['library'])) {
-      /** @var \Drupal\contentpool_custom_elements\Service\AssetsExtractor $assets_extractor */
-      $assets_extractor = \Drupal::service('contentpool_custom_elements.assets_extractor');
-      $assets = $assets_extractor->getAssetsFromLibraries($field_build['#attached']['library']);
-    }
+    // Prepare assets with all custom element libraries.
+    $assets_extractor = \Drupal::service('contentpool_custom_elements.assets_extractor');
+    /** @var \Drupal\contentpool_custom_elements\Service\AssetsExtractor $assets_extractor */
+    $assets = $assets_extractor->getRenderedAssetsFromLibraries(['custom_elements/main']);
     $entity->field_paragraphs_markup->assets = $assets;
   }
 }

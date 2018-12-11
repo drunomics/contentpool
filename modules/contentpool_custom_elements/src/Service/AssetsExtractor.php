@@ -50,13 +50,29 @@ class AssetsExtractor {
   }
 
   /**
-   * Get assets.
+   * Gets rendered assets.
    *
    * @param array $libraries
    *   List of libraries.
    *
    * @return array
-   *   Assets build.
+   *   The render array for outputting the asset html tags.
+   */
+  public function getRenderedAssetsFromLibraries(array $libraries) {
+    $assets = $this->getAssetsFromLibraries($libraries);
+    $css_assets = $this->cssCollectionRenderer->render($assets['css']);
+    $js_assets = $this->jsCollectionRenderer->render($assets['js']);
+    return array_merge($js_assets, $css_assets);
+  }
+
+  /**
+   * Gets assets.
+   *
+   * @param array $libraries
+   *   List of libraries.
+   *
+   * @return array
+   *   The assets of the libraries, grouped below 'css' and 'js' keys.
    */
   public function getAssetsFromLibraries(array $libraries) {
     $assets = ['css' => [], 'js' => []];
@@ -64,6 +80,12 @@ class AssetsExtractor {
       list($extension, $name) = explode('/', $library, 2);
       $definitions = $this->libraryDiscovery->getLibraryByName($extension, $name);
       foreach ($definitions as $type => $definition) {
+        // Handle library dependencies and make sure its assets come first.
+        if ($type == 'dependencies') {
+          $dependency_assets = $this->getAssetsFromLibraries($definition);
+          $assets['css'] = array_merge($dependency_assets['css'], $assets['css']);
+          $assets['js'] = array_merge($dependency_assets['js'], $assets['js']);
+        }
         // Support css and js assets.
         if ($type != 'css' && $type != 'js') {
           continue;
@@ -102,9 +124,7 @@ class AssetsExtractor {
         }
       }
     }
-    $css_assets = $this->cssCollectionRenderer->render($assets['css']);
-    $js_assets = $this->jsCollectionRenderer->render($assets['js']);
-    return array_merge($css_assets, $js_assets);
+    return $assets;
   }
 
 }
