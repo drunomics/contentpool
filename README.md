@@ -11,6 +11,10 @@
 This repository is the Drupal install profile for the distribution. You'll
 need a drupal project for installing it. Refer to "Installation" for details.
 
+Satellite sites can use https://github.com/drunomics/contentpool-client to easily replicate content based upon
+configurable replication filters. Content is pulled on a regular basis, while optionally the contentpool pushes
+changes instantly to selected satellites.
+
 ## Status
 
 The distribution is in early development stages, but basically working already. Stayed tuned!
