@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Multiversion sequence filter module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function multiversion_sequence_filter_schema() {
+
+  $schema['multiversion_sequence_filter_index'] = [
+    'description' => 'Stores a filtered sequence index.',
+    'fields' => [
+      'name' => [
+        'description' => 'The name or key of entries.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'time' => [
+        'description' => 'The index or score key for the value.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'big',
+      ],
+      'value' => [
+        'description' => 'The value.',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ],
+    ],
+    'primary key' => ['name'],
+    'indexes' => [
+      'time' => ['time'],
+    ],
+  ];
+
+  $schema['multiversion_sequence_filter_values'] = [
+    'description' => 'Keeps track of filter values for an entry.',
+    'fields' => [
+      'name' => [
+        'description' => 'The name or key of an entry.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'filter_value' => [
+        'description' => 'The filter value associated with the entry.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+    ],
+    'primary key' => ['filter_value', 'name'],
+  ];
+
+  $schema['multiversion_sequence_filter_additions'] = [
+    'description' => 'Keeps track of additional entries to add for a given entry - even if not matching the filter.',
+    'fields' => [
+      'name' => [
+        'description' => 'The name or key of an entry.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'additional_entry' => [
+        'description' => 'The name of the additional entry.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+    ],
+    'primary key' => ['name', 'additional_entry'],
+  ];
+
+  return $schema;
+
+}
