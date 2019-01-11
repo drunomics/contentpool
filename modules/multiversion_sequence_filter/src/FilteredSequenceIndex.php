@@ -25,7 +25,7 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
   /**
    * @var string[]
    */
-  protected $entityTypeIdsCondition = [];
+  protected $types = [];
 
   /**
    * @var int
@@ -96,21 +96,23 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
     $this->indexStorage->addMultiple($this->getWorkspaceId(), [ $name => [
       'seq' => $record['seq'],
       'value' => $record,
+      'type' => $entity->getEntityTypeId() . '.' . $entity->bundle(),
       'filter_values' => $this->filterValueProvider->get($entity),
       'additional_entries' => $this->getAdditionalEntries($entity),
     ]]);
   }
 
   /**
-   * Sets the entity type condition for getting ranges.
+   * Sets the entity type and bundle condition for getting ranges.
    *
-   * @param string[] $entityTypeIds
-   *   The entity type IDs.
+   * @param string[] $types
+   *   The types to filter for; i.e., each being an entity type or an
+   *   "entity_type.bundle" combination.
    *
    * @return $this
    */
-  public function addEntityTypeCondition(array $entityTypeIds) {
-    $this->entityTypeIdsCondition = $entityTypeIds;
+  public function addTypeCondition(array $types) {
+    $this->types = $types;
     return $this;
   }
 
@@ -133,7 +135,7 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    * @see ::setFilterValues()
    */
   public function getRange($start, $stop = NULL, $inclusive = TRUE, $limit = NULL) {
-    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->entityTypeIdsCondition, $this->filterValuesCondition, $inclusive);
+    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->types, $this->filterValuesCondition, $inclusive, $limit);
   }
 
   /**

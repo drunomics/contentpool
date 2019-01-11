@@ -26,6 +26,13 @@ function multiversion_sequence_filter_schema() {
         'not null' => TRUE,
         'default' => '',
       ],
+      'type' => [
+        'description' => 'The entity type and bundle of the entry, concatenated by a point.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ],
       'seq' => [
         'description' => 'The sequence number.',
         'type' => 'int',

@@ -77,17 +77,20 @@ class SequenceIndexStorage {
    *   The sequence id from where to start.
    * @param int $stop
    *   (optional) The sequence id where to stop.
-   * @param string[] $entityTypeIds
-   *   (optional) Filter main sequence entries for the given entity types.
+   * @param string[] $types
+   *   (optional) Filter main sequence entries for the given types. For types
+   *   like "main-type.sub-type" a value of "main-type" will match also.
    * @param array $filterValues
    *   (optional) An array of filter values to apply.
    * @param bool $inclusive
    *   Whether the stopped sequence should be included or not.
+   * @param int $limit
+   *   (optional) The maximum number of entries to return.
    *
    * @return mixed[]
    *   A numerical index array of entry values, sorted by sequence.
    */
-  public function getRange($workspace_id, $start, $stop = NULL, array $entityTypeIds, array $filterValues = [], $inclusive = TRUE) {
+  public function getRange($workspace_id, $start, $stop = NULL, array $types, array $filterValues = [], $inclusive = TRUE, $limit = NULL) {
     /** @var \Drupal\Core\Database\Query\SelectInterface $main_query */
     $main_query = $this->connection->select($this->indexTable, 'i')
       ->fields('i', ['value'])
@@ -96,11 +99,11 @@ class SequenceIndexStorage {
     if ($main_query !== NULL) {
       $main_query->condition('seq', $stop, $inclusive ? '<=' : '<');
     }
-    // Add entity type filter to main query, if any.
-    if ($entityTypeIds) {
+    // Add type filters.
+    if ($types) {
       $condition_group = $main_query->orConditionGroup();
-      foreach ($entityTypeIds as $entityTypeId) {
-        $condition_group->condition('i.name', $entityTypeId . ':%', 'LIKE');
+      foreach ($types as $type) {
+        $condition_group->condition('i.type', $type . '.%', 'LIKE');
       }
     }
     if ($filterValues) {
@@ -116,6 +119,7 @@ class SequenceIndexStorage {
 
     $main_query->union($additions_query, 'DISTINCT');
     $main_query->orderBy('seq', 'ASC');
+    $main_query->range(0, $limit);
 
     $result = $main_query->execute();
     $values = [];
@@ -134,6 +138,8 @@ class SequenceIndexStorage {
    *   An array of entries, keyed by entry name. Each entry must have the
    *   following keys:
    *    - seq: (int) The sequence number.
+   *    - type: (string) The type of the entry. Sub-types may be denoted by
+   *      delimiting types with points ('.'). May be used for filtering.
    *    - value: (mixed) The to be serialized value.
    *    - filter_values: (string[]) The array of filter values.
    *    - additional_entries: (string[]) The array of additional entries.
@@ -151,6 +157,8 @@ class SequenceIndexStorage {
         ])
         ->fields([
           'seq' => $entry['seq'],
+          // Append a dot to ease filter matches by parent types.
+          'type' => $entry['type'] . '.',
           'value' =>  $this->serializer->encode($entry['value']),
         ])
         ->execute();

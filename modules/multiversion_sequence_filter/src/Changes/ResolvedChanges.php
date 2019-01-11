@@ -31,12 +31,11 @@ class ResolvedChanges extends Changes {
       return parent::getNormal();
     }
 
-    // @todo add limit.
     $sequences = $this->sequenceIndex
       ->useWorkspace($this->workspaceId)
-      ->addEntityTypeCondition($filter->getConfiguredEntityTypeFilter())
+      ->addTypeCondition($filter->getConfiguredEntityTypeFilter())
       ->addFilterValuesCondition($filter->getConfiguredFilterValues())
-      ->getRange($this->since, $this->stop);
+      ->getRange($this->since, $this->stop, TRUE, $this->limit);
 
     // Removes sequences that shouldn't be processed.
     $sequences = $this->preFilterSequences($sequences, $this->since);

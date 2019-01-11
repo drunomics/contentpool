@@ -9,10 +9,11 @@ use Drupal\replication\Plugin\ReplicationFilterInterface;
 interface ReplicationFiltervalueProviderInterface extends ReplicationFilterInterface {
 
   /**
-   * Gets the IDs of entity types to filter for, if any.
+   * Gets the entity types (and bundles) to filter for, if any.
    *
    * @return string[]
-   *   An array of entity type IDs. If empty, the filter is skipped.
+   *   An array of entity type IDs or combinations of entity type IDs and
+   *   bundles concatenated by point. If empty, the filter is skipped.
    */
   public function getConfiguredEntityTypeFilter();
 
