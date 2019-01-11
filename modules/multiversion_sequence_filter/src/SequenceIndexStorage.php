@@ -54,9 +54,15 @@ class SequenceIndexStorage {
 
   /**
    *  Gets the number of entries.
+   *
+   * @param int $workspace_id
+   *   The ID of the workspace to use.
+   *
+   * @return int
    */
-  public function getCount() {
+  public function getCount($workspace_id) {
     return $this->connection->select($this->indexTable, 't')
+      ->condition('workspace_id', $workspace_id)
       ->countQuery()
       ->execute()
       ->fetchField();
@@ -65,6 +71,8 @@ class SequenceIndexStorage {
   /**
    * Gets a range of sequence entries, while applying filters and additions.
    *
+   * @param int $workspace_id
+   *   The ID of the workspace to use.
    * @param int $start
    *   The sequence id from where to start.
    * @param int $stop
@@ -77,24 +85,25 @@ class SequenceIndexStorage {
    * @return mixed[]
    *   A numerical index array of entry values, sorted by sequence.
    */
-  public function getRange($start, $stop = NULL, array $filter_values = [], $inclusive = TRUE) {
+  public function getRange($workspace_id, $start, $stop = NULL, array $filter_values = [], $inclusive = TRUE) {
     /** @var \Drupal\Core\Database\Query\SelectInterface $main_query */
     $main_query = $this->connection->select($this->indexTable, 'i')
       ->fields('i', ['value'])
+      ->condition('workspace_id', $workspace_id)
       ->condition('seq', $start, $inclusive ? '>=' : '>');
     if ($main_query !== NULL) {
       $main_query->condition('seq', $stop, $inclusive ? '<=' : '<');
     }
     if ($filter_values) {
-      $main_query->innerJoin($this->filterTable, 'f', 'i.name=f.name');
+      $main_query->innerJoin($this->filterTable, 'f', 'i.workspace_id=f.workspace_id AND i.name=f.name');
       $main_query->condition('v.filter_value', $filter_values, 'IN');
     }
     $main_query->distinct();
 
     // Add a second select for the additional entries.
     $additions_query = clone $main_query;
-    $additions_query->innerJoin($this->additionsTable, 'a', 'i.name=a.name');
-    $additions_query->innerJoin($this->indexTable, 'i2', 'a.additional_entry=i2.name');
+    $additions_query->innerJoin($this->additionsTable, 'a', 'i.workspace_id=a.workspace_id AND i.name=a.name');
+    $additions_query->innerJoin($this->indexTable, 'i2', 'a.workspace_id=i2.workspace_id AND a.additional_entry=i2.name');
 
     $main_query->union($additions_query, 'DISTINCT');
     $main_query->orderBy('seq', 'ASC');
@@ -110,6 +119,8 @@ class SequenceIndexStorage {
   /**
    * Adds multiple entries.
    *
+   * @param int $workspace_id
+   *   The ID of the workspace to use.
    * @param mixed[] $entries
    *   An array of entries, keyed by entry name. Each entry must have the
    *   following keys:
@@ -119,13 +130,14 @@ class SequenceIndexStorage {
    *    - additional_entries: (string[]) The array of additional entries.
    * @throws \Exception
    */
-  public function addMultiple(array $entries) {
+  public function addMultiple($workspace_id, array $entries) {
     $transaction = $this->connection->startTransaction();
 
     foreach ($entries as $name => $entry) {
       // Update the index table.
       $this->connection->merge($this->indexTable)
         ->keys([
+          'workspace_id' => $workspace_id,
           'name' => $name,
         ])
         ->fields([
@@ -137,22 +149,24 @@ class SequenceIndexStorage {
       // Update the filter value table.
       $this->connection->delete($this->filterTable)
         ->condition('name', $name)
+        ->condition('workspace_id', $workspace_id)
         ->execute();
       $query = $this->connection->insert($this->filterTable)
-        ->fields(['name', 'filter_value']);
+        ->fields(['workspace_id', 'name', 'filter_value']);
       foreach ($entry['filter_values'] as $filter_value) {
-        $query->values(['name' => $name, 'filter_value' => $filter_value]);
+        $query->values(['workspace_id' => $workspace_id, 'name' => $name, 'filter_value' => $filter_value]);
       }
       $query->execute();
 
       // Update additions.
       $this->connection->delete($this->additionsTable)
         ->condition('name', $name)
+        ->condition('workspace_id', $workspace_id)
         ->execute();
       $query = $this->connection->insert($this->additionsTable)
-        ->fields(['name', 'additional_entries']);
+        ->fields(['workspace_id', 'name', 'additional_entries']);
       foreach ($entry['additional_entries'] as $entry) {
-        $query->values(['name' => $name, 'filter_value' => $entry]);
+        $query->values(['workspace_id' => $workspace_id, 'name' => $name, 'filter_value' => $entry]);
       }
       $query->execute();
     }
@@ -161,10 +175,15 @@ class SequenceIndexStorage {
   /**
    * Gets the oldest entry.
    *
+   * @param int $workspace_id
+   *   The ID of the workspace to use.
+   *
    * @return int
    */
-  public function getOldestEntry() {
-    $query = $this->connection->select($this->indexTable);
+  public function getOldestEntry($workspace_id) {
+    $query = $this->connection
+      ->select($this->indexTable)
+      ->condition('workspace_id', $workspace_id);
     $query->addExpression('MAX(seq)');
     return $query->execute()->fetchField();
   }
@@ -172,10 +191,15 @@ class SequenceIndexStorage {
   /**
    * Gets the latest entry.
    *
+   * @param int $workspace_id
+   *   The ID of the workspace to use.
+   *
    * @return int
    */
-  public function getLatestEntry() {
-    $query = $this->connection->select($this->indexTable);
+  public function getLatestEntry($workspace_id) {
+    $query = $this->connection
+      ->select($this->indexTable)
+      ->condition('workspace_id', $workspace_id);
     $query->addExpression('MIN(seq)');
     return $query->execute()->fetchField();
   }

@@ -13,6 +13,12 @@ function multiversion_sequence_filter_schema() {
   $schema['multiversion_sequence_filter_index'] = [
     'description' => 'Stores a filtered sequence index.',
     'fields' => [
+      'workspace_id' => [
+        'description' => 'The associated workspace.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
+      ],
       'name' => [
         'description' => 'The name or key of entries.',
         'type' => 'varchar',
@@ -34,7 +40,7 @@ function multiversion_sequence_filter_schema() {
         'size' => 'big',
       ],
     ],
-    'primary key' => ['name'],
+    'primary key' => ['workspace_id', 'name'],
     'indexes' => [
       'seq' => ['seq'],
     ],
@@ -43,6 +49,12 @@ function multiversion_sequence_filter_schema() {
   $schema['multiversion_sequence_filter_values'] = [
     'description' => 'Keeps track of filter values for an entry.',
     'fields' => [
+      'workspace_id' => [
+        'description' => 'The associated workspace.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
+      ],
       'name' => [
         'description' => 'The name or key of an entry.',
         'type' => 'varchar',
@@ -58,12 +70,18 @@ function multiversion_sequence_filter_schema() {
         'default' => '',
       ],
     ],
-    'primary key' => ['filter_value', 'name'],
+    'primary key' => ['workspace_id', 'name', 'filter_value'],
   ];
 
   $schema['multiversion_sequence_filter_additions'] = [
     'description' => 'Keeps track of additional entries to add for a given entry - even if not matching the filter.',
     'fields' => [
+      'workspace_id' => [
+        'description' => 'The associated workspace.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
+      ],
       'name' => [
         'description' => 'The name or key of an entry.',
         'type' => 'varchar',
@@ -79,7 +97,7 @@ function multiversion_sequence_filter_schema() {
         'default' => '',
       ],
     ],
-    'primary key' => ['name', 'additional_entry'],
+    'primary key' => ['workspace_id', 'name', 'additional_entry'],
   ];
 
   return $schema;
