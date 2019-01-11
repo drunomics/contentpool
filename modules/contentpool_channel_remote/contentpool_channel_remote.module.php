@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Custom elements hooks.
+ */
+
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 
@@ -10,7 +15,7 @@ function contentpool_channel_remote_form_taxonomy_term_channel_form_alter(&$form
   $term = $form_state->getFormObject()->getEntity();
 
   if (!empty($term) && isset($form['field_remote_site'])) {
-    // Check if term is top level; if not hide field_remote_site
+    // Check if term is top level; if not hide field_remote_site.
     if ($term->parent->target_id) {
       $form['field_remote_site']['#access'] = FALSE;
     }
@@ -18,7 +23,7 @@ function contentpool_channel_remote_form_taxonomy_term_channel_form_alter(&$form
 }
 
 /**
- * Implements hook_entity_update().
+ * Implements hook_entity_presave().
  *
  * Remove remote_site reference if term is no longer top level.
  */
