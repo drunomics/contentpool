@@ -20,8 +20,8 @@ function multiversion_sequence_filter_schema() {
         'not null' => TRUE,
         'default' => '',
       ],
-      'time' => [
-        'description' => 'The index or score key for the value.',
+      'seq' => [
+        'description' => 'The sequence number.',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
@@ -36,7 +36,7 @@ function multiversion_sequence_filter_schema() {
     ],
     'primary key' => ['name'],
     'indexes' => [
-      'time' => ['time'],
+      'seq' => ['seq'],
     ],
   ];
 
