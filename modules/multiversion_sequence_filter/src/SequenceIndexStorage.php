@@ -173,34 +173,34 @@ class SequenceIndexStorage {
   }
 
   /**
-   * Gets the oldest entry.
+   * Gets the first entry.
    *
    * @param int $workspace_id
    *   The ID of the workspace to use.
    *
    * @return int
    */
-  public function getOldestEntry($workspace_id) {
-    $query = $this->connection
-      ->select($this->indexTable)
-      ->condition('workspace_id', $workspace_id);
-    $query->addExpression('MAX(seq)');
-    return $query->execute()->fetchField();
-  }
-
-  /**
-   * Gets the latest entry.
-   *
-   * @param int $workspace_id
-   *   The ID of the workspace to use.
-   *
-   * @return int
-   */
-  public function getLatestEntry($workspace_id) {
+  public function getfirstEntry($workspace_id) {
     $query = $this->connection
       ->select($this->indexTable)
       ->condition('workspace_id', $workspace_id);
     $query->addExpression('MIN(seq)');
+    return $query->execute()->fetchField();
+  }
+
+  /**
+   * Gets the last entry.
+   *
+   * @param int $workspace_id
+   *   The ID of the workspace to use.
+   *
+   * @return int
+   */
+  public function getLastEntry($workspace_id) {
+    $query = $this->connection
+      ->select($this->indexTable)
+      ->condition('workspace_id', $workspace_id);
+    $query->addExpression('MAX(seq)');
     return $query->execute()->fetchField();
   }
 

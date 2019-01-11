@@ -2,24 +2,35 @@
 
 namespace Drupal\multiversion_sequence_filter;
 
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\ContentEntityTypeInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\TypedData\DataReferenceDefinitionInterface;
 use Drupal\multiversion\Entity\Index\SequenceIndexInterface;
+use Drupal\multiversion\MultiversionManagerInterface;
+use Drupal\multiversion\Workspace\WorkspaceManagerInterface;
 
+/**
+ * A sequence index supporting filter values and handling additions.
+ *
+ * Reference to content entities are added in as additions (without recursion).
+ */
 class FilteredSequenceIndex implements SequenceIndexInterface {
 
   /**
-   * @var string
+   * @var string[]
    */
-  protected $collectionPrefix = 'multiversion.entity_index.sequence.';
+  protected $filterValues = [];
 
   /**
-   * @var string
+   * @var int
    */
   protected $workspaceId;
 
   /**
-   * @var \Drupal\key_value\KeyValueStore\KeyValueSortedSetFactoryInterface
+   * @var \Drupal\multiversion_sequence_filter\SequenceIndexStorage
    */
-  protected $sortedSetFactory;
+  protected $indexStorage;
 
   /**
    * @var \Drupal\multiversion\Workspace\WorkspaceManagerInterface
@@ -32,14 +43,29 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
   protected $multiversionManager;
 
   /**
-   * @param \Drupal\key_value\KeyValueStore\KeyValueSortedSetFactoryInterface $sorted_set_factory
-   * @param \Drupal\multiversion\Workspace\WorkspaceManagerInterface $workspace_manager
-   * @param \Drupal\multiversion\MultiversionManagerInterface $multiversion_manager
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  public function __construct(KeyValueSortedSetFactoryInterface $sorted_set_factory, WorkspaceManagerInterface $workspace_manager, MultiversionManagerInterface $multiversion_manager) {
-    $this->sortedSetFactory = $sorted_set_factory;
-    $this->workspaceManager = $workspace_manager;
-    $this->multiversionManager = $multiversion_manager;
+  protected $entityTypeManager;
+
+  /**
+   * Creates the object.
+   *
+   * @param \Drupal\multiversion_sequence_filter\SequenceIndexStorage $indexStorage
+   *   The sequence index storage.
+   * @param \Drupal\multiversion\Workspace\WorkspaceManagerInterface $workspaceManager
+   *   The workspace manager.
+   * @param \Drupal\multiversion\MultiversionManagerInterface $multiversionManager
+   *   The multiversion manager.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
+   */
+  public function __construct(SequenceIndexStorage $indexStorage, WorkspaceManagerInterface $workspaceManager, MultiversionManagerInterface $multiversionManager, EntityTypeManagerInterface $entityTypeManager) {
+    $this->indexStorage = $indexStorage;
+    $this->workspaceManager = $workspaceManager;
+    $this->multiversionManager = $multiversionManager;
+    $this->entityTypeManager = $entityTypeManager;
   }
 
   /**
@@ -54,50 +80,76 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    * {@inheritdoc}
    */
   public function add(ContentEntityInterface $entity) {
-    $workspace_id = null;
-    $record = $this->buildRecord($entity);
     if ($entity->getEntityType()->get('workspace') === FALSE) {
-      $workspace_id = 0;
+      // Entities without a workspace are unsupported.
+      return;
     }
-    $this->sortedSetStore($workspace_id)->add($record['seq'], $record);
+    $name = $entity->getEntityTypeId() . ':' . $entity->id();
+    $record = $this->buildRecord($entity);
+
+    // @see \Drupal\multiversion_sequence_filter\SequenceIndexStorage::addMultiple()
+    $this->indexStorage->addMultiple($this->getWorkspaceId(), [ $name => [
+      'seq' => $record['seq'],
+      'value' => $record,
+      'filter_values' => $this->filterValueProvider->get($entity),
+      'additional_entries' => $this->getAdditionalEntries($entity),
+    ]]);
+  }
+
+  /**
+   * Sets the filter values to use for getting ranges.
+   *
+   * @param array $filterValues
+   *   The values to set.
+   *
+   * @return $this
+   */
+  public function setFilterValues(array $filterValues) {
+    $this->filterValues = $filterValues;
+    return $this;
   }
 
   /**
    * {@inheritdoc}
+   *
+   * @see ::setFilterValues()
    */
   public function getRange($start, $stop = NULL, $inclusive = TRUE) {
-    $range = $this->sortedSetStore()->getRange($start, $stop, $inclusive);
-    if (empty($range)) {
-      $range = $this->sortedSetStore(0)->getRange($start, $stop, $inclusive);
-    }
-    return $range;
+    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->filterValues, $inclusive);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getLastSequenceId() {
-    $max_score = $this->sortedSetStore()->getMaxScore();
-    if (empty($max_score)) {
-      $max_score = $this->sortedSetStore(0)->getMaxScore();
-    }
-    return $max_score;
+    return $this->indexStorage->getLastEntry($this->getWorkspaceId());
   }
 
   /**
-   * @param $workspace_id
-   * @return \Drupal\key_value\KeyValueStore\KeyValueStoreSortedSetInterface
+   * Gets the workspace ID to use.
+   *
+   * @param int $workspace_id
+   *   (optional) The workspace ID of an entity.
+   *
+   * @return int
    */
-  protected function sortedSetStore($workspace_id = null) {
+  protected function getWorkspaceId($workspace_id = NULL) {
     if (!$workspace_id) {
       $workspace_id = $this->workspaceId ?: $this->workspaceManager->getActiveWorkspaceId();
     }
-    return $this->sortedSetFactory->get($this->collectionPrefix . $workspace_id);
+    return $workspace_id;
   }
 
   /**
+   * Builds the record to save with a sequence entry.
+   *
+   * To avoid additional queries after loading, add in the full entity revision.
+   *
    * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity revision.
+   *
    * @return array
+   *   The record.
    */
   protected function buildRecord(ContentEntityInterface $entity) {
     return [
@@ -105,12 +157,50 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
       'entity_id' => $entity->id(),
       'entity_uuid' => $entity->uuid(),
       'revision_id' => $entity->getRevisionId(),
+      'revision' => $entity,
       'deleted' => $entity->_deleted->value,
       'rev' => $entity->_rev->value,
       'seq' => $this->multiversionManager->newSequenceId(),
       'local' => (boolean) $entity->getEntityType()->get('local'),
       'is_stub' => (boolean) $entity->_rev->is_stub,
     ];
+  }
+
+  /**
+   * Gets additional entries for the given entity.
+   *
+   * We do not handle recursion here as it would be hard to keep the index
+   * updated correctly. Thus only the first level is supported.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity revision.
+   *
+   * @return string[]
+   *   The names of additional entries.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  protected function getAdditionalEntries(ContentEntityInterface $entity) {
+    $additions = [];
+    foreach ($entity->getFieldDefinitions() as $name => $definition) {
+      if ($definition->getType() == 'entity_reference') {
+        $property = $definition->getItemDefinition()->getPropertyDefinition('entity');
+        if ($property instanceof DataReferenceDefinitionInterface) {
+          $target = $property->getTargetDefinition();
+          /** @var \Drupal\Core\Entity\TypedData\EntityDataDefinitionInterface $target */
+          // Only include content entities.
+          $entity_type = $this->entityTypeManager->getDefinition($target->getEntityTypeId());
+          if ($entity_type instanceof ContentEntityTypeInterface) {
+            foreach ($entity->get($name) as $item) {
+              if ($item->entity) {
+                $additions[] = $item->entity->getEntityTypeId() . ':' . $item->entity->id();
+              }
+            }
+          }
+        }
+      }
+    }
+    return $additions;
   }
 
 }
