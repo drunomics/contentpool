@@ -20,7 +20,12 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
   /**
    * @var string[]
    */
-  protected $filterValues = [];
+  protected $filterValuesCondition = [];
+
+  /**
+   * @var string[]
+   */
+  protected $entityTypeIdsCondition = [];
 
   /**
    * @var int
@@ -97,6 +102,19 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
   }
 
   /**
+   * Sets the entity type condition for getting ranges.
+   *
+   * @param string[] $entityTypeIds
+   *   The entity type IDs.
+   *
+   * @return $this
+   */
+  public function addEntityTypeCondition(array $entityTypeIds) {
+    $this->entityTypeIdsCondition = $entityTypeIds;
+    return $this;
+  }
+
+  /**
    * Sets the filter values to use for getting ranges.
    *
    * @param array $filterValues
@@ -104,8 +122,8 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    *
    * @return $this
    */
-  public function setFilterValues(array $filterValues) {
-    $this->filterValues = $filterValues;
+  public function addFilterValuesCondition(array $filterValues) {
+    $this->filterValuesCondition = $filterValues;
     return $this;
   }
 
@@ -114,8 +132,8 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    *
    * @see ::setFilterValues()
    */
-  public function getRange($start, $stop = NULL, $inclusive = TRUE) {
-    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->filterValues, $inclusive);
+  public function getRange($start, $stop = NULL, $inclusive = TRUE, $limit = NULL) {
+    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->entityTypeIdsCondition, $this->filterValuesCondition, $inclusive);
   }
 
   /**

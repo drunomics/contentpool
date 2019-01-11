@@ -77,7 +77,9 @@ class SequenceIndexStorage {
    *   The sequence id from where to start.
    * @param int $stop
    *   (optional) The sequence id where to stop.
-   * @param array $filter_values
+   * @param string[] $entityTypeIds
+   *   (optional) Filter main sequence entries for the given entity types.
+   * @param array $filterValues
    *   (optional) An array of filter values to apply.
    * @param bool $inclusive
    *   Whether the stopped sequence should be included or not.
@@ -85,7 +87,7 @@ class SequenceIndexStorage {
    * @return mixed[]
    *   A numerical index array of entry values, sorted by sequence.
    */
-  public function getRange($workspace_id, $start, $stop = NULL, array $filter_values = [], $inclusive = TRUE) {
+  public function getRange($workspace_id, $start, $stop = NULL, array $entityTypeIds, array $filterValues = [], $inclusive = TRUE) {
     /** @var \Drupal\Core\Database\Query\SelectInterface $main_query */
     $main_query = $this->connection->select($this->indexTable, 'i')
       ->fields('i', ['value'])
@@ -94,9 +96,16 @@ class SequenceIndexStorage {
     if ($main_query !== NULL) {
       $main_query->condition('seq', $stop, $inclusive ? '<=' : '<');
     }
-    if ($filter_values) {
+    // Add entity type filter to main query, if any.
+    if ($entityTypeIds) {
+      $condition_group = $main_query->orConditionGroup();
+      foreach ($entityTypeIds as $entityTypeId) {
+        $condition_group->condition('i.name', $entityTypeId . ':%', 'LIKE');
+      }
+    }
+    if ($filterValues) {
       $main_query->innerJoin($this->filterTable, 'f', 'i.workspace_id=f.workspace_id AND i.name=f.name');
-      $main_query->condition('v.filter_value', $filter_values, 'IN');
+      $main_query->condition('v.filter_value', $filterValues, 'IN');
     }
     $main_query->distinct();
 
