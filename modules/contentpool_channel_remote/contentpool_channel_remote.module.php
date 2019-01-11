@@ -11,7 +11,7 @@ function contentpool_channel_remote_form_taxonomy_term_channel_form_alter(&$form
 
   if (!empty($term) && isset($form['field_remote_site'])) {
     // Check if term is top level; if not hide field_remote_site
-    if ($term->get('parent')->target_id) {
+    if ($term->parent->target_id) {
       $form['field_remote_site']['#access'] = FALSE;
     }
   }
@@ -19,12 +19,13 @@ function contentpool_channel_remote_form_taxonomy_term_channel_form_alter(&$form
 
 /**
  * Implements hook_entity_update().
+ *
  * Remove remote_site reference if term is no longer top level.
  */
 function contentpool_channel_remote_entity_presave(EntityInterface $entity) {
-  if ($entity->getEntityType()
-      ->id() == 'taxonomy_term' && isset($entity->original)) {
-    $parent_target_id = $entity->get('parent')->target_id;
+  if ($entity->getEntityType()->id() == 'taxonomy_term' &&
+    isset($entity->original)) {
+    $parent_target_id = $entity->parent->target_id;
     $orig_parent_target_id = $entity->original->get('parent')->target_id;
 
     if ($entity->hasField('field_remote_site') &&
@@ -34,10 +35,10 @@ function contentpool_channel_remote_entity_presave(EntityInterface $entity) {
       $remote_site = $entity->field_remote_site->entity;
       $entity->field_remote_site = NULL;
       $messenger = \Drupal::messenger();
-      $messenger->addMessage(t('Channel @channel has been disassociated with the remote @remote as only top-level channels can be assigned to remote sites.', [
+      $messenger->addWarning(t('Channel @channel has been disassociated with the remote @remote as only top-level channels can be assigned to remote sites.', [
         '@channel' => $entity->label(),
         '@remote' => $remote_site->label(),
-      ]), $messenger::TYPE_WARNING);
+      ]));
     }
   }
 }
