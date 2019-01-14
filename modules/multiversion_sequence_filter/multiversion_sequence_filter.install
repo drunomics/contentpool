@@ -49,6 +49,7 @@ function multiversion_sequence_filter_schema() {
     ],
     'primary key' => ['workspace_id', 'name'],
     'indexes' => [
+      'type' => ['type'],
       'seq' => ['seq'],
     ],
   ];
@@ -105,6 +106,9 @@ function multiversion_sequence_filter_schema() {
       ],
     ],
     'primary key' => ['workspace_id', 'name', 'additional_entry'],
+    'indexes' => [
+      'join_entries' => ['workspace_id', 'additional_entry'],
+    ],
   ];
 
   return $schema;

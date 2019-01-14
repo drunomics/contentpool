@@ -142,7 +142,7 @@ class SequenceIndexStorage {
     $result = $main_query->execute();
 
     // Uncomment to use devel module for query debugging.
-    // die(dpq($main_query, 1));
+    // die(strtr(dpq($main_query, 1), ['{' => '', '}' => '']));
 
     $values = [];
     foreach ($result as $item) {

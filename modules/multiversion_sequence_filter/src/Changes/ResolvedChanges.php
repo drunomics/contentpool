@@ -2,9 +2,6 @@
 
 namespace Drupal\multiversion_sequence_filter\Changes;
 
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityInterface;
-use Drupal\multiversion_sequence_filter\ReplicationFilterValueProviderInterface;
 use Drupal\replication\Changes\Changes;
 
 /**
