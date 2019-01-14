@@ -187,6 +187,23 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
   }
 
   /**
+   * Gets the filter values for the given entity.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityInterface $entity
+   *   The entity revision.
+   *
+   * @return string[]
+   *   The filter values.
+   */
+  protected function getFilterValues(ContentEntityInterface $entity) {
+
+    // @todo: Use the configured filter value plugin, e.g. inject it.
+    return \Drupal::service('plugin.manager.replication_filter')
+      ->getDefinition('contentpool')
+      ->deriveFilterValues($entity);
+  }
+
+  /**
    * Gets additional entries for the given entity.
    *
    * We do not handle recursion here as it would be hard to keep the index

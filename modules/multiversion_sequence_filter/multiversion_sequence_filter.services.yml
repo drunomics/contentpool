@@ -1,0 +1,4 @@
+services:
+  multiversion_sequence_filter.sequence_index_storage:
+    class: Drupal\multiversion_sequence_filter\SequenceIndexStorage
+    arguments: ['@serialization.phpserialize', '@database']

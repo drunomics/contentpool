@@ -5,8 +5,10 @@ namespace Drupal\multiversion_sequence_filter;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\replication\Plugin\ReplicationFilterInterface;
 
-
-interface ReplicationFiltervalueProviderInterface extends ReplicationFilterInterface {
+/**
+ * Optional interface for replication filters.
+ */
+interface ReplicationFilterValueProviderInterface extends ReplicationFilterInterface {
 
   /**
    * Gets the entity types (and bundles) to filter for, if any.

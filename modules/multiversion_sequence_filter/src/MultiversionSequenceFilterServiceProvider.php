@@ -16,6 +16,11 @@ class MultiversionSequenceFilterServiceProvider extends ServiceProviderBase {
   public function alter(ContainerBuilder $container) {
     $definition = $container->getDefinition('replication.changes_factory');
     $definition->setClass(ResolvedChangesFactory::class);
+
+    $definition = $container->getDefinition('multiversion.entity_index.sequence');
+    $definition->setClass(FilteredSequenceIndex::class);
+    $definition->setArgument(0, '@multiversion_sequence_filter.sequence_index_storage');
+    $definition->addArgument('@entity_type.manager');
   }
 
 }

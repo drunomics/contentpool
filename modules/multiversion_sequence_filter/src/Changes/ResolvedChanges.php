@@ -4,7 +4,7 @@ namespace Drupal\multiversion_sequence_filter\Changes;
 
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\multiversion_sequence_filter\ReplicationFiltervalueProviderInterface;
+use Drupal\multiversion_sequence_filter\ReplicationFilterValueProviderInterface;
 use Drupal\replication\Changes\Changes;
 
 /**
@@ -14,8 +14,6 @@ class ResolvedChanges extends Changes {
 
   /**
    * The sequence index.
-   *
-   * @todo: Keep the old one here add the new one as separate service??
    *
    * @var \Drupal\multiversion_sequence_filter\FilteredSequenceIndex
    */
@@ -27,7 +25,7 @@ class ResolvedChanges extends Changes {
   public function getNormal() {
     $filter = $this->getFilter();
 
-    if (!$filter instanceof ReplicationFiltervalueProviderInterface) {
+    if (!$filter instanceof ReplicationFilterValueProviderInterface) {
       return parent::getNormal();
     }
 
@@ -43,8 +41,7 @@ class ResolvedChanges extends Changes {
     // We build the change records for the sequences.
     $changes = [];
     foreach ($sequences as $sequence) {
-      $uuid = $sequence['entity_uuid'];
-      $changes[$uuid] = $this->buildChangeRecord($sequence);
+      $changes[$sequence['entity_uuid']] = $this->buildChangeRecord($sequence);
     }
 
     // Now when we have rebuilt the result array we need to ensure that the
