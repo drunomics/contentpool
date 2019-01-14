@@ -1,6 +1,6 @@
 type: module
 name: Contentpool Channel Remote Register
-description: 'Optionally assigns remote register entty to channel.'
+description: 'Optionally assigns remote register entity to channel.'
 package: Contentpool
 core: '8.x'
 dependencies:
