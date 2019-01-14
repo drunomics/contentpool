@@ -53,6 +53,31 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
           $paragraph_data[$delta] = $entity->field_paragraphs->get($delta)->entity->toArray();
         }
         $normalized[$key]['field_data'][] = ['value' => json_encode($paragraph_data)];
+
+        if (!$entity->get('field_channel')->isEmpty()) {
+          /** @var \Drupal\taxonomy\Entity\Term $root_channel */
+          $channel = $entity->field_channel->entity;
+          if ($channel->hasField('field_remote_site') &&
+            !$channel->get('field_remote_site')->isEmpty()) {
+            $ancestors = \Drupal::service('entity_type.manager')
+              ->getStorage("taxonomy_term")
+              ->loadAllParents($channel->id());
+            if (!empty($ancestors)) {
+              foreach ($ancestors as $ancestor) {
+                if (empty($ancestor->parent->target_id)) {
+                  $channel = $ancestor;
+                  break;
+                }
+              }
+            }
+            /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_site */
+            $remote_site = $channel->field_remote_site->entity;
+            $remote_url = $remote_site->getUrl();
+            $normalized[$key]['field_canonical_url'] =[
+              "uri" => $remote_url . '/by_uuid/' . $entity->getEntityTypeId() . '/' . $entity->uuid()
+            ];
+          }
+        }
       }
     }
 
