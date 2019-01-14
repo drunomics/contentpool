@@ -25,14 +25,15 @@ class ResolvedChanges extends Changes {
   public function getNormal() {
     $filter = $this->getFilter();
 
-    if (!$filter instanceof ReplicationFilterValueProviderInterface) {
+    if (!method_exists($filter, 'providesFilterValues') || !$filter->providesFilterValues()) {
       return parent::getNormal();
     }
+    /** @var \Drupal\multiversion_sequence_filter\ReplicationFilterValueProviderInterface $filter */
 
     $sequences = $this->sequenceIndex
       ->useWorkspace($this->workspaceId)
-      ->addTypeCondition($filter->getConfiguredEntityTypeFilter())
-      ->addFilterValuesCondition($filter->getConfiguredFilterValues())
+      ->addTypeCondition($filter->getUnfilteredTypes())
+      ->addFilterValuesCondition($filter->getFilteredTypes(), $filter->getFilterValues())
       ->getRange($this->since, $this->stop, TRUE, $this->limit);
 
     // Removes sequences that shouldn't be processed.

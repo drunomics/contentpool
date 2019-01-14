@@ -80,6 +80,10 @@ class SequenceIndexStorage {
    * @param string[] $types
    *   (optional) Filter main sequence entries for the given types. For types
    *   like "main-type.sub-type" a value of "main-type" will match also.
+   * @param string[] $filtered_types
+   *   (optional) Select main sequence entries by this types, which will be
+   *   filtered by the given filter values. For types like "main-type.sub-type"
+   *   a value of "main-type" will match also.
    * @param array $filterValues
    *   (optional) An array of filter values to apply.
    * @param bool $inclusive
@@ -90,25 +94,37 @@ class SequenceIndexStorage {
    * @return mixed[]
    *   A numerical index array of entry values, sorted by sequence.
    */
-  public function getRange($workspace_id, $start, $stop = NULL, array $types, array $filterValues = [], $inclusive = TRUE, $limit = NULL) {
+  public function getRange($workspace_id, $start, $stop = NULL, array $types, array $filtered_types, array $filterValues = [], $inclusive = TRUE, $limit = NULL) {
     /** @var \Drupal\Core\Database\Query\SelectInterface $main_query */
     $main_query = $this->connection->select($this->indexTable, 'i')
-      ->fields('i', ['value'])
-      ->condition('workspace_id', $workspace_id)
-      ->condition('seq', $start, $inclusive ? '>=' : '>');
-    if ($main_query !== NULL) {
-      $main_query->condition('seq', $stop, $inclusive ? '<=' : '<');
+      ->condition('i.workspace_id', $workspace_id)
+      ->condition('i.seq', $start, $inclusive ? '>=' : '>');
+    if (isset($stop)) {
+      $main_query->condition('i.seq', $stop, $inclusive ? '<=' : '<');
     }
     // Add type filters.
-    if ($types) {
+    if ($types || $filtered_types) {
       $condition_group = $main_query->orConditionGroup();
-      foreach ($types as $type) {
+      foreach (array_merge($types, $filtered_types) as $type) {
         $condition_group->condition('i.type', $type . '.%', 'LIKE');
       }
+      $main_query->condition($condition_group);
     }
     if ($filterValues) {
-      $main_query->innerJoin($this->filterTable, 'f', 'i.workspace_id=f.workspace_id AND i.name=f.name');
-      $main_query->condition('v.filter_value', $filterValues, 'IN');
+      $andCondition = $main_query->andConditionGroup();
+      $andCondition->where('i.workspace_id=f.workspace_id AND i.name=f.name');
+      $andCondition->condition('f.filter_value', $filterValues, 'IN');
+      $main_query->leftJoin($this->filterTable, 'f', $andCondition);
+
+      $condition_group = $main_query->orConditionGroup();
+      // Either there is a filter value OR the type must be unfiltered.
+      $condition_group->where('f.filter_value IS NOT NULL');
+      if ($types) {
+        foreach ($types as $type) {
+          $condition_group->condition('i.type', $type . '.%', 'LIKE');
+        }
+      }
+      $main_query->condition($condition_group);
     }
     $main_query->distinct();
 
@@ -117,11 +133,17 @@ class SequenceIndexStorage {
     $additions_query->innerJoin($this->additionsTable, 'a', 'i.workspace_id=a.workspace_id AND i.name=a.name');
     $additions_query->innerJoin($this->indexTable, 'i2', 'a.workspace_id=i2.workspace_id AND a.additional_entry=i2.name');
 
+    $main_query->fields('i', ['seq', 'value']);
+    $additions_query->fields('i2', ['seq', 'value']);
     $main_query->union($additions_query, 'DISTINCT');
     $main_query->orderBy('seq', 'ASC');
-    $main_query->range(0, $limit);
 
+    $main_query->range(0, $limit);
     $result = $main_query->execute();
+
+    // Uncomment to use devel module for query debugging.
+    // die(dpq($main_query, 1));
+
     $values = [];
     foreach ($result as $item) {
       $values[] = $this->serializer->decode($item->value);
@@ -181,9 +203,9 @@ class SequenceIndexStorage {
         ->condition('workspace_id', $workspace_id)
         ->execute();
       $query = $this->connection->insert($this->additionsTable)
-        ->fields(['workspace_id', 'name', 'additional_entries']);
+        ->fields(['workspace_id', 'name', 'additional_entry']);
       foreach ($entry['additional_entries'] as $entry) {
-        $query->values(['workspace_id' => $workspace_id, 'name' => $name, 'filter_value' => $entry]);
+        $query->values(['workspace_id' => $workspace_id, 'name' => $name, 'additional_entry' => $entry]);
       }
       $query->execute();
     }

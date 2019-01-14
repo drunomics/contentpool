@@ -5,7 +5,10 @@ namespace Drupal\multiversion_sequence_filter;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Field\EntityReferenceFieldItemListInterface;
 use Drupal\Core\TypedData\DataReferenceDefinitionInterface;
+use Drupal\crop\Entity\Crop;
+use Drupal\image\Plugin\Field\FieldType\ImageItem;
 use Drupal\multiversion\Entity\Index\SequenceIndexInterface;
 use Drupal\multiversion\MultiversionManagerInterface;
 use Drupal\multiversion\Workspace\WorkspaceManagerInterface;
@@ -18,9 +21,9 @@ use Drupal\multiversion\Workspace\WorkspaceManagerInterface;
 class FilteredSequenceIndex implements SequenceIndexInterface {
 
   /**
-   * @var string[]
+   * @var array[]
    */
-  protected $filterValuesCondition = [];
+  protected $filterValuesCondition = [[], []];
 
   /**
    * @var string[]
@@ -97,7 +100,7 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
       'seq' => $record['seq'],
       'value' => $record,
       'type' => $entity->getEntityTypeId() . '.' . $entity->bundle(),
-      'filter_values' => $this->filterValueProvider->get($entity),
+      'filter_values' => $this->getFilterValues($entity),
       'additional_entries' => $this->getAdditionalEntries($entity),
     ]]);
   }
@@ -119,13 +122,15 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
   /**
    * Sets the filter values to use for getting ranges.
    *
-   * @param array $filterValues
-   *   The values to set.
+   * @param string[] $types
+   *   The types ("entity_type.bundle" combinations) that should be filtered.
+   * @param string[] $filterValues
+   *   The values to filter for.
    *
    * @return $this
    */
-  public function addFilterValuesCondition(array $filterValues) {
-    $this->filterValuesCondition = $filterValues;
+  public function addFilterValuesCondition(array $types, array $filterValues) {
+    $this->filterValuesCondition = [$types, $filterValues];
     return $this;
   }
 
@@ -135,7 +140,8 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    * @see ::setFilterValues()
    */
   public function getRange($start, $stop = NULL, $inclusive = TRUE, $limit = NULL) {
-    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->types, $this->filterValuesCondition, $inclusive, $limit);
+    list($filtered_types, $filter_values) = $this->filterValuesCondition;
+    return $this->indexStorage->getRange($this->getWorkspaceId(), $start, $stop, $this->types, $filtered_types, $filter_values, $inclusive, $limit);
   }
 
   /**
@@ -196,10 +202,9 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    *   The filter values.
    */
   protected function getFilterValues(ContentEntityInterface $entity) {
-
     // @todo: Use the configured filter value plugin, e.g. inject it.
     return \Drupal::service('plugin.manager.replication_filter')
-      ->getDefinition('contentpool')
+      ->createInstance('contentpool')
       ->deriveFilterValues($entity);
   }
 
@@ -219,18 +224,33 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
    */
   protected function getAdditionalEntries(ContentEntityInterface $entity) {
     $additions = [];
+
+    // @todo: Make this configurable.
+    $allowed_entity_types = array_flip(['media', 'file', 'crop', 'taxonomy_term', 'node']);
+    $excluded_fields = array_flip(['revision_uid', 'uid']);
+
     foreach ($entity->getFieldDefinitions() as $name => $definition) {
-      if ($definition->getType() == 'entity_reference') {
+      if ($entity->get($name) instanceof EntityReferenceFieldItemListInterface) {
         $property = $definition->getItemDefinition()->getPropertyDefinition('entity');
         if ($property instanceof DataReferenceDefinitionInterface) {
           $target = $property->getTargetDefinition();
           /** @var \Drupal\Core\Entity\TypedData\EntityDataDefinitionInterface $target */
-          // Only include content entities.
+          // Only include content entities that are white-listed.
           $entity_type = $this->entityTypeManager->getDefinition($target->getEntityTypeId());
-          if ($entity_type instanceof ContentEntityTypeInterface) {
+          if ($entity_type instanceof ContentEntityTypeInterface && isset($allowed_entity_types[$target->getEntityTypeId()]) && !isset($excluded_fields[$name])) {
             foreach ($entity->get($name) as $item) {
               if ($item->entity) {
-                $additions[] = $item->entity->getEntityTypeId() . ':' . $item->entity->id();
+                $entry = $item->entity->getEntityTypeId() . ':' . $item->entity->id();
+                $additions[$entry] = $entry;
+
+                // Add special support for the crop entity of focal point.
+                if ($item instanceof ImageItem) {
+                  $file = $item->entity;
+                  if ($crop = Crop::findCrop($file->getFileUri(), 'focal_point')) {
+                    $entry = $crop->getEntityTypeId() . ':' . $crop->id();
+                    $additions[$entry] = $entry;
+                  }
+                }
               }
             }
           }
