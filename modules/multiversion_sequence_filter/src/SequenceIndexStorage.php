@@ -133,9 +133,23 @@ class SequenceIndexStorage {
     $additions_query->innerJoin($this->additionsTable, 'a', 'i.workspace_id=a.workspace_id AND i.name=a.name');
     $additions_query->innerJoin($this->indexTable, 'i2', 'a.workspace_id=i2.workspace_id AND a.additional_entry=i2.name');
 
+    // Support 2nd level of additional entities.
+    $additions_query2 = clone $main_query;
+    $additions_query2->innerJoin($this->additionsTable, 'a', 'i.workspace_id=a.workspace_id AND i.name=a.name');
+    $additions_query2->innerJoin($this->additionsTable, 'a2', 'a2.workspace_id=a.workspace_id AND a2.name=a.additional_entry');
+    $additions_query2->innerJoin($this->indexTable, 'i3', 'a2.workspace_id=a2.workspace_id AND a2.additional_entry=i3.name');
+
+    // Specify the fields to select.
     $main_query->fields('i', ['seq', 'value']);
-    $additions_query->fields('i2', ['seq', 'value']);
+    // Ensure the sequence of the additional entries match the source sequence,
+    // so limit queries to not break due to mixed sequenced ordering.
+    $additions_query->fields('i', ['seq']);
+    $additions_query->fields('i2', ['value']);
+    $additions_query2->fields('i', ['seq']);
+    $additions_query2->fields('i3', ['value']);
+
     $main_query->union($additions_query, 'DISTINCT');
+    $main_query->union($additions_query2, 'DISTINCT');
     $main_query->orderBy('seq', 'ASC');
 
     $main_query->range(0, $limit);
@@ -146,7 +160,10 @@ class SequenceIndexStorage {
 
     $values = [];
     foreach ($result as $item) {
-      $values[] = $this->serializer->decode($item->value);
+      $entry = $this->serializer->decode($item->value);
+      // Keep the selected sequence numbers.
+      $entry['seq'] = $item->seq;
+      $values[] = $entry;
     }
     return $values;
   }
