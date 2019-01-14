@@ -40,6 +40,7 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
         // Remove status for taxonomy terms provided.
         unset($normalized[$key]['status']);
         unset($normalized[$key]['field_paragraphs']);
+        unset($normalized[$key]['field_remote_site']);
       }
     }
 
