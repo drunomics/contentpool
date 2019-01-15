@@ -14,6 +14,7 @@ dependencies:
   - contentpool:contentpool_remote_register
   - contentpool:contentpool_normalization
   - contentpool_replication:contentpool_replication
+  - contentpool:contentpool_channel_remote
 
 install:
   - markup_field:markup_field
