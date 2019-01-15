@@ -29,7 +29,7 @@ content:
     region: content
   field_paragraphs:
     type: paragraphs
-    weight: 2
+    weight: 8
     settings:
       title: Paragraph
       title_plural: Paragraphs
