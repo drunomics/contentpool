@@ -2,7 +2,11 @@ langcode: en
 status: true
 dependencies:
   module:
+    - contentpool_channel_remote
     - contentpool_remote_register
+    - user
+_core:
+  default_config_hash: '-OVSN911p3hSD9pmc_XUH3DRFvSkPBi-i_bCLGel4y0'
 id: contentpool_channel_remote_remote_sites
 label: 'References: Remote sites'
 module: contentpool_channel_remote
@@ -19,8 +23,9 @@ display:
     position: 0
     display_options:
       access:
-        type: none
-        options: {  }
+        type: perm
+        options:
+          perm: 'create terms in channel'
       cache:
         type: tag
         options: {  }
@@ -218,6 +223,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
+        - user.permissions
       tags: {  }
   remote_sites:
     display_plugin: entity_reference
@@ -249,4 +255,5 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - user.permissions
       tags: {  }

@@ -20,6 +20,9 @@ function contentpool_channel_remote_form_taxonomy_term_channel_form_alter(&$form
       $form['field_remote_site']['#access'] = FALSE;
     }
   }
+  else {
+    $form['field_remote_site']['#access'] = FALSE;
+  }
 }
 
 /**
