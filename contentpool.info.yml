@@ -13,8 +13,8 @@ dependencies:
   - contentpool:contentpool_custom_elements
   - contentpool:contentpool_remote_register
   - contentpool:contentpool_normalization
-  - contentpool_replication:contentpool_replication
   - contentpool:contentpool_channel_remote
+  - contentpool_replication:contentpool_replication
 
 install:
   - markup_field:markup_field
