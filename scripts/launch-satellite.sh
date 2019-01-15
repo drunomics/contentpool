@@ -11,6 +11,7 @@ source ./scripts/util/per-branch-env.sh
 # refer to the pool.
 export GIT_BRANCH=${LAUNCH_SATELLITE_GIT_BRANCH:-8.x-1.x}
 unset GIT_CURRENT_BRANCH
+unset PRE_BUILD_COMMANDS
 
 cd ..
 git clone https://github.com/drunomics/contentpool-client.git --branch=$GIT_BRANCH contentpool-client
