@@ -1,0 +1,7 @@
+type: module
+name: Contentpool Channel Remote Register
+description: 'Optionally assigns remote register entity to channel.'
+package: Contentpool
+core: '8.x'
+dependencies:
+  - drupal:contentpool_remote_register

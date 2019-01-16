@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_remote_site
+    - taxonomy.vocabulary.channel
+id: taxonomy_term.contentpool_channel_remote.default
+field_name: field_remote_site
+entity_type: taxonomy_term
+bundle: channel
+label: 'Remote site'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: contentpool_channel_remote_remote_sites
+      display_name: remote_sites
+      arguments: {  }
+field_type: entity_reference
