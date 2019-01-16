@@ -64,7 +64,7 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
           /** @var \Drupal\taxonomy\Entity\Term $root_channel */
           $channel = $entity->field_channel->entity;
           if ($channel->hasField('field_remote_site')) {
-            // Check if channel is root element of tree. If it's not, find root and assign it to channel variable.
+            // Find root element if channel is not root.
             $ancestors = $this->entityTypeManager
               ->getStorage("taxonomy_term")
               ->loadAllParents($channel->id());
