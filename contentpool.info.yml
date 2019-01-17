@@ -14,7 +14,7 @@ dependencies:
   - contentpool:contentpool_remote_register
   - contentpool:contentpool_normalization
   - contentpool_replication:contentpool_replication
-  - contentpool:multiversion_sequence_filter
+  - multiversion_sequence_filter:multiversion_sequence_filter
 
 install:
   - markup_field:markup_field
