@@ -81,7 +81,6 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
           $channel = $entity->field_channel->entity;
           if ($channel->hasField('field_remote_site')) {
             // Find root element if channel is not root.
-//            $ancestors = $this->entityTypeManager
             $ancestors = $this->entityTypeManager
               ->getStorage("taxonomy_term")
               ->loadAllParents($channel->id());
