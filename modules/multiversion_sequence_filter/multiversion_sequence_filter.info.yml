@@ -4,6 +4,5 @@ description: Implements a filter sequenced index for optimized replication perfo
 package: Custom
 core: 8.x
 dependencies:
-  - multiversion
-  - replication
-
+  - multiversion:multiversion
+  - replication:replication

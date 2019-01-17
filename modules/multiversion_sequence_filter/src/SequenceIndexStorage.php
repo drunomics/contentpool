@@ -53,7 +53,7 @@ class SequenceIndexStorage {
   }
 
   /**
-   *  Gets the number of entries.
+   * Gets the number of entries.
    *
    * @param int $workspace_id
    *   The ID of the workspace to use.
@@ -182,6 +182,7 @@ class SequenceIndexStorage {
    *    - value: (mixed) The to be serialized value.
    *    - filter_values: (string[]) The array of filter values.
    *    - additional_entries: (string[]) The array of additional entries.
+   *
    * @throws \Exception
    */
   public function addMultiple($workspace_id, array $entries) {
@@ -198,7 +199,7 @@ class SequenceIndexStorage {
           'seq' => $entry['seq'],
           // Append a dot to ease filter matches by parent types.
           'type' => $entry['type'] . '.',
-          'value' =>  $this->serializer->encode($entry['value']),
+          'value' => $this->serializer->encode($entry['value']),
         ])
         ->execute();
 

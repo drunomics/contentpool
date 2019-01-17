@@ -17,6 +17,7 @@ interface ReplicationFilterValueProviderInterface extends ReplicationFilterInter
    * without requiring the implementation and thus a module dependency.
    *
    * @return bool
+   *   Whether filter values are provided.
    */
   public function providesFilterValues();
 
@@ -59,4 +60,5 @@ interface ReplicationFilterValueProviderInterface extends ReplicationFilterInter
    *   An array of possible filter values.
    */
   public function deriveFilterValues(EntityInterface $entity);
+
 }

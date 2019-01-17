@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the Multiversion sequence filter module.
+ * Install functions for the Multiversion sequence filter module.
  */
 
 /**

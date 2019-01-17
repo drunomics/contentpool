@@ -3,8 +3,6 @@
 namespace Drupal\multiversion_sequence_filter;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\multiversion\Entity\Index\SequenceIndex;
-use Drupal\multiversion\Entity\Index\SequenceIndexInterface;
 use Drupal\multiversion\Entity\WorkspaceInterface;
 use Drupal\multiversion_sequence_filter\Changes\ResolvedChanges;
 use Drupal\replication\ChangesFactoryInterface;

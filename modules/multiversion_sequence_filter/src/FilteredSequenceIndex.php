@@ -96,13 +96,15 @@ class FilteredSequenceIndex implements SequenceIndexInterface {
     $record = $this->buildRecord($entity);
 
     // @see \Drupal\multiversion_sequence_filter\SequenceIndexStorage::addMultiple()
-    $this->indexStorage->addMultiple($this->getWorkspaceId(), [ $name => [
-      'seq' => $record['seq'],
-      'value' => $record,
-      'type' => $entity->getEntityTypeId() . '.' . $entity->bundle(),
-      'filter_values' => $this->getFilterValues($entity),
-      'additional_entries' => $this->getAdditionalEntries($entity),
-    ]]);
+    $this->indexStorage->addMultiple($this->getWorkspaceId(), [
+      $name => [
+        'seq' => $record['seq'],
+        'value' => $record,
+        'type' => $entity->getEntityTypeId() . '.' . $entity->bundle(),
+        'filter_values' => $this->getFilterValues($entity),
+        'additional_entries' => $this->getAdditionalEntries($entity),
+      ],
+    ]);
   }
 
   /**
