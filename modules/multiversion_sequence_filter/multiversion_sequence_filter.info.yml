@@ -1,8 +1,0 @@
-name: Multiversion sequence filter
-type: module
-description: Implements a filter sequenced index for optimized replication performance when using filters.
-package: Custom
-core: 8.x
-dependencies:
-  - multiversion:multiversion
-  - replication:replication
