@@ -2,17 +2,32 @@
 
 namespace Drupal\contentpool_normalization\EventSubscriber;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\replication\Event\ReplicationContentDataAlterEvent;
 use Drupal\replication\Event\ReplicationDataEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use drunomics\ServiceUtils\Core\Entity\EntityTypeManagerTrait;
 
 /**
  * Event subscriber for content normalization events.
  */
 class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterface {
 
-  use EntityTypeManagerTrait;
+  /**
+   * Entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManager
+   */
+  protected $entityTypeManager;
+
+  /**
+   * ContentpoolNormalizationEventSubscriber Constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service..
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
+  }
 
   /**
    * {@inheritdoc}
@@ -66,6 +81,7 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
           $channel = $entity->field_channel->entity;
           if ($channel->hasField('field_remote_site')) {
             // Find root element if channel is not root.
+//            $ancestors = $this->entityTypeManager
             $ancestors = $this->entityTypeManager
               ->getStorage("taxonomy_term")
               ->loadAllParents($channel->id());

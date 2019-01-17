@@ -1,5 +1,7 @@
 services:
   contentpool_normalization.replication_event_subscriber:
     class: Drupal\contentpool_normalization\EventSubscriber\ContentpoolNormalizationEventSubscriber
+    arguments:
+      - '@entity_type.manager'
     tags:
       - { name: event_subscriber }
