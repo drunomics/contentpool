@@ -2,6 +2,7 @@
 
 namespace Drupal\contentpool_normalization\EventSubscriber;
 
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\replication\Event\ReplicationContentDataAlterEvent;
 use Drupal\replication\Event\ReplicationDataEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,11 +13,31 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterface {
 
   /**
+   * Entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManager
+   */
+  protected $entityTypeManager;
+
+  /**
+   * ContentpoolNormalizationEventSubscriber Constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service..
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
     $events = [];
-    $events[ReplicationDataEvents::ALTER_CONTENT_DATA][] = ['onAlterContentData', 0];
+    $events[ReplicationDataEvents::ALTER_CONTENT_DATA][] = [
+      'onAlterContentData',
+      0,
+    ];
     return $events;
   }
 
@@ -54,6 +75,33 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
           $paragraph_data[$delta] = $entity->field_paragraphs->get($delta)->entity->toArray();
         }
         $normalized[$key]['field_data'][] = ['value' => json_encode($paragraph_data)];
+
+        if (!$entity->get('field_channel')->isEmpty()) {
+          /** @var \Drupal\taxonomy\Entity\Term $root_channel */
+          $channel = $entity->field_channel->entity;
+          if ($channel->hasField('field_remote_site')) {
+            // Find root element if channel is not root.
+            $ancestors = $this->entityTypeManager
+              ->getStorage("taxonomy_term")
+              ->loadAllParents($channel->id());
+            if (!empty($ancestors)) {
+              foreach ($ancestors as $ancestor) {
+                if (empty($ancestor->parent->target_id)) {
+                  $channel = $ancestor;
+                  break;
+                }
+              }
+            }
+            if (!$channel->get('field_remote_site')->isEmpty()) {
+              /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_site */
+              $remote_site = $channel->field_remote_site->entity;
+              $remote_url = $remote_site->getUrl();
+              $normalized[$key]['field_canonical_url'] = [
+                "uri" => $remote_url . '/by_uuid/' . $entity->getEntityTypeId() . '/' . $entity->uuid(),
+              ];
+            }
+          }
+        }
       }
     }
 
