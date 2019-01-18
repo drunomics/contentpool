@@ -144,7 +144,7 @@ class PushManager implements PushManagerInterface {
   }
 
   /**
-   * Wheter remote applies for given entity.
+   * Whether remote applies for given entity.
    *
    * Checks respect all replication filters set by current remote to evaluate
    * if given remote applies for replication of given entity.
