@@ -54,7 +54,7 @@ content:
     weight: 7
     region: content
     settings:
-      width: 300px
+      width: 600px
       match_operator: CONTAINS
       autocomplete: false
     third_party_settings: {  }
