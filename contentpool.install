@@ -28,6 +28,8 @@ function contentpool_install() {
   $replicator->grantPermission('restful get contentpool:contentpool_term_reference_fields');
   $replicator->save();
 
+  \Drupal::service('module_installer')->install(['jsonapi','jsonapi_extras','simple_oauth','simple_oauth_extras']);
+
   // Adjust redirect module to disable route normalizing.
   // See https://github.com/relaxedws/couchdb-replicator/issues/10.
   \Drupal::configFactory()
@@ -41,6 +43,70 @@ function contentpool_install() {
   $config_storage = \Drupal::service('config.storage');
   foreach ($source->listAll() as $config_name) {
     $config_storage->write($config_name, $source->read($config_name));
+  }
+
+  contentpool_generate_keys();
+  contentpool_enable_cors();
+}
+
+/**
+ * Generates the OAuth Keys.
+ */
+function contentpool_generate_keys() {
+  // Build all the dependencies manually to avoid having to rely on the
+  // container to be ready.
+  $dir_name = 'keys';
+  /** @var \Drupal\simple_oauth\Service\KeyGeneratorService $key_gen */
+  $key_gen = \Drupal::service('simple_oauth.key.generator');
+  /** @var \Drupal\simple_oauth\Service\Filesystem\Filesystem $file_system */
+  $file_system = \Drupal::service('simple_oauth.filesystem');
+
+  $relative_path = DRUPAL_ROOT . '/../' . $dir_name;
+  if (!$file_system->isDirectory($relative_path)) {
+    $file_system->mkdir($relative_path);
+  }
+  $keys_path = $file_system->realpath($relative_path);
+  $pub_filename = sprintf('%s/public.key', $keys_path);
+  $pri_filename = sprintf('%s/private.key', $keys_path);
+
+  if ($file_system->fileExist($pub_filename) && $file_system->fileExist($pri_filename)) {
+    // 1. If the file already exists, then just set the correct permissions.
+    $file_system->chmod($pub_filename, 0600);
+    $file_system->chmod($pri_filename, 0600);
+  }
+  else {
+    // 2. Generate the pair in the selected directory.
+    try {
+      $key_gen->generateKeys($keys_path);
+    } catch (\Exception $e) {
+      // Unable to generate files after all.
+      return;
+    }
+  }
+}
+
+/**
+ * Alters the services.yml to enable CORS by default.
+ */
+function contentpool_enable_cors() {
+  // Enable CORS for localhost.
+  /** @var \Drupal\Core\DrupalKernelInterface $drupal_kernel */
+  $drupal_kernel = \Drupal::service('kernel');
+  $file_path = $drupal_kernel->getAppRoot() . '/' . $drupal_kernel->getSitePath();
+  $filename = $file_path . '/services.yml';
+  if (file_exists($filename)) {
+    $services_yml = file_get_contents($filename);
+
+    $yml_data = Yaml::decode($services_yml);
+    if (empty($yml_data['parameters']['cors.config']['enabled'])) {
+      $yml_data['parameters']['cors.config']['enabled'] = TRUE;
+      $yml_data['parameters']['cors.config']['allowedHeaders'] = ['*'];
+      $yml_data['parameters']['cors.config']['allowedMethods'] = ['*'];
+      $yml_data['parameters']['cors.config']['allowedOrigins'] = ['localhost'];
+      $yml_data['parameters']['cors.config']['allowedOriginsPatterns'] = ['/localhost:\d+/'];
+
+      file_put_contents($filename, Yaml::encode($yml_data));
+    }
   }
 }
 
@@ -72,4 +138,21 @@ function contentpool_update_8002() {
   foreach ($source->listAll() as $config_name) {
     $config_storage->write($config_name, $source->read($config_name));
   }
+}
+
+/**
+ * Add api modules and oauth keys.
+ */
+function contentpool_update_8003() {
+  \Drupal::service('module_installer')->install(['jsonapi','jsonapi_extras','simple_oauth','simple_oauth_extras']);
+
+  // Update install configuration.
+  $source = new FileStorage(__DIR__ . '/config/custom-install');
+  $config_storage = \Drupal::service('config.storage');
+  foreach ($source->listAll() as $config_name) {
+    $config_storage->write($config_name, $source->read($config_name));
+  }
+
+  contentpool_generate_keys();
+  contentpool_enable_cors();
 }

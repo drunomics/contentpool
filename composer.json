@@ -56,6 +56,9 @@
     "drupal/workspace": "^1.0@beta",
     "drupal/custom_elements": "^1.0@beta",
     "drupal/trusted_redirect": "^1.4",
-    "drupal/vuejs": "^1.0@beta"
+    "drupal/vuejs": "^1.0@beta",
+    "drupal/jsonapi": "^2.1",
+    "drupal/jsonapi_extras": "^3.3",
+    "drupal/simple_oauth": "^3.13"
   }
 }
