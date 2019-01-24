@@ -38,6 +38,9 @@
       },
       "drupal/workspace": {
         "Removes workspace forms from toolbar to avoid disappearing.": "https://gist.githubusercontent.com/archnode/113e781c3673cacc76e2b8ea9fa47eea/raw/221b9b67f8f7d510883dede8943cb18a12c87b96/gistfile1.txt"
+      },
+      "drupal/jsonapi": {
+        "TypeError setLatestRevisionCheck()": "https://gist.githubusercontent.com/maximilianmikus/43a2cadab536fcdcdda658e8248d246d/raw/402b5c0f8455bc129bdd69cb0446920aa82fbfb1/jsonapi_patch.txt"
       }
     }
   },
