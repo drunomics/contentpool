@@ -28,7 +28,12 @@ function contentpool_install() {
   $replicator->grantPermission('restful get contentpool:contentpool_term_reference_fields');
   $replicator->save();
 
-  \Drupal::service('module_installer')->install(['jsonapi','jsonapi_extras','simple_oauth','simple_oauth_extras']);
+  \Drupal::service('module_installer')->install([
+    'jsonapi',
+    'jsonapi_extras',
+    'simple_oauth',
+    'simple_oauth_extras',
+  ]);
 
   // Adjust redirect module to disable route normalizing.
   // See https://github.com/relaxedws/couchdb-replicator/issues/10.
@@ -78,7 +83,8 @@ function contentpool_generate_keys() {
     // 2. Generate the pair in the selected directory.
     try {
       $key_gen->generateKeys($keys_path);
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
       // Unable to generate files after all.
       return;
     }
@@ -144,7 +150,12 @@ function contentpool_update_8002() {
  * Add api modules and oauth keys.
  */
 function contentpool_update_8003() {
-  \Drupal::service('module_installer')->install(['jsonapi','jsonapi_extras','simple_oauth','simple_oauth_extras']);
+  \Drupal::service('module_installer')->install([
+    'jsonapi',
+    'jsonapi_extras',
+    'simple_oauth',
+    'simple_oauth_extras',
+  ]);
 
   // Update install configuration.
   $source = new FileStorage(__DIR__ . '/config/custom-install');
