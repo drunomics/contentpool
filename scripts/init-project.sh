@@ -23,3 +23,6 @@ docker-compose exec web drush upwd replicator changeme
 
 # Add admin password for testing purposes.
 docker-compose exec web drush upwd dru_admin changeme
+
+# Correct permisssion for key files.
+docker-compose exec web chown -R www-data:www-data keys
