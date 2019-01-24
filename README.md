@@ -127,6 +127,10 @@ follows:
     docker-compose exec web ./web/profiles/contrib/contentpool/tests/behat/run.sh
 
 
+## JSON API
+
+To read more about the JSON api please read the documentation in [docs/api.md](https://github.com/drunomics/contentpool/tree/8.x-1.x/docs/api.md)
+
 ## Credits
 
  - [Österreichischer Wirtschaftsverlag GmbH](https://www.drupal.org/%C3%B6sterreichischer-wirtschaftsverlag-gmbh): Initiator, Sponsor
