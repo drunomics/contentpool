@@ -16,6 +16,9 @@ dependencies:
   - contentpool:contentpool_channel_remote
   - contentpool_replication:contentpool_replication
   - multiversion_sequence_filter:multiversion_sequence_filter
+  - jsonapi:jsonapi
+  - simple_oauth:simple_oauth
+  - simple_oauth:simple_oauth_extras
 
 install:
   - markup_field:markup_field
