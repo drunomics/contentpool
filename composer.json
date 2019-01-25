@@ -41,6 +41,9 @@
       },
       "drupal/jsonapi": {
         "TypeError setLatestRevisionCheck()": "https://gist.githubusercontent.com/maximilianmikus/43a2cadab536fcdcdda658e8248d246d/raw/402b5c0f8455bc129bdd69cb0446920aa82fbfb1/jsonapi_patch.txt"
+      },
+      "drupal/simple_oauth": {
+        "Drush command to generate keys.": "https://www.drupal.org/files/issues/2019-01-25/simple_oauth_generate_keys_drush_cmd.txt"
       }
     }
   },
