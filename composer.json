@@ -39,6 +39,12 @@
       },
       "drupal/workspace": {
         "Removes workspace forms from toolbar to avoid disappearing.": "https://gist.githubusercontent.com/archnode/113e781c3673cacc76e2b8ea9fa47eea/raw/221b9b67f8f7d510883dede8943cb18a12c87b96/gistfile1.txt"
+      },
+      "drupal/access_unpublished": {
+        "access_unpublished + jsonapi + content_moderation: EntityAccessChecker::setLatestRevisionCheck()": "https://www.drupal.org/files/issues/2019-01-25/3028106-access_unpublished%2Bjsonapi%2Bcontent_moderation.txt"
+      },
+      "drupal/simple_oauth": {
+        "Drush command to generate keys.": "https://www.drupal.org/files/issues/2019-01-25/simple_oauth_generate_keys_drush_cmd.txt"
       }
     }
   },
@@ -57,6 +63,8 @@
     "drupal/workspace": "^1.0@beta",
     "drupal/custom_elements": "^1.0@beta",
     "drupal/trusted_redirect": "^1.4",
-    "drupal/vuejs": "^1.0@beta"
+    "drupal/vuejs": "^1.0@beta",
+    "drupal/jsonapi": "^2.1",
+    "drupal/simple_oauth": "^3.13"
   }
 }
