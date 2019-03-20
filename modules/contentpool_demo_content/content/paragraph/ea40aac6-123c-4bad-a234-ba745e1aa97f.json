@@ -109,11 +109,6 @@
             "value": "field_paragraphs"
         }
     ],
-    "behavior_settings": [
-        {
-            "value": "a:0:{}"
-        }
-    ],
     "default_langcode": [
         {
             "value": true,
