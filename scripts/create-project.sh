@@ -26,6 +26,19 @@ cat - >> .defaults.env <<END
   INSTALL_PROFILE=contentpool
 END
 
+cat - >> web/sites/all/env.localdev.settings.php <<END
+\$databases['default']['default'] = array(
+  'database' => 'test_' . \$site_prefix,
+  'username' => 'root',
+  'password' => '',
+  'prefix' => '',
+  'host' => 'localhost',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);
+END
+
 echo "Setting up project..."
 phapp setup localdev
 
