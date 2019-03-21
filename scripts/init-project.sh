@@ -29,3 +29,6 @@ docker-compose exec web drush sogk "../keys"
 
 # Correct permisssion for key files.
 docker-compose exec web chown -R www-data:www-data keys
+
+# Unset maintenance mode.
+docker-compose exec web drush sset system.maintenance_mode 0
