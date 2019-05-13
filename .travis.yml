@@ -55,6 +55,9 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
+  # Ensure there are no permission problems.
+  - export COMPOSE_DEFAULT_USER=$(id -u $USER)
+
 install:
   # For PRs, ensure there is a valid branch.
   - ENSURE_VALID_BRANCH=1 source scripts/util/get-branch.sh
