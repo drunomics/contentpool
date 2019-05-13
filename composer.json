@@ -44,7 +44,7 @@
         "access_unpublished + jsonapi + content_moderation: EntityAccessChecker::setLatestRevisionCheck()": "https://www.drupal.org/files/issues/2019-01-25/3028106-access_unpublished%2Bjsonapi%2Bcontent_moderation.txt"
       },
       "drupal/simple_oauth": {
-        "Drush command to generate keys.": "https://www.drupal.org/files/issues/2019-01-25/simple_oauth_generate_keys_drush_cmd.txt"
+        "Issue #3028507-2: Add drush command to generate keys.": "https://www.drupal.org/files/issues/2019-05-13/simple-oauth-drush-command.patch"
       }
     }
   },
