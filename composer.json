@@ -57,6 +57,7 @@
     "drupal/file_entity": "^2.0@beta",
     "drupal/markup_field": "^1.0@alpha",
     "drupal/multiversion_sequence_filter": "^1.0@beta",
+    "drupal/replication": "1.0.0-beta18",
     "drunomics/contentpool_replication": "^2.0",
     "drupal/relaxed": "^1.0@beta",
     "drunomics/service-utils": "*",
