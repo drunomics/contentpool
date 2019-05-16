@@ -55,8 +55,11 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-  # Ensure there are no permission problems.
-  - export COMPOSE_DEFAULT_USER=$(id -u $USER)
+  # Install lupus-localdev.
+  - |
+    git clone https://github.com/drunomics/lupus-localdev.git --branch=2.x ~/.lupus-localdev
+    source ~/.lupus-localdev/bashrc
+    localdev-dcp up -d traefik
 
 install:
   # For PRs, ensure there is a valid branch.
