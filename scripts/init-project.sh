@@ -26,8 +26,5 @@ docker-compose exec cli drush upwd dru_admin changeme
 # Generate Oauth2 keys.
 docker-compose exec cli drush sogk "../keys"
 
-# Correct permisssion for key files.
-docker-compose exec cli chown -R www-data:www-data keys
-
 # Unset maintenance mode.
 docker-compose exec cli drush sset system.maintenance_mode 0
