@@ -55,6 +55,12 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
+  # Install lupus-localdev.
+  - |
+    git clone https://github.com/drunomics/lupus-localdev.git --branch=2.x ~/.lupus-localdev
+    source ~/.lupus-localdev/bashrc
+    localdev-dcp up -d traefik
+
 install:
   # For PRs, ensure there is a valid branch.
   - ENSURE_VALID_BRANCH=1 source scripts/util/get-branch.sh
