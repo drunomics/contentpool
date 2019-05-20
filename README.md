@@ -38,6 +38,7 @@ for the contentpool and one project for a satellite site that connects to the co
  * Make sure [docker-compose](https://docs.docker.com/compose/) is installed and working.
    Ensure you do *not* use docker-composer version 1.21, as it contains this [regression](https://github.com/docker/compose/issues/5874). Check your version via `docker-compose --version`.
    If so, update to version 1.22 which is known to work. See https://github.com/docker/compose/releases/tag/1.22.0
+ * Install [lupus-localdev](https://github.com/drunomics/lupus-localdev) to allow launching multiple projects!
 
 #### 1. Setup contentpool 
 
@@ -59,7 +60,7 @@ If you want to run drush commands, do so from inside the docker container.
 Run the following commands from *a newly opened terminal*:
 
     cd ../contentpool-project
-    source dotenv/loader.sh && docker-compose exec web /bin/bash
+    docker-compose exec cli /bin/bash
     drush uli
 
 #### 2. Setup satellite site:
@@ -79,7 +80,7 @@ If you want to run drush commands, do so from inside the docker container.
 Run the following commands from *a newly opened terminal*:
 
     cd ../satellite-project
-    source dotenv/loader.sh && docker-compose exec web /bin/bash
+    docker-compose exec cli /bin/bash
     drush uli
     
 Refer to the [usage documentation](https://github.com/drunomics/contentpool-client#usage) to trigger a first
@@ -121,10 +122,9 @@ replication!
 Based upon the manual installation instructions you can launch tests as
 follows:
 
-    source dotenv/loader.sh
     # Launch tests inside a docker container, so name resolution works thanks to
     # docker host aliases and the PHP environment is controlled by the container.
-    docker-compose exec web ./web/profiles/contrib/contentpool/tests/behat/run.sh
+   docker-compose exec cli ./web/profiles/contrib/contentpool/tests/behat/run.sh
 
 
 ## JSON API
