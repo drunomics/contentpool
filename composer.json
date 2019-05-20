@@ -37,6 +37,9 @@
       "drupal/custom_elements": {
         "#2994894-6 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-12-11/2994894-6.patch"
       },
+      "burdamagazinorg/thunder": {
+        "#3055630: password policy issues.": "https://www.drupal.org/files/issues/2019-05-20/invalid_password_policy_patch-3055630-2.patch"
+      },
       "drupal/workspace": {
         "Removes workspace forms from toolbar to avoid disappearing.": "https://gist.githubusercontent.com/archnode/113e781c3673cacc76e2b8ea9fa47eea/raw/221b9b67f8f7d510883dede8943cb18a12c87b96/gistfile1.txt"
       },
