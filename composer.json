@@ -46,7 +46,8 @@
     }
   },
   "require": {
-    "burdamagazinorg/thunder": "^8.2.41",
+    "burdamagazinorg/thunder": "8.2.38",
+    "drupal/password_policy": "dev-3.x#176dd7e",
     "cweagans/composer-patches": "~1.0",
     "drupal/core": "8.6.*",
     "drupal/default_content": "^1.0@alpha",
