@@ -31,8 +31,8 @@
     },
     "patches": {
       "drupal/core": {
-        "#1356276-549: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-10-23/1356276-549-8.6.x.patch",
-        "#2174633: View output is not used for entityreference options": "https://www.drupal.org/files/issues/2018-12-12/2174633-227.patch"
+        "#1356276-549: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-10-23/1356276-549-wtests.patch",
+        "#2174633-273: View output is not used for entityreference options": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch"
       },
       "drupal/custom_elements": {
         "#2994894-6 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-12-11/2994894-6.patch"
@@ -46,9 +46,9 @@
     }
   },
   "require": {
-    "burdamagazinorg/thunder": "^8.2.16",
+    "burdamagazinorg/thunder": "^8.2.42",
     "cweagans/composer-patches": "~1.0",
-    "drupal/core": "8.6.*",
+    "drupal/core": "8.7.*",
     "drupal/default_content": "^1.0@alpha",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
