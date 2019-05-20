@@ -62,7 +62,6 @@
     "drupal/custom_elements": "^1.0@beta",
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
-    "drupal/jsonapi": "^2.1",
     "drupal/simple_oauth": "^3.16"
   }
 }
