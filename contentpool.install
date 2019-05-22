@@ -42,6 +42,12 @@ function contentpool_install() {
   foreach ($source->listAll() as $config_name) {
     $config_storage->write($config_name, $source->read($config_name));
   }
+
+  // For some reason paragraphs field storage gets not installed correctly,
+  // fix it.
+  $storage = \Drupal\field\Entity\FieldStorageConfig::load('node.field_paragraphs_markup');
+  \Drupal::entityDefinitionUpdateManager()
+    ->installFieldStorageDefinition('field_paragraphs_markup', 'markup_field', 'node', $storage);
 }
 
 /**
