@@ -34,9 +34,6 @@
         "#1356276-549: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-10-23/1356276-549-wtests.patch",
         "#2174633-273: View output is not used for entityreference options": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch"
       },
-      "drupal/custom_elements": {
-        "#2994894-6 Extend preprocessor to cope with thunder paragraphs.": "https://www.drupal.org/files/issues/2018-12-11/2994894-6.patch"
-      },
       "drupal/workspace": {
         "Removes workspace forms from toolbar to avoid disappearing.": "https://gist.githubusercontent.com/archnode/113e781c3673cacc76e2b8ea9fa47eea/raw/221b9b67f8f7d510883dede8943cb18a12c87b96/gistfile1.txt"
       },
@@ -59,7 +56,7 @@
     "drupal/relaxed": "^1.0@beta",
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta",
-    "drupal/custom_elements": "^1.0@beta",
+    "drupal/custom_elements": "^2.0@alpha",
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16"
