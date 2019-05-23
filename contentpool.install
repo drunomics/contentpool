@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Config\FileStorage;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\user\Entity\Role;
 use Drupal\user\Entity\User;
 use Drupal\Core\Config\InstallStorage;
@@ -45,7 +46,7 @@ function contentpool_install() {
 
   // For some reason paragraphs field storage gets not installed correctly,
   // fix it.
-  $storage = \Drupal\field\Entity\FieldStorageConfig::load('node.field_paragraphs_markup');
+  $storage = FieldStorageConfig::load('node.field_paragraphs_markup');
   \Drupal::entityDefinitionUpdateManager()
     ->installFieldStorageDefinition('field_paragraphs_markup', 'markup_field', 'node', $storage);
 }
