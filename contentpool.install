@@ -80,3 +80,10 @@ function contentpool_update_8002() {
     $config_storage->write($config_name, $source->read($config_name));
   }
 }
+
+/**
+ * Update to custom elements 2.x.
+ */
+function contentpool_update_8003() {
+  \Drupal::service('module_installer')->install(['custom_elements_thunder']);
+}

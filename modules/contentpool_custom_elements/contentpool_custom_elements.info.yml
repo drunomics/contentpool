@@ -5,4 +5,5 @@ package: Contentpool
 core: '8.x'
 dependencies:
   - custom_elements:custom_elements
+  - custom_elements:custom_elements_thunder
   - vuejs:vuejs
