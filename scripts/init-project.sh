@@ -15,7 +15,7 @@ docker-compose exec cli phapp install --no-build
 docker-compose exec cli drush entity-updates -y
 
 # Add demo content.
-docker-compose exec cli drush en default_content, hal, default_content_extra, file_entity, contentpool_demo_content -y
+docker-compose exec cli drush en contentpool_demo_content -y
 
 # Add replicator password for testing purposes.
 docker-compose exec cli drush upwd replicator changeme
