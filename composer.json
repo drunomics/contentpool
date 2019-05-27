@@ -39,6 +39,9 @@
       },
       "drupal/access_unpublished": {
         "access_unpublished + jsonapi + content_moderation: EntityAccessChecker::setLatestRevisionCheck()": "https://www.drupal.org/files/issues/2019-01-25/3028106-access_unpublished%2Bjsonapi%2Bcontent_moderation.txt"
+      },
+      "drupal/custom_elements": {
+        "Non-existent service \"video_embed_field.provider_manager": "https://www.drupal.org/files/issues/2019-05-27/video_embed_field_missing_service-3057291-2.patch"
       }
     }
   },
@@ -57,7 +60,6 @@
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta",
     "drupal/custom_elements": "^2.0@alpha",
-    "drupal/video_embed_field": "^2.1",
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16"
