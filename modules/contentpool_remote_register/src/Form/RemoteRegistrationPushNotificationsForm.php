@@ -60,10 +60,10 @@ class RemoteRegistrationPushNotificationsForm extends ConfirmFormBase {
     ];
 
     if ($this->remoteRegistration->getPushNotifications()) {
-      return t('Disable push notifications for %name (%url)?', $params);
+      return $this->t('Disable push notifications for %name (%url)?', $params);
     }
     else {
-      return t('Enable push notifications for %name (%url)?', $params);
+      return $this->t('Enable push notifications for %name (%url)?', $params);
     }
   }
 
@@ -72,10 +72,10 @@ class RemoteRegistrationPushNotificationsForm extends ConfirmFormBase {
    */
   public function getQuestion() {
     if ($this->remoteRegistration->getPushNotifications()) {
-      return t('Disable push notifications');
+      return $this->t('Disable push notifications');
     }
     else {
-      return t('Enable push notifications');
+      return $this->t('Enable push notifications');
     }
   }
 
