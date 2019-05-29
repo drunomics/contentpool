@@ -59,7 +59,7 @@
     "drupal/relaxed": "^1.0@beta",
     "drunomics/service-utils": "*",
     "drupal/workspace": "^1.0@beta",
-    "drupal/custom_elements": "^1.0@beta",
+    "drupal/custom_elements": "^2.0@alpha",
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16"
