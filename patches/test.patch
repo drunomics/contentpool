@@ -1,0 +1,220 @@
+diff --git a/composer.json b/composer.json
+index 421a6fd..22d47ae 100644
+--- a/composer.json
++++ b/composer.json
+@@ -21,7 +21,7 @@
+     },
+     "patches": {
+       "drupal/replication": {
+-        "#2989572: Refactor Changes class to be more modular": "https://www.drupal.org/files/issues/2018-07-31/refactor-changes-2989572-2.patch",
++        "#2989572: Refactor Changes class to be more modular": "./patches/refactor-changes-2989572-6.patch",
+         "#3028318: Bulk updater does not respected deleted flag of documents": "https://www.drupal.org/files/issues/2019-01-25/enforce-deletion.patch"
+       },
+       "relaxedws/replicator": {
+@@ -31,7 +31,7 @@
+   },
+   "require": {
+     "drunomics/service-utils": "*",
+-    "drupal/replication": "1.0.0-beta18"
++    "drupal/replication": "^1.0.0"
+   },
+   "require-dev": {
+   }
+diff --git a/patches/refactor-changes-2989572-6.patch b/patches/refactor-changes-2989572-6.patch
+new file mode 100644
+index 0000000..3b39b8f
+--- /dev/null
++++ b/patches/refactor-changes-2989572-6.patch
+@@ -0,0 +1,189 @@
++diff --git a/src/Changes/Changes.php b/src/Changes/Changes.php
++index 8deb2d1..e522936 100644
++--- a/src/Changes/Changes.php
+++++ b/src/Changes/Changes.php
++@@ -13,11 +13,12 @@ use Symfony\Component\Serializer\SerializerInterface;
++  * {@inheritdoc}
++  */
++ class Changes implements ChangesInterface {
+++
++   use DependencySerializationTrait;
++ 
++   /**
++    * The sequence index.
++-   * 
+++   *
++    * @var \Drupal\multiversion\Entity\Index\SequenceIndexInterface
++    */
++   protected $sequenceIndex;
++@@ -148,19 +149,19 @@ class Changes implements ChangesInterface {
++       array_shift($sequences);
++     }
++ 
++-    // Setup filter plugin.
++-    $parameters = is_array($this->parameters) ? $this->parameters : [];
++-    $filter = NULL;
++-    if (is_string($this->filter) && $this->filter) {
++-      $filter = $this->filterManager->createInstance($this->filter, $parameters);
++-    }
++-    // If UUIDs are sent as a parameter, but no filter is set, automatically
++-    // select the "uuid" filter.
++-    elseif (isset($parameters['uuids'])) {
++-      $filter = $this->filterManager->createInstance('uuid', $parameters);
+++    // Removes sequences that shouldn't be processed.
+++    $sequences = $this->preFilterSequences($sequences, $this->since);
+++
+++    $filter = $this->getFilter();
+++    if ($this->includeDocs == TRUE || $filter !== NULL) {
+++      // If we need to apply a filter or include docs, we populate the entities.
+++      $sequences = $this->populateSequenceRevisions($sequences);
++     }
++ 
++-    // Format the result array.
+++    // Apply the filter to the sequences.
+++    $sequences = $this->filterSequences($sequences, $filter);
+++
+++    // We build the change records for the sequences.
++     $changes = [];
++     $count = 0;
++     foreach ($sequences as $sequence) {
++@@ -168,6 +169,12 @@ class Changes implements ChangesInterface {
++         continue;
++       }
++ 
+++      // When we have the since parameter set, we should exclude the value with
+++      // that sequence from the results.
+++      if ($this->since > 0 && $sequence['seq'] == $this->since) {
+++        continue;
+++      }
+++
++       // Get the document.
++       $revision = NULL;
++       if ($this->includeDocs == TRUE || $filter !== NULL) {
++@@ -175,10 +182,11 @@ class Changes implements ChangesInterface {
++         $storage = $this->entityTypeManager->getStorage($sequence['entity_type_id']);
++         $storage->useWorkspace($this->workspaceId);
++         $revision = $storage->loadRevision($sequence['revision_id']);
+++        $storage->useWorkspace(NULL);
++       }
++ 
++       // Filter the document.
++-      if ($filter !== NULL && !$filter->filter($revision)) {
+++      if ($revision && $filter !== NULL && !$filter->filter($revision)) {
++         continue;
++       }
++ 
++@@ -190,21 +198,8 @@ class Changes implements ChangesInterface {
++       if (!isset($changes[$uuid])) {
++         $count++;
++       }
++-      $changes[$uuid] = [
++-        'changes' => [
++-          ['rev' => $sequence['rev']],
++-        ],
++-        'id' => $uuid,
++-        'seq' => $sequence['seq'],
++-      ];
++-      if ($sequence['deleted']) {
++-        $changes[$uuid]['deleted'] = TRUE;
++-      }
++ 
++-      // Include the document.
++-      if ($this->includeDocs == TRUE) {
++-        $changes[$uuid]['doc'] = $this->serializer->normalize($revision);
++-      }
+++      $changes[$uuid] = $this->buildChangeRecord($sequence);
++     }
++ 
++     // Now when we have rebuilt the result array we need to ensure that the
++@@ -217,6 +212,90 @@ class Changes implements ChangesInterface {
++     return $return;
++   }
++ 
+++  /**
+++   * Builds a single change record from a sequence.
+++   */
+++  protected function buildChangeRecord($sequence) {
+++    $uuid = $sequence['entity_uuid'];
+++    $change_record = [
+++      'changes' => [
+++        ['rev' => $sequence['rev']],
+++      ],
+++      'id' => $uuid,
+++      'seq' => $sequence['seq'],
+++    ];
+++    if ($sequence['deleted']) {
+++      $change_record['deleted'] = TRUE;
+++    }
+++    // Include the document.
+++    if (isset($sequence['revision'])) {
+++      $change_record['doc'] = $this->serializer->normalize($sequence['revision']);
+++    }
+++
+++    return $change_record;
+++  }
+++
+++  /**
+++   * Gets the filter instance.
+++   */
+++  protected function getFilter() {
+++    // Setup filter plugin.
+++    $parameters = is_array($this->parameters) ? $this->parameters : [];
+++    $filter = NULL;
+++    if (is_string($this->filter) && $this->filter) {
+++      $filter = $this->filterManager->createInstance($this->filter, $parameters);
+++    }
+++    // If UUIDs are sent as a parameter, but no filter is set, automatically
+++    // select the "uuid" filter.
+++    elseif (isset($parameters['uuids'])) {
+++      $filter = $this->filterManager->createInstance('uuid', $parameters);
+++    }
+++
+++    return $filter;
+++  }
+++
+++  /**
+++   * Removes sequences that shouldn't be processed.
+++   */
+++  protected function preFilterSequences($sequences, $since = 0) {
+++    return array_filter($sequences, function($value) use ($since) {
+++      if (!empty($value['local']) || !empty($value['is_stub'])) {
+++        return FALSE;
+++      }
+++
+++      // When we have the since parameter set, we should exclude the value with
+++      // that sequence from the results.
+++      if ($since > 0 && $value['seq'] == $since) {
+++        return FALSE;
+++      }
+++
+++      return TRUE;
+++    });
+++  }
+++
+++  /**
+++   * Adds the matching entity revisions to an array of sequences.
+++   */
+++  protected function populateSequenceRevisions($sequences) {
+++    return array_map(function($sequence) {
+++      /** @var \Drupal\multiversion\Entity\Storage\ContentEntityStorageInterface $storage */
+++      $storage = $this->entityTypeManager->getStorage($sequence['entity_type_id']);
+++      $storage->useWorkspace($this->workspaceId);
+++      $sequence['revision'] = $storage->loadRevision($sequence['revision_id']);
+++      $storage->useWorkspace(NULL);
+++      return $sequence;
+++    }, $sequences);
+++  }
+++
+++  /**
+++   * Applies the provided filter to an array of sequences.
+++   */
+++  protected function filterSequences($sequences, $filter) {
+++    return array_filter($sequences, function($sequence) use ($filter) {
+++      return !($sequence['revision'] && $filter !== NULL && !$filter->filter($sequence['revision']));
+++    });
+++  }
+++
++   /**
++    * {@inheritdoc}
++    */
+diff --git a/test.patch b/test.patch
+new file mode 100644
+index 0000000..e69de29
