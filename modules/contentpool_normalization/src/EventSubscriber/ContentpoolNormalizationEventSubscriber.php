@@ -108,10 +108,6 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
     foreach ($language_keys as $key) {
       // Remove path alias information from all entities.
       unset($normalized[$key]['path']);
-      // Do not replicate moderation_state - only the status flag.
-      unset($normalized[$key]['moderation_state']);
-      unset($normalized[$key]['publish_state']);
-      unset($normalized[$key]['unpublish_state']);
     }
 
     $event->setData($normalized);
