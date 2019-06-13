@@ -23,8 +23,8 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
   if (isset($entity->field_paragraphs_markup)) {
     // Prepare rendered markup.
     $field_build = [];
-    if ($entity->field_paragraphs->getValue()) {
-      $field_build = $entity->field_paragraphs->view('node.full');
+    if (!$entity->field_paragraphs->isEmpty()) {
+      $field_build = $entity->field_paragraphs->view('full');
     }
     /** @var \Drupal\Core\Render\Renderer $renderer */
     $renderer = \Drupal::service('renderer');
