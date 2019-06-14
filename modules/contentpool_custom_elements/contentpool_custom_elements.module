@@ -5,6 +5,7 @@
  * Custom elements hooks.
  */
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -29,6 +30,9 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
     /** @var \Drupal\Core\Render\Renderer $renderer */
     $renderer = \Drupal::service('renderer');
     $markup = (string) $renderer->renderPlain($field_build);
+    // Make sure URLs to images etc. are all absolute, as in RSS feeds.
+    $markup = Html::transformRootRelativeUrlsToAbsolute($markup, \Drupal::request()->getSchemeAndHttpHost());
+
     $entity->field_paragraphs_markup->markup = $markup;
 
     // Prepare assets with all custom element libraries.
