@@ -81,20 +81,13 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
           $channel = $entity->field_channel->entity;
           if ($channel->hasField('field_remote_site')) {
             // Find root element if channel is not root.
-            $ancestors = $this->entityTypeManager
-              ->getStorage("taxonomy_term")
-              ->loadAllParents($channel->id());
-            if (!empty($ancestors)) {
-              foreach ($ancestors as $ancestor) {
-                if (empty($ancestor->parent->target_id)) {
-                  $channel = $ancestor;
-                  break;
-                }
-              }
+            $root = $channel;
+            while ($root->parent->entity !== NULL) {
+              $root = $root->parent->entity;
             }
-            if (!$channel->get('field_remote_site')->isEmpty()) {
+            if (!$root->get('field_remote_site')->isEmpty()) {
               /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistration $remote_site */
-              $remote_site = $channel->field_remote_site->entity;
+              $remote_site = $root->field_remote_site->entity;
               $remote_url = $remote_site->getUrl();
               $normalized[$key]['field_canonical_url'] = [
                 "uri" => $remote_url . '/by_uuid/' . $entity->getEntityTypeId() . '/' . $entity->uuid(),
