@@ -6,7 +6,10 @@
  */
 
 use Drupal\Component\Utility\Html;
+use Drupal\contentpool_custom_elements\CustomElementTeaserFeldItemList;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 
 /**
  * Implements hook_library_info_alter().
@@ -15,6 +18,25 @@ function contentpool_custom_elements_library_info_alter(&$libraries, $extension)
   if ($extension == 'custom_elements') {
     $libraries['main']['dependencies'][] = 'contentpool_custom_elements/main';
   }
+}
+
+/**
+ * Implements hook_entity_bundle_field_info().
+ *
+ * Add a computed field for providing custom-elements markup for teaser lists.
+ */
+function contentpool_custom_elements_entity_bundle_field_info(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
+  $fields = [];
+  if ($entity_type->id() == 'node' && $bundle == 'article') {
+
+    $fields['teaser'] = BaseFieldDefinition::create('markup_field')
+      ->setLabel(t('Teaser'))
+      ->setDescription(t('The teaser rendered via custom elements.'))
+      ->setComputed(TRUE)
+      ->setCustomStorage(TRUE)
+      ->setClass(CustomElementTeaserFeldItemList::class);
+  }
+  return $fields;
 }
 
 /**
