@@ -3,7 +3,8 @@
 The contentpool distribution comes bundled 
 with a full [json:api](https://jsonapi.org/) implementation.
 The Implementation is done by 
-using the [json_api module](https://www.drupal.org/project/jsonapi).
+using the [json_api module] of Drupal core. It has thorough
+documentation in the [handbook](https://www.drupal.org/docs/8/modules/jsonapi/jsonapi).
 
 ## Overview
 
@@ -44,7 +45,7 @@ Once you created your consumer you have all the info to start using
 ouauth2 with a password grant. 
 [read more](http://oauth2.thephpleague.com/authorization-server/resource-owner-password-credentials-grant/)
 
-## Using the json:api
+## Example: Using the json:api in PHP
 
 In this example we will be using the excellent php json:api client 
 [yang](https://github.com/woohoolabs/yang)
@@ -97,3 +98,44 @@ Optionally Hydrate the response object via the `ClassHydrator` (recommended)
 
     $hydrator = new ClassHydrator();
     $article = $hydrator->hydrate($response->document());
+
+## Example: Getting custom element article teasers for embedding
+
+The contentpool is able to pre-render teasers using custom elements in
+order to allow 3rd party sites to easily embed article teasers. The
+following example uses the [yang PHP client](https://github.com/woohoolabs/yang)
+to fetch the latest 10 article teaser for a given channel:
+
+       use GuzzleHttp\Psr7\Request;
+       use WoohooLabs\Yang\JsonApi\Request\JsonApiRequestBuilder;
+       
+       $request = new Request("", "");
+       $requestBuilder = new JsonApiRequestBuilder($request);
+       
+       $requestBuilder
+         ->setProtocolVersion("1.1")
+         ->setMethod("GET")
+         ->setUri("{contentpoolBaseUrl}/jsonapi/node/article")
+         ->setHeader("Accept-Charset", "utf-8");
+       
+       $requestBuilder
+         ->setJsonApiFields(
+           [
+             "node--article" => ["uuid", "title", "teaser"],
+           ]
+         )
+         ->setJsonApiFilter(
+           ['field_channel.id' => '1da04104-2d04-45c8-9c10-c6731672f7ab']
+         )
+         ->setJsonApiSort(
+           ["changed"]
+         )
+         ->setJsonApiPage(
+           ["number" => 1, "size" => 10]
+         );
+       $request = $requestBuilder->getRequest();
+
+Then send the request as in the example above. 
+
+
+
