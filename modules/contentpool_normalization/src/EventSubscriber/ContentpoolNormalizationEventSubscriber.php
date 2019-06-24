@@ -69,6 +69,9 @@ class ContentpoolNormalizationEventSubscriber implements EventSubscriberInterfac
       foreach ($language_keys as $key) {
         // Paragraphs are handled via custom elements and the markup field.
         unset($normalized[$key]['field_paragraphs']);
+        // Do not replicate the computed teaser field.
+        unset($normalized[$key]['teaser']);
+
         // Also add the paragraphs field-data to the data field.
         $paragraph_data = [];
         foreach ($entity->field_paragraphs->getValue() as $delta => $value) {
