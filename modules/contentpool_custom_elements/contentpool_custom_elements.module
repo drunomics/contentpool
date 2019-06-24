@@ -5,6 +5,7 @@
  * Custom elements hooks.
  */
 
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -21,14 +22,19 @@ function contentpool_custom_elements_library_info_alter(&$libraries, $extension)
  */
 function contentpool_custom_elements_node_presave(EntityInterface $entity) {
   if (isset($entity->field_paragraphs_markup)) {
-    // Prepare rendered markup.
-    $field_build = [];
-    if ($entity->field_paragraphs->getValue()) {
-      $field_build = $entity->field_paragraphs->view('node.full');
+    $view_builder = \Drupal::entityManager()->getViewBuilder('paragraph');
+    $build = [];
+    foreach ($entity->field_paragraphs as $item) {
+      if ($item->entity) {
+        $build[] = $view_builder->view($item->entity, 'custom_elements_full');
+      }
     }
     /** @var \Drupal\Core\Render\Renderer $renderer */
     $renderer = \Drupal::service('renderer');
-    $markup = (string) $renderer->renderPlain($field_build);
+    $markup = (string) $renderer->renderPlain($build);
+    // Make sure URLs to images etc. are all absolute, as in RSS feeds.
+    $markup = Html::transformRootRelativeUrlsToAbsolute($markup, \Drupal::request()->getSchemeAndHttpHost());
+
     $entity->field_paragraphs_markup->markup = $markup;
 
     // Prepare assets with all custom element libraries.
