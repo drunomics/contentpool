@@ -1,0 +1,7 @@
+contentpool_custom_elements.scripts:
+  path: '/contentpool/custom-element-scripts'
+  defaults:
+    _controller: '\Drupal\contentpool_custom_elements\ContentpoolCustomElementsController::getScripts'
+  requirements:
+    # Everyone may access scripts.
+    _access: 'TRUE'
