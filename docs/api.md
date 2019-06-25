@@ -137,11 +137,8 @@ to fetch the latest 10 article teaser for a given channel:
 
 Then send the request as in the example above. 
 
-The scripts that are necessary for rendering the custom elements on the client-side
-should be added to the library `custom_elements/main`. Clients can access the scripts
-markup at `https://{contentpoolBaseUrl}/contentpool/custom-element-scripts` and easily
+The scripts that are necessary for rendering the custom elements on the 
+client-side should be added to the library `custom_elements/main`. Clients can
+access the scripts markup at 
+`https://{contentpoolBaseUrl}/contentpool/custom-element-scripts` and easily
 append it to embedded HTML markup.
-
-
-
-
