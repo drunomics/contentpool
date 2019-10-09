@@ -69,7 +69,6 @@ install:
   - ./scripts/init-project.sh
 
 script:
-  - curl -N http://contentpool-project.localdev.space | grep  "Drupal 8" -q
   - ./scripts/run-tests.sh
   # Ensure replication is still working with the current pool instance.
   - ./scripts/launch-satellite.sh
