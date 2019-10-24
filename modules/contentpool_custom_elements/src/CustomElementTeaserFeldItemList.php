@@ -4,7 +4,6 @@ namespace Drupal\contentpool_custom_elements;
 
 use drunomics\ServiceUtils\Core\Render\RendererTrait;
 use drunomics\ServiceUtils\Symfony\HttpFoundation\RequestStackTrait;
-use Drupal\Component\Utility\Html;
 use Drupal\contentpool_custom_elements\Component\Utility\ContentpoolHtml;
 use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\TypedData\ComputedItemListTrait;
