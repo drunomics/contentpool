@@ -10,10 +10,6 @@ phapp build
 # Then install in the container.
 docker-compose exec cli phapp install --no-build
 
-# Additional field configs from custom_install folder are missing tables
-# after installing app, so we do fix them with entity updates command.
-docker-compose exec cli drush entity-updates -y
-
 # Add demo content.
 docker-compose exec cli drush en contentpool_demo_content -y
 
