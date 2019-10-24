@@ -46,6 +46,8 @@ cache:
 
 # Setup the environment.
 before_install:
+  # Add in recent upstream changes before testing.
+  - git merge origin/8.x-1.x
   # Be sure no mails are going out by disabling sendmail.
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
@@ -69,7 +71,6 @@ install:
   - ./scripts/init-project.sh
 
 script:
-  - curl -N http://contentpool-project.localdev.space | grep  "Drupal 8" -q
   - ./scripts/run-tests.sh
   # Ensure replication is still working with the current pool instance.
   - ./scripts/launch-satellite.sh
