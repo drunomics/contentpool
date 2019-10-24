@@ -14,7 +14,7 @@ use Drupal\Core\Entity\EntityInterface;
  *   List of entity type ids.
  */
 function contentpool_remote_register_replicated_types() {
-  return ['node', 'media', 'file', 'paragraph', 'taxonomy_term'];
+  return ['node', 'media', 'file', 'taxonomy_term'];
 }
 
 /**

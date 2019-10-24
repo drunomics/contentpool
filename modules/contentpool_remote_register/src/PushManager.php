@@ -217,8 +217,6 @@ class PushManager implements PushManagerInterface {
       if ($entity) {
         // If remote does not apply for entity, do not trigger pull.
         if (!$this->remoteAppliesForEntity($remote_registration, $entity)) {
-          // Log an event if configured.
-          $this->logPushEvent($remote_registration, self::PUSH_EVENT_IGNORED);
           continue;
         }
       }
@@ -290,6 +288,9 @@ class PushManager implements PushManagerInterface {
           if ($e instanceof ConnectException) {
             // This is expected, since we set the timeout very low.
             // @see generatePullPayload()
+            if (strpos($e->getMessage(), 'Operation timed out') === FALSE) {
+              watchdog_exception('contentpool', $e);
+            }
           }
           else {
             watchdog_exception('contentpool', $e);
@@ -318,7 +319,7 @@ class PushManager implements PushManagerInterface {
       RequestOptions::BODY => $this->serializer->serialize($body, 'json'),
       // Set & forget timeout, we don't wait for the response here as multiple
       // requests to satellites could take very long to update.
-      RequestOptions::TIMEOUT => 0.01,
+      RequestOptions::TIMEOUT => 0.05,
     ];
   }
 
