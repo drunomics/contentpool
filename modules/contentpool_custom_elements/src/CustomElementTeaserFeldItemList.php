@@ -4,7 +4,7 @@ namespace Drupal\contentpool_custom_elements;
 
 use drunomics\ServiceUtils\Core\Render\RendererTrait;
 use drunomics\ServiceUtils\Symfony\HttpFoundation\RequestStackTrait;
-use Drupal\Component\Utility\Html;
+use Drupal\contentpool_custom_elements\Component\Utility\ContentpoolHtml;
 use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\TypedData\ComputedItemListTrait;
 use Drupal\custom_elements\CustomElementGeneratorTrait;
@@ -36,7 +36,7 @@ class CustomElementTeaserFeldItemList extends FieldItemList {
 
     $markup = (string) $this->getrenderer()->renderPlain($build);
     // Make sure URLs to images etc. are all absolute, as in RSS feeds.
-    $markup = Html::transformRootRelativeUrlsToAbsolute($markup, $this->getCurrentRequest()->getSchemeAndHttpHost());
+    $markup = ContentpoolHtml::transformRootRelativeUrlsToAbsolute($markup);
 
     $this->list = [0 => $this->createItem(0, ['markup' => $markup])];
   }

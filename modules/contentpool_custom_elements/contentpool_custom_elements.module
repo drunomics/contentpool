@@ -5,7 +5,7 @@
  * Custom elements hooks.
  */
 
-use Drupal\Component\Utility\Html;
+use Drupal\contentpool_custom_elements\Component\Utility\ContentpoolHtml;
 use Drupal\contentpool_custom_elements\CustomElementTeaserFeldItemList;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -54,8 +54,8 @@ function contentpool_custom_elements_node_presave(EntityInterface $entity) {
     /** @var \Drupal\Core\Render\Renderer $renderer */
     $renderer = \Drupal::service('renderer');
     $markup = (string) $renderer->renderPlain($build);
-    // Make sure URLs to images etc. are all absolute, as in RSS feeds.
-    $markup = Html::transformRootRelativeUrlsToAbsolute($markup, \Drupal::request()->getSchemeAndHttpHost());
+    // Make sure URLs to images are all absolute, as in RSS feeds.
+    $markup = ContentpoolHtml::transformRootRelativeUrlsToAbsolute($markup);
 
     $entity->field_paragraphs_markup->markup = $markup;
 
