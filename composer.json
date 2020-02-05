@@ -33,14 +33,17 @@
       "drupal/core": {
         "#1356276-549: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-10-23/1356276-549-wtests.patch",
         "#2174633-273: View output is not used for entityreference options": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch"
+      },
+      "drupal/multiversion": {
+        "#3101924: Argument 1 passed to ..\\RedirectRepository::__construct() must be an instance of Drupal\\Core\\Entity\\EntityManagerInterface": "https://www.drupal.org/files/issues/2019-12-18/fix-constructor-argument-3101924-2.patch"
       }
     }
   },
   "require": {
-    "burdamagazinorg/thunder": "^8.2.42",
+    "burdamagazinorg/thunder": "^8.2.52",
     "cweagans/composer-patches": "~1.0",
-    "webflo/drupal-core-strict": "^8.7.1",
-    "drupal/core": "^8.7.1",
+    "webflo/drupal-core-strict": "^8.7.11",
+    "drupal/core": "^8.7.11",
     "drupal/default_content": "^1.0@alpha",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "2.x-dev",
