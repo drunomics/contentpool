@@ -2,7 +2,7 @@ type: module
 name: Contentpool Demo content
 description: 'Provides demo content for test and demo purposes.'
 package: Contentpool
-core: 8.x
+core_version_requirement: ^8
 dependencies:
   - drupal:default_content
   - drupal:default_content_extra
