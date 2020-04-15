@@ -1,7 +1,7 @@
 name: 'Contentpool'
 type: profile
 description: 'Drupal contentpool based upon Thunder.'
-core_version_requirement: ^8
+core: 8.x
 distribution:
   name: 'Contentpool'
 
