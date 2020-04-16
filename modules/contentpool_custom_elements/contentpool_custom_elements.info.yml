@@ -2,7 +2,7 @@ type: module
 name: Contentpool custom elements
 description: 'Adds default-styling for the custom-elements of thunder-paragraphs.'
 package: Contentpool
-core: '8.x'
+core_version_requirement: ^8
 dependencies:
   - custom_elements:custom_elements
   - custom_elements:custom_elements_thunder

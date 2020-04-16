@@ -3,9 +3,9 @@ set -e
 cd `dirname $0`/../../contentpool-project/
 set -x
 
-# Verify coding style.
+# Verify coding style. @todo: temporary ignore contentpool.info.yml until get core 8.8
 PHPCS=$(readlink -f vendor/bin/phpcs)
-( cd ./web/profiles/contrib/contentpool && $PHPCS --colors --report-width=130 )
+( cd ./web/profiles/contrib/contentpool && $PHPCS --ignore=contentpool.info.yml --colors --report-width=130 )
 
 # Start chrome container.
 docker-compose -f docker-compose.yml -f devsetup-docker/service-chrome.yml up -d chrome

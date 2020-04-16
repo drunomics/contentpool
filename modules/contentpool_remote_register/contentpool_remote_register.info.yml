@@ -1,6 +1,6 @@
 name: 'Contentpool Remote Register'
 description: 'Enables sites to register themselves with this site as a replication remote.'
-core: 8.x
+core_version_requirement: ^8
 dependencies:
   - drupal:rest
   - relaxed:relaxed
