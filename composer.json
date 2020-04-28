@@ -55,6 +55,7 @@
     "drupal/workspace": "^1.0@beta",
     "drupal/custom_elements": "^2.0",
     "drupal/trusted_redirect": "^1.4",
+    "drupal/token": "1.6",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16"
   }
