@@ -43,7 +43,7 @@
             "value": 9
         }
     ],
-    "type": [
+    "bundle": [
         {
             "target_id": "image"
         }
