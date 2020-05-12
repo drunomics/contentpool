@@ -17,7 +17,7 @@
                 "lang": "en"
             }
         ],
-        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_uid": [
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_user": [
             {
                 "href": "http:\/\/contentpool-project.localdev.space\/user\/1?_format=hal_json"
             }
@@ -43,7 +43,7 @@
             "value": 2
         }
     ],
-    "bundle": [
+    "type": [
         {
             "target_id": "image"
         }
@@ -100,7 +100,7 @@
                 "lang": "en"
             }
         ],
-        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_uid": [
+        "http:\/\/drupal.org\/rest\/relation\/media\/image\/revision_user": [
             {
                 "_links": {
                     "self": {
@@ -161,7 +161,7 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
-    "revision_timestamp": [
+    "revision_created": [
         {
             "value": "2018-08-13T13:23:36+00:00",
             "format": "Y-m-d\\TH:i:sP"

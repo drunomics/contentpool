@@ -115,7 +115,7 @@
             "format": "Y-m-d\\TH:i:sP"
         }
     ],
-    "revision_timestamp": [
+    "revision_created": [
         {
             "value": "2018-08-13T13:32:37+00:00",
             "format": "Y-m-d\\TH:i:sP"
