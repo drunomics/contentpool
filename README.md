@@ -131,6 +131,14 @@ follows:
 
 To read more about the JSON api please read the documentation in [docs/api.md](https://github.com/drunomics/contentpool/tree/8.x-1.x/docs/api.md)
 
+## Troubleshooting
+
+ - if you have "Access denied" error on db connection then try to remove docker volume(from contentpool-project folder):
+ 
+       docker-compose down
+       docker volume rm contentpool-project_data-volume
+       docker-compose up -d
+
 ## Credits
 
  - [Österreichischer Wirtschaftsverlag GmbH](https://www.drupal.org/%C3%B6sterreichischer-wirtschaftsverlag-gmbh): Initiator, Sponsor
