@@ -55,7 +55,7 @@
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16",
-    "thunder/thunder-distribution": "^3.4"
+    "thunder/thunder-distribution": "~3.4"
   },
   "require-dev": {
     "drupal/coder": "^8.3.8"
