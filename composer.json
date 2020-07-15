@@ -55,6 +55,7 @@
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16",
+    "drupal/video_embed_field": "^2.2",
     "thunder/thunder-distribution": "~3.4.8"
   },
   "require-dev": {
