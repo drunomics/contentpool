@@ -42,7 +42,7 @@
   "require": {
     "cweagans/composer-patches": "~1.0",
     "drupal/core-recommended": "^8.8",
-    "drupal/default_content": "1.0-alpha8",
+    "drupal/default_content": "^1.0-alpha8",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
     "drupal/markup_field": "^1.0@alpha",
@@ -58,6 +58,6 @@
     "thunder/thunder-distribution": "^3.4"
   },
   "require-dev": {
-    "drupal/coder": "8.3.8"
+    "drupal/coder": "^8.3.8"
   }
 }
