@@ -8,7 +8,7 @@ export COMPOSER_MEMORY_LIMIT=-1
 
 [ ! -d ../contentpool-project ] || (echo "Old project is still existing, please remove ../contentpool-project." && exit 1)
 
-composer create-project drunomics/drupal-project:4.* --no-install --no-interaction ../contentpool-project
+composer create-project drunomics/drupal-project:5.* --no-install --no-interaction ../contentpool-project
 
 INSTALL_PROFILE_DIR=`basename $PWD`
 source scripts/util/get-branch.sh
