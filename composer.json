@@ -31,8 +31,7 @@
     },
     "patches": {
       "drupal/core": {
-        "#1356276-549: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2018-10-23/1356276-549-wtests.patch",
-        "#2174633-273: View output is not used for entityreference options": "https://www.drupal.org/files/issues/2019-04-16/2174633-views-273.patch"
+        "#1356276-603: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-12-27/1356276-88x-603.patch"
       },
       "drupal/multiversion": {
         "#3101924: Argument 1 passed to ..\\RedirectRepository::__construct() must be an instance of Drupal\\Core\\Entity\\EntityManagerInterface": "https://www.drupal.org/files/issues/2019-12-18/fix-constructor-argument-3101924-2.patch"
@@ -41,7 +40,7 @@
   },
   "require": {
     "cweagans/composer-patches": "~1.0",
-    "drupal/core-recommended": "^8.8",
+    "drupal/core-recommended": "^8.8.8",
     "drupal/default_content": "^1.0-alpha8",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
@@ -55,7 +54,7 @@
     "drupal/trusted_redirect": "^1.4",
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16",
-    "thunder/thunder-distribution": "~3.4"
+    "thunder/thunder-distribution": "~3.4.8"
   },
   "require-dev": {
     "drupal/coder": "^8.3.8"
