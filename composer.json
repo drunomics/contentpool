@@ -34,7 +34,8 @@
         "#1356276-603: Allow profiles to provide a base/parent profile and load them in the correct order": "https://www.drupal.org/files/issues/2019-12-27/1356276-88x-603.patch"
       },
       "drupal/multiversion": {
-        "#3101924: Argument 1 passed to ..\\RedirectRepository::__construct() must be an instance of Drupal\\Core\\Entity\\EntityManagerInterface": "https://www.drupal.org/files/issues/2019-12-18/fix-constructor-argument-3101924-2.patch"
+        "#3101924: Argument 1 passed to ..\\RedirectRepository::__construct() must be an instance of Drupal\\Core\\Entity\\EntityManagerInterface": "https://www.drupal.org/files/issues/2019-12-18/fix-constructor-argument-3101924-2.patch",
+        "#3090566-8: Make Multiversion compatible with the latest changes related to url aliases in Drupal 8.8.x": "https://www.drupal.org/files/issues/2020-01-09/multiversion-support-path-alias-entities-3090566-8.patch"
       }
     }
   },
