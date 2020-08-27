@@ -42,7 +42,7 @@
   },
   "require": {
     "cweagans/composer-patches": "~1.0",
-    "drupal/core-recommended": "^8.8.8",
+    "drupal/core-recommended": "^8.9",
     "drupal/default_content": "^1.0-alpha8",
     "drupal/default_content_extra": "^1.0@beta",
     "drupal/file_entity": "^2.0@beta",
@@ -57,7 +57,7 @@
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16",
     "drupal/video_embed_field": "^2.2",
-    "thunder/thunder-distribution": "~3.4.8"
+    "thunder/thunder-distribution": "~3.5"
   },
   "require-dev": {
     "drupal/coder": "^8.3.8"
