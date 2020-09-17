@@ -95,9 +95,11 @@ class ContentpoolTermReferenceFieldsResource extends ResourceBase {
     try {
       $field_definitions = $this->entityFieldManager
         ->getFieldDefinitions($entity_type_id, $bundle);
-    }
-    catch (PluginNotFoundException $e) {
-      $message = $this->t('Plugin not found for entity_type_id: @entity_type_id and bundle: @bundle', ['@entity_type_id' => $entity_type_id, '@bundle' => $bundle]);
+    } catch (PluginNotFoundException $e) {
+      $message = $this->t('Plugin not found for entity_type_id: @entity_type_id and bundle: @bundle', [
+        '@entity_type_id' => $entity_type_id,
+        '@bundle' => $bundle,
+      ]);
       return new ModifiedResourceResponse($message, 404);
     }
 

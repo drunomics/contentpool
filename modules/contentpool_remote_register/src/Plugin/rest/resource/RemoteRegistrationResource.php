@@ -120,7 +120,7 @@ class RemoteRegistrationResource extends ResourceBase {
       $remote_registration->save();
     }
     else {
-      /* @var \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration */
+      /** @var \Drupal\contentpool_remote_register\Entity\RemoteRegistrationInterface $remote_registration */
       $remote_registration = reset($remote_registrations);
       $status_code = 200;
       $update = FALSE;
