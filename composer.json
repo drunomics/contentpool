@@ -57,8 +57,7 @@
     "drupal/vuejs": "^1.0@beta",
     "drupal/simple_oauth": "^3.16",
     "drupal/video_embed_field": "^2.2",
-    "thunder/thunder-distribution": "~3.5",
-    "drupal/media_entity_twitter": "^2.6"
+    "thunder/thunder-distribution": "~3.5"
   },
   "require-dev": {
     "drupal/coder": "^8.3.8"
