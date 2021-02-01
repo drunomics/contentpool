@@ -46,6 +46,7 @@ cache:
 
 # Setup the environment.
 before_install:
+  - composer self-update --rollback
   # Add in recent upstream changes before testing.
   - git merge origin/8.x-1.x
   # Be sure no mails are going out by disabling sendmail.
