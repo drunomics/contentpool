@@ -6,6 +6,12 @@
  distribution with powerful content API & replication features! 
  https://www.drupal.org/project/contentpool 
  
+## Status
+
+The distribution proved itself very valuable, but it turned out that replication via multiversion is too complex for our use-case - so we switched to a simpler approach.
+
+If you like to continue maintaining the distribution, please get in touch!
+ 
 ## Overview
 
 This repository is the Drupal install profile for the distribution. You'll
